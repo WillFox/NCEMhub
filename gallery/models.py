@@ -6,7 +6,7 @@ from django.core.files import File
 from os.path import join as pjoin
 from tempfile import *
 import os
-from PIL import Image as PImage
+import Image as PImage
 from ncemhub.settings import MEDIA_ROOT
 from shutil import *
 from user_authentication.models import Patron
