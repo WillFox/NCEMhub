@@ -1,0 +1,28 @@
+NCEMhub 
+----------------------------------------------------
+Developed through the initiatives of the:
+NATIONAL CENTER FOR ELECTRON MICRSCOPY (NCEM)
+and
+NATIONAL ENERGY RESEARCH SCIENTIFIC COMPUTING CENTER
+_____________________________________________________
+Developed by William S. Fox
+Under the mentorship of Colin Ophus and David Skinner
+with expertise utilized from Joquine and Shreyas
+_____________________________________________________
+
+INTRODUCTION
+
+NCEMhub is a web framework and database system developed for the storage and sharing of electron micrographs.  The system is built with a Python centered mindset, in which most scripts and routines are completed utilizing Python. The web framework utilized is known as Django, and was integral in the fast production of the system and its resulting website.  
+
+The scope of this project was to develop a storage system that could be utilized by any lab with an electron micrograph, so that data storage became more autonomous, giving more time back to the scientist for analysis.  A benefit of utilizing the facilities and equipement at NERSC is that the presence of the supercopmuter clusters allows for autonomous data analysis that would otherwise take scientists weeks to complete.  With the system at NERSC, it would take a matter of hours, with no interaction needed before the completion of the analysis.  
+
+DEVELOPMENT NOTES
+
+gallery-
+
+ncemhub-
+
+user_authentication-
+
+adding scripts-
+
