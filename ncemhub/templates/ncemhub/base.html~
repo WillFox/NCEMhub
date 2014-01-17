@@ -1,0 +1,24 @@
+<html>
+	<head>
+	<link rel="shortcut icon" href="/media/favicon.ico"/>
+	<title> NCEMhub </title>
+	</head>
+<u><center><em><h1>NCEMhub <br />A place for electron microscopists</h1></em></center></u>
+
+
+<center><em>A work in progress...</em><br /></center>
+<hr />
+	{% load staticfiles %}
+	<link rel='stylesheet' type='test/css' href="{% static 'ncemhub/style.css' %}" />
+	{% block extrahead %} {% endblock %}
+<body>
+<div id='pageContainer'>
+	<div id="nav_top_right">
+		{% if user.is_authenticated %} <p><em>Hello, {{ user.username }}</em></p><p><a href="/user/logout">Not {{user.username}}? Logout</a></p>{% else %} <p><a href="/user/login">Login</a></p><p><a href="/user/register">Register New User</a></p>{% endif %}
+	<p><a href="/gallery">Gallery</a></p>
+	</div>
+	{% block content %}
+	{% endblock %}
+</div>
+</body>
+</html>

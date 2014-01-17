@@ -1,0 +1,48 @@
+<html>
+	<head>
+	<link rel="shortcut icon" href="/media/favicon.ico"/>
+	<title> NCEMhub </title>
+	</head>
+<u><center><em><h1>NCEMhub <br />A place for electron microscopists</h1></em></center></u>
+
+
+<center><em>A work in progress...</em><br /></center>
+<hr />
+	<form action="/gallery/file/" method="get">
+	<input type="submit" value="Create Text File">
+	</form>
+<hr />
+	{% load staticfiles %}
+	<link rel='stylesheet' type='test/css' href="{% static 'ncemhub/style.css' %}" />
+	{% block extrahead %} {% endblock %}
+<body>
+<div id='pageContainer'>
+	<div id="nav_top_right">
+		
+    	<p><em>Hello, {{ user.username }}</em></p>
+		<ul id="list-nav">
+			{% if user.is_authenticated %} 
+				<li><a href="/user/profile">Profile</a></li>
+				<li><a href="/user/logout">Logout</a></li>
+			{% else %} 
+				<li><a href="/user/login">Login</a></li>
+				<li><a href="/user/register">Register</a></li>
+			{% endif %}
+	
+			<li>
+				<a href="/gallery">Gallery</a>
+			</li>
+
+    		<li>
+    			<form action="/gallery/search/" method="get">
+        		<input type="text" name="q">
+        		<input type="submit" value="Search">
+    			</form>
+    		</li>
+    	</ul>
+	</div>
+	{% block content %}
+	{% endblock %}
+</div>
+</body>
+</html>

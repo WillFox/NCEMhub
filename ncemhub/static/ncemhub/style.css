@@ -1,0 +1,45 @@
+body{
+	background-attachment: fixed;
+	background-color: #000000;
+	background-image: url("images/lightedGray.jpg");
+	background-position: center top;
+	color: #FFFFFF;
+	margin: 0;
+	padding: 0;	
+}
+#pageContainer {
+	background: url("images/stripedGray.png") repeat-y scroll center top #000000;
+	opacity: 0.8;
+	top: 0;
+	margin: 0 auto;
+	position: relative;
+	width: 800px;
+	min-height: 1000px;
+}
+a {
+	color: inherit;
+}
+ul#list-nav {
+	margin:20px;
+	padding:0;
+	list-style:none;
+	width:525px;
+}
+ul#list-nav li{
+	display: inline;
+
+}
+ul#list-nav li a{
+	text-decoration: none;
+	padding: 5px 0;
+	width: 100px;
+	background: #383838;
+	color: #eee;
+	float:left;
+	text-align: center;
+	border-left: 1px solid #fff;
+}
+ul#list-nav li a:hover{
+	background:#989898 ;
+	color:#000;
+}
