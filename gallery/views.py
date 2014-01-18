@@ -107,6 +107,10 @@ def fileStructureView(request):
         media_url=MEDIA_URL))
     return HttpResponseRedirect('/gallery')
 
+#SUMMARY: Provides a view so that the user can look through there microscopy directories from other microscopes
+#.....suggested_improvements.....
+#
+#
 def microscopeListView(request,microscopeName):
    
     """File Structure Interpreter"""
@@ -122,7 +126,7 @@ def microscopeListView(request,microscopeName):
         currentFileName=request.GET['file']
     except: currentFileName = NoFile
     
-
+    #SUMMARY: (read note on side)
     #################################
     if len(prefixBefore)<1:
         prefixBeforeExist=False
@@ -151,7 +155,15 @@ def microscopeListView(request,microscopeName):
                 n=i+2
             i= i+1
         return pathDeconstruct
-
+    #SECTION SUMMARY: Builds pathDeconstructor
+    #this list will hold the number of directory levels accessed in the tree such as
+    #  1     2     3         4       <--Level accessed
+    #users/data/microscope/info/
+    #
+    #First item in list is this number, followed by each level's name as an appended item
+    #.....suggested_improvements.....
+    #This could have been substituted with len(list) and skipped the first item of the list,
+    #but i already did it this way
     pathDeconstruct = []
     pathDeconstruct.append(0)
     if prefixBeforeExist==True:
@@ -172,25 +184,17 @@ def microscopeListView(request,microscopeName):
     if currentDirectoryExist == True:
         pathDeconstruct.append(currentDirectory)
         pathDeconstruct[0]=pathDeconstruct[0]+1
-    
-    prefix=''
-    backone=''
-
+    #############################################
+    #Prefix is not working correctly with the backone (AKA backone is not working correctly especially consecutively)
+    #############################################
+    prefix=''   #Initializing to blank strings so that they do not show up when not initialized
+    backone=''  #Which is sometimes the case
     pastDirectory=''
-    #if pathDeconstruct[0]>0:
-    #    pathDeconstruct[pathDeconstruct[0]-1]
-    #options:
-    #Choose a file
-
-    #Choose a Directory
-    #current directory is added to prefix
-    #current directory has a value 
     if currentDirectoryExist==True:
         if prefixBeforeExist == True:
             prefix=prefixBefore+FileDelimeter+currentDirectory
         else:
             prefix=currentDirectory
-    #initialize backone (always needed unless prefix does not exist)
     if prefixBeforeExist==True:
         pastDirectory=pathDeconstruct[pathDeconstruct[0]]
         if pathDeconstruct[0]>1:
@@ -202,7 +206,11 @@ def microscopeListView(request,microscopeName):
         prefix=prefixBefore
 
 
-    #Develops the file contents
+    #SECTION SUMMARY: Build the contents of the data tree directly from existing directories
+    #.....suggested_improvements.....
+    #-separate the files from directories and utilize the separate passed variables for this
+    #-create a different view for the observation of the data if a file is chosen
+    #
     contents = ['None']
     if request.user.is_authenticated():
         user = User.objects.get(username=request.user)
