@@ -108,68 +108,10 @@ def fileStructureView(request):
     return HttpResponseRedirect('/gallery')
 
 def microscopeListView(request,microscopeName):
-
-    ###This allows for the directory path to be navigated in stead of starting over.  There is probably a better way to do this.  
-    def step_back_directory(path):
-        n=0
-        x=0
-        while(n<3):
-            if(path[-3:]== FileDelimeter):
-                n=3
-                path=path[:-3]
-            else:
-                path=path[:-1]
-            x=x+1
-            if(x>200):
-                n=3
-        return path
-    #find last directory and passes the string containing its name so that the new 'current directory' can be set
-    def last_current_directory(path):
-        n=3
-        x=0
-        sample='abc'
-        while(n<3):
-            sample=path[-3-x:0-x]
-            if(sample==FileDelimeter):
-                path=path[:-x]
-                n=3
-            x=x+1
-            if(x>200):
-                n=3
-        f = open('/project/projectdirs/ncemhub/workfile2.txt','w')
-        f.write('Hello World!\n')
-        f.write('This is a test\n')
-        f.write('More tests\n')
-        return path
-    
-
-    def path_unpacker(path):
-        t=1
-        directory_depth= [0,]
-        curLength=len(path)
-        n=0
-        x=0
-        sample='abc'
-        while(n<3):
-            sample=path[-3-x:0-x]
-            if(sample==FileDelimeter):
-                directory_depth.append(path[:-x])
-                path=path[-x-3:]
-                directory_depth[0]=directory_depth[0]+1
-                x=0
-            if(x>200):
-                directory_depth.append(path)
-                directory_depth[0]=directory_depth[0]+1
-                n=3
-            n=345
-            x=x+1
-        return directory_depth
-
-
-    
+   
     """File Structure Interpreter"""
     #Sets default values for variables obtained through .GET
-    NoFile='None'   #Sets what a null response should be (AKA what a file and directory cannot be named)
+    NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
     try:
         prefixBefore=request.GET['prefix']
     except: prefixBefore=NoFile
@@ -179,62 +121,85 @@ def microscopeListView(request,microscopeName):
     try:
         currentFileName=request.GET['file']
     except: currentFileName = NoFile
-     
-
-
-
-
-
-    #except: path='Void'
-    #fileStructure = path_unpacker(path)
-    fileStructure='open'
-
-    #Currently in Home Directory
-    if prefixBefore == NoFile:
-        #Selected a File while in the home directory
-        if currentDirectory == NoFile:
-            prefix = currentFileName
-        #selected a directory while in the home directory
-        else:
-            prefix = currentDirectory
-    #Currently within a directory outside of home directory
-    else: 
-        #chose a file in the directory that is not the home directory
-        if currentDirectory == NoFile:
-            prefix = prefixBefore + FileDelimeter + currentFileName
-        #chose a directory that is not in the home directory
-        else:
-            prefix = prefixBefore + FileDelimeter + currentDirectory
-    #attempt to asign a path for the previous directory path
-    #may cause trouble if in home directory or only one directory down
-    try:
-        backone=step_back_directory(prefix)
-    except: backone = NoFile
-    #attempt to asign the last directory that was accessed (AKA go up one directory level)
-    #may be problematic without being several layers down
-    try:
-        pastDirectory=last_current_directory(prefixBefore)
-    except: pastDirectory='MICROSCOPE_HOME'
-    ################################################################
-    path = prefix
-    text_length=len(path)
     
-    depth=1
-    v=0
-    sample='abc'
-    #depth holds how many levels down exist
-    if(prefix==NoFile):
-        depth=0
-    while(v<text_length-3):
-        sample=prefix[-3-v:0-v]
-        if(sample==FileDelimeter):
-            depth=depth+1
-        v=v+1
 
+    #################################
+    if len(prefixBefore)<1:
+        prefixBeforeExist=False
+    else:
+        prefixBeforeExist=True
+    if len(currentDirectory)<1:
+        currentDirectoryExist=False         ####DEFINES WHAT WAS PASSED IN URL####
+    else:
+        currentDirectoryExist=True
+    if len(currentFileName)<1:
+        currentFileNameExist=False
+    else:
+        currentFileNameExist=True
+    ##################################
+    #I will have to code for the case of 4 or 5 dashes in a row if we keep the FileDelimeter.... gah stupid user
+    #deconstruct file structure into list
+    def deconstruct(pathDeconstruct, prefixBefore):
+        sample = 'abc'
+        i=0
+        n=0
+        while i < len(prefixBefore):
+            sample=prefixBefore[i:i+2]
+            if sample==FileDelimeter:
+                pathDeconstruct[0]=pathDeconstruct[0]+1
+                pathDeconstruct.append(prefixBefore[n:i])
+                n=i+2
+            i= i+1
+        return pathDeconstruct
 
+    pathDeconstruct = []
+    pathDeconstruct.append(0)
+    if prefixBeforeExist==True:
+        sample = 'abc'
+        i=0
+        n=0
+        while i < len(prefixBefore):
+            sample=prefixBefore[i:i+3]
+            if sample==FileDelimeter:
+                pathDeconstruct[0]=pathDeconstruct[0]+1
+                pathDeconstruct.append(prefixBefore[n:i])
+                n=i+3
+            i= i+1
+        pathDeconstruct.append(prefixBefore[n:i])
+        if pathDeconstruct[0]<1:
+            pathDeconstruct.append(prefixBefore)
+        pathDeconstruct[0]=pathDeconstruct[0]+1
+    if currentDirectoryExist == True:
+        pathDeconstruct.append(currentDirectory)
+        pathDeconstruct[0]=pathDeconstruct[0]+1
+    
+    prefix=''
+    backone=''
 
+    pastDirectory=''
+    #if pathDeconstruct[0]>0:
+    #    pathDeconstruct[pathDeconstruct[0]-1]
+    #options:
+    #Choose a file
 
-
+    #Choose a Directory
+    #current directory is added to prefix
+    #current directory has a value 
+    if currentDirectoryExist==True:
+        if prefixBeforeExist == True:
+            prefix=prefixBefore+FileDelimeter+currentDirectory
+        else:
+            prefix=currentDirectory
+    #initialize backone (always needed unless prefix does not exist)
+    if prefixBeforeExist==True:
+        pastDirectory=pathDeconstruct[pathDeconstruct[0]]
+        if pathDeconstruct[0]>1:
+            for i in range(pathDeconstruct[0]-1):
+                backone=backone+pathDeconstruct[i+1]
+                if i<pathDeconstruct[0]-1:
+                    backone=backone+FileDelimeter
+    if currentFileNameExist==True:
+        prefix=prefixBefore
 
 
     #Develops the file contents
@@ -264,7 +229,7 @@ def microscopeListView(request,microscopeName):
 
     return render_to_response("gallery/microscopeContents.html", dict(albums=albums, user=request.user,
         media_url=MEDIA_URL,directories=contents,files=contents,prefix=prefix,backone=backone,
-        microscopeName=microscopeName,currentdirectory=currentDirectory,pastdirectory=pastDirectory,filestructure=fileStructure,depth=depth))
+        microscopeName=microscopeName,currentdirectory=currentDirectory,pastdirectory=pastDirectory))
 
 def create_task(request):
     f = open('/project/projectdirs/ncemhub/workfile.txt','w')

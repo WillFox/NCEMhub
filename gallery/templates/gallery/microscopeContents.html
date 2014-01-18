@@ -19,6 +19,11 @@
 
     <div class="main" style="float:left; margin:0; width:70%">
         <div id="filesys" style="float:left; margin:0; width:15%;">
+            <p>PATH:
+                {% for path in paths %}
+                <a href="/gallery/{{ microscopeName }}/?prefix={{path}}">{{ path }}</a>-->
+                {% endfor %}
+                {{ currentdirectory }}</p>
             <p>Files</p>
             {% for file in files %}
                 <li>
