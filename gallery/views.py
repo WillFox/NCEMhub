@@ -177,16 +177,14 @@ def microscopeListView(request,microscopeName):
                 pathDeconstruct.append(prefixBefore[n:i])
                 n=i+3
             i= i+1
-        pathDeconstruct.append(prefixBefore[n:i])
+        if pathDeconstruct[0]>0:
+            pathDeconstruct.append(prefixBefore[n:i])
         if pathDeconstruct[0]<1:
             pathDeconstruct.append(prefixBefore)
         pathDeconstruct[0]=pathDeconstruct[0]+1
     if currentDirectoryExist == True:
         pathDeconstruct.append(currentDirectory)
         pathDeconstruct[0]=pathDeconstruct[0]+1
-    #############################################
-    #Prefix is not working correctly with the backone (AKA backone is not working correctly especially consecutively)
-    #############################################
     prefix=''   #Initializing to blank strings so that they do not show up when not initialized
     backone=''  #Which is sometimes the case
     pastDirectory=''
@@ -210,11 +208,14 @@ def microscopeListView(request,microscopeName):
     #.....suggested_improvements.....
     #-separate the files from directories and utilize the separate passed variables for this
     #-create a different view for the observation of the data if a file is chosen
-    #
+    #-find a way to not reference the data directly.  This will put a heavy load on the storage directory
     contents = ['None']
     if request.user.is_authenticated():
         user = User.objects.get(username=request.user)
+        #The following is a hardcoded location of the data
         data_locator = '../../../data' + '/' + user.username[0] + '/' + user.username + '/' + microscopeName
+        for i in range(0,pathDeconstruct[0]):
+            data_locator = data_locator + '/' + pathDeconstruct[i+1]
         contents = os.listdir(data_locator)
 
     albums = Album.objects.all()
