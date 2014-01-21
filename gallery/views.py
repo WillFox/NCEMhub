@@ -133,7 +133,7 @@ def microscopeListView(request,microscopeName):
     else:
         prefixBeforeExist=True
     if len(currentDirectory)<1:
-        currentDirectoryExist=False         ####DEFINES WHAT WAS PASSED IN URL####
+        currentDirectoryExist=False         ####VERIFIES WHAT WAS PASSED IN URL####
     else:
         currentDirectoryExist=True
     if len(currentFileName)<1:
@@ -160,7 +160,7 @@ def microscopeListView(request,microscopeName):
     #  1     2     3         4       <--Level accessed
     #users/data/microscope/info/
     #
-    #First item in list is this number, followed by each level's name as an appended item
+    #First item in list is the number of "Levels" accessed, followed by each level's name as an appended item
     #.....suggested_improvements.....
     #This could have been substituted with len(list) and skipped the first item of the list,
     #but i already did it this way
@@ -196,11 +196,11 @@ def microscopeListView(request,microscopeName):
         else:
             prefix=currentDirectory
     if prefixBeforeExist==True:
-        pastDirectory=pathDeconstruct[pathDeconstruct[0]]
+        pastDirectory=pathDeconstruct[pathDeconstruct[0]-1]
         if pathDeconstruct[0]>1:
-            for i in range(pathDeconstruct[0]-1):
+            for i in range(pathDeconstruct[0]-2):
                 backone=backone+pathDeconstruct[i+1]
-                if i<pathDeconstruct[0]-1:
+                if i<pathDeconstruct[0]-3:
                     backone=backone+FileDelimeter
     if currentFileNameExist==True:
         prefix=prefixBefore
