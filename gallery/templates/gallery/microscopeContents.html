@@ -13,28 +13,17 @@
         {% endfor %}
         <p><a href="/gallery/{{ microscopeName }}/?prefix={{ backone }}&currentdirectory={{ pastdirectory }}">Up Directory Level</a></p>
         <p><a href="/gallery/{{ microscopeName }}">Microscope Home</a></p>
-        <p>PREFIX</p>
-        <p>{{prefix}}</p>
     </div>
 
     <div class="main" style="float:left; margin:0; width:70%">
         <div id="filesys" style="float:left; margin:0; width:15%;">
-            <p>PATH:
-                {% for path in paths %}
-                <a href="/gallery/{{ microscopeName }}/?prefix={{path}}">{{ path }}</a>-->
-                {% endfor %}
-                {{ currentdirectory }}</p>
+            <p>PATH:{{prefix}}</p>
             <p>Files</p>
             {% for file in files %}
                 <li>
                     <a href="/gallery/{{microscopeName}}/?prefix={{ prefix }}&file={{ file }}">{{file}}</a>
                 </li>
             {% endfor %}
-            <p>BACK_ONE</p>
-            <p>{{backone}}</p>
-            <p>--------------</p>
-            <p>PAST_DIRECTORY</p>
-            <p>{{ pastdirectory }}</p>
         </div>
     </div>
 </div>
