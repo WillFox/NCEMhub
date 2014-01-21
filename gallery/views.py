@@ -217,27 +217,23 @@ def microscopeListView(request,microscopeName):
         for i in range(0,pathDeconstruct[0]):
             data_locator = data_locator + '/' + pathDeconstruct[i+1]
         contents = os.listdir(data_locator)
+    directories=[]
+    files=[]
+    isFile=False
+    for i in range(len(contents)):
+        sample=contents[i]
+        for n in range(len(sample)):
+            if sample[n]=='.':
+                isFile=True
+                files.append(sample)
+                break
+        if isFile==False:
+            directories.append(sample)
+        isFile=False
 
-    albums = Album.objects.all()
-    if not request.user.is_authenticated():
-        albums = albums.filter(public=True)
 
-    paginator = Paginator(albums, 10)
-    try: page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-
-
-    try:
-        albums = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        albums = paginator.page(paginator.num_pages)
-
-    for album in albums.object_list:
-        album.images = album.image_set.all()[:4]
-    microscopeName=microscopeName
-
-    return render_to_response("gallery/microscopeContents.html", dict(albums=albums, user=request.user,
-        media_url=MEDIA_URL,directories=contents,files=contents,prefix=prefix,backone=backone,
+    return render_to_response("gallery/microscopeContents.html", dict(user=request.user,
+        datalocator=data_locator,directories=directories,files=files,prefix=prefix,backone=backone,
         microscopeName=microscopeName,currentdirectory=currentDirectory,pastdirectory=pastDirectory))
 
 def create_task(request):
