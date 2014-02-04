@@ -1,0 +1,33 @@
+{% extends "ncemhub/base.html" %}
+
+{% block content %}
+<div id="display"  style="margin:0px auto; width:100%" >
+    <div id="filesys" style="float:left; margin:0; width:30%;">
+        <p><a href="/gallery">MICROSCOPE LIST</a></p>
+        <p>Current Microscope: {{ microscopeName }}</p>
+        <p><a href="/gallery/{{ microscopeName }}/?prefix={{ backone }}&currentdirectory={{ pastdirectory }}"><<<</a>NAV
+            <a href="/gallery/{{ microscopeName }}/?prefix=&currentdirectory=">>>></a></p>
+        <p>Directories</p>
+        {% for directory in directories %}
+            <li>
+                <a href="/gallery/{{ microscopeName }}/?prefix={{ prefix }}&currentdirectory={{ directory }}">{{directory}}</a>
+            </li>
+        {% endfor %}
+        
+        <p><a href="/gallery/{{ microscopeName }}">Microscope Home</a></p>
+    </div>
+
+    <div class="main" style="float:left; margin:0; width:70%">
+        <div id="filesys" style="float:left; margin:0; width:50%;">
+            <p>Current Directory: {{ currentdirectory }}</p>
+            <p>PATH:{{prefix}}</p>
+            <p>Files</p>
+            {% for file in files %}
+                <li>
+                    <a href="/gallery/{{microscopeName}}/?prefix={{ prefix }}&file={{ file }}">{{file}}</a>
+                </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

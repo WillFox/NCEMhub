@@ -1,0 +1,60 @@
+{% extends "ncemhub/base.html" %}
+
+{% block content %}
+<p><sub>Path:
+    {% for step in path %}
+        <a href="">{{step}}</a>
+    {% endfor %}
+</sub></p>
+<div id="display"  style="margin:0px auto; width:100%" >
+    <div id="recently_clecked" style="float:left; margin:0; width:50%;">
+        <p>RECENTLY LOOKED AT:</p>
+    </div>
+    <div class="main" style="float:left; margin:0; width:50%">
+        <p>RECENTLY RECORDED:</p>
+    </div>
+</div>
+<div id="display"  style="margin:0px auto; width:100%" >
+    <div id="filesys" style="float:left; margin:0; width:20%;">
+
+        <p>INSTRUMENTS</p>
+        {% for instrument in instruments %}
+            <li>
+                <a href="/gallery/{{file}}">{{instrument}}</a>
+            </li>
+        {% endfor %}
+                
+        <p>COLLECTIONS</p>
+        {% for collection in collections %}
+            <li>
+                <a href="/gallery/{{file}}">{{collection}}</a>
+            </li>
+        {% endfor %}        
+        
+        <p>REPOSITORIES</p>
+        {% for respository in repositories %}
+            <li>
+                <a href="/gallery/{{file}}">{{repository}}</a>
+            </li>
+        {% endfor %}
+    </div>
+
+    <div class="main" style="float:left; margin:0; width:50%">
+
+        <!-- Comment  -->
+        <p>CONTENT:</p>
+        
+    </div>
+    <div class="main" style="float:right; margin:0; width:30%">
+        <p>CONTENT NAVIGATION</p>
+        <p>{{ NavigationPanel }}</p>
+        {% for directory in directories %}
+            <li>
+                <a href="/gallery/{{file}}">{{directory}}</a>
+            </li>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+
