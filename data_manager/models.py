@@ -133,8 +133,8 @@ class DataSet(models.Model):
 class Value(models.Model):
     characteristic      = models.ForeignKey(DataCharacteristic)
     data_set            = models.ForeignKey(DataSet)
-    text_value          = models.CharField(max_length=100)
-    float_value         = models.FloatField()
+    text_value          = models.CharField(max_length=100,null=True,blank=True)
+    float_value         = models.FloatField(null=True,blank=True)
     def __unicode__(self):
         return self.text_value
     def characteristic_(self):
