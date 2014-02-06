@@ -113,7 +113,7 @@ class DataSet(models.Model):
     data_char           = models.ManyToManyField(DataCharacteristic,through='Value', blank=True)
     
     def __unicode__(self):
-        return self.image_rep_path
+        return self.name
     def owners_(self):
         lst = [x[1] for x in self.owners.values_list()]
         return str(join(lst, ', '))

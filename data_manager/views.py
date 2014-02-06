@@ -11,7 +11,7 @@ from gallery.utils import generic_search as get_query
 from user_authentication.models import Patron
 from django.contrib.auth.models import User
 import os
-
+from django.db.models import Q
 #FileDelimeter is the object used to show a new directory depth in the url.
 FileDelimeter= '---'
 
@@ -29,50 +29,30 @@ Required:
 -Contents section
 """
 def main(request):
-    """Main listing."""
-    #Develops the file contents
-    contents = ['None']
-    if request.user.is_authenticated():
-        user = User.objects.get(username=request.user)
-        """
-        Find where each directory is listed, assuming that it is in a system that looks at 
-        actual files:otherwise this should simply be a database search for instruments
-        """
-        
-        data_locator = '../../../data' + '/' + user.username[0]  + '/' + user.username
-        contents = os.listdir(data_locator)
-    #Separate out files from directories
-    #(there should not be any files anyways, but this is important)
-    instruments=[]
-    files=[]
-    isFile=False
-    for i in range(len(contents)):
-        sample=contents[i]
-        for n in range(len(sample)):
-            if sample[n]=='.':
-                isFile=True
-                files.append(sample)
-                break
-        if isFile==False:
-            instruments.append(sample)
-        isFile=False
     instruments=''
     collections=''
     repositories=''
     navpanel=''
     directories=''
+    data_sets=''
     if request.user.is_authenticated():
-        instruments=DataRecorder.objects.all()
-        collections=Collection.objects.all()
-        repositories=Repository.objects.all()
-    else:
-        none=False
+        user = User.objects.get(username=request.user)
+        instruments     = DataRecorder.objects.filter(Q(users=user) | Q(admin_owners=user)).distinct()
+        collections     = Collection.objects.filter(Q(members=user) | Q(owners=user)).distinct()
+        repositories    = Repository.objects.filter(Q(members=user) | Q(owners=user)).distinct()
+        data_sets       = DataSet.objects.filter(owners=user)
+        
+    #albums = Album.objects.all()
+    #if not request.user.is_authenticated():
+    #   albums = albums.filter(public=True)
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL,instruments=instruments,collections=collections, 
-        repositories=repositories,NavigationPanel=navpanel,directories=directories))
+        repositories=repositories,NavigationPanel=navpanel,directories=directories, data_sets=data_sets))
 def data_set_detail(request):
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL))    
+        media_url=MEDIA_URL))
+def edit(request):
+    return HttpResponseRedirect('/data/manager/')     
 def search(request):
     query_string = ''
     found_entries = None
@@ -96,9 +76,9 @@ def initiate_database(request):
     user3 = User.objects.create_user(username="wsfox", password = "123123")
     f.write('Users Created----Passed\n')
     #Fill in Patron info (Broad name of users)
-    patron1 = Patron.objects.create( user= user1, name="Colin Ophus", user_location="NCEM Berkeley",user_bio="A scientist")
-    patron2 = Patron.objects.create( user= user2, name="David E. Skinner", user_location="NERSC Oakland",user_bio="Another scientist")
-    patron3 = Patron.objects.create( user= user3, name="William Fox", user_location="NCEM Berkeley and NERSC Oakland",user_bio="The last scientist")
+    patron1 = Patron.objects.create( user= user1, first_name="Colin", last_name="Ophus", user_location="NCEM Berkeley",user_bio="A scientist")
+    patron2 = Patron.objects.create( user= user2, first_name="David", last_name="Skinner",user_location="NERSC Oakland",user_bio="Another scientist")
+    patron3 = Patron.objects.create( user= user3, first_name="William", last_name="Fox",user_location="NCEM Berkeley and NERSC Oakland",user_bio="The last scientist")
     f.write('Patrons Created from Users----Passed\n')
     #Patron,    user name user_location date_joined updated_at user_bio
     #Create characteristics

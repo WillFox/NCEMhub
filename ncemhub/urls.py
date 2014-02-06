@@ -16,11 +16,10 @@ urlpatterns = patterns('',
 	url(r'^users/(?P<user_id>\+d)$', 'ncemhub.views.microscopes', name = 'microscopes'),
 	url(r'^users/(?P<user_id>\+d)/(?P<microscope_id>\+d)$', 'ncemhub.views.dates', name = 'dates'),
 	url(r'^user/', include('user_authentication.urls')),
+	url(r'^data/manager/',include('data_manager.urls')),
 	# Uncomment the admin/doc line below to enable admin documentation:
-    	#url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    	# Uncomment the next line to enable the admin:
-    	url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 	url(r'^gallery/',include('gallery.urls')),
 	
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

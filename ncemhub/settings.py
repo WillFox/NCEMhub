@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'user_authentication',
     'gallery',
     'ncemhub',
+    'data_manager',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

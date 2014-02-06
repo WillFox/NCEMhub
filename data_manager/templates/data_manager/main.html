@@ -20,39 +20,57 @@
         <p>INSTRUMENTS</p>
         {% for instrument in instruments %}
             <li>
-                <a href="/gallery/{{file}}">{{instrument}}</a>
+                <a href="{% url 'data_manager.views.main' %}?cat=inst&id={{ instrument.id }}">{{instrument}}</a>
             </li>
         {% endfor %}
                 
         <p>COLLECTIONS</p>
         {% for collection in collections %}
             <li>
-                <a href="/gallery/{{file}}">{{collection}}</a>
+                <a href="{% url 'data_manager.views.main' %}?cat=coll&id={{ collection.id }}">{{collection}}</a>
             </li>
         {% endfor %}        
         
         <p>REPOSITORIES</p>
         {% for rep in repositories %}
             <li>
-                <a href="/gallery/{{file}}">{{ rep }}</a>
+                <a href="{% url 'data_manager.views.main' %}?cat=repo&id={{ rep.id }}">{{ rep }}</a>
+            </li>
+        {% endfor %}
+
+        <p>DATA SETS</p>
+        {% for d_set in data_sets %}
+            <li>
+                <a href="{% url 'data_manager.views.main' %}?cat=data&id={{ d_set.id }}">{{ d_set }}</a>
             </li>
         {% endfor %}
     </div>
 
     <div class="main" style="float:left; margin:0; width:50%">
 
-        <!-- Comment  -->
+        <!-- Based on the content chosen decided by cat sent  -->
         <p>CONTENT:</p>
+        {% if cat == "inst" %}
+            {{ var }}
+        {% elif cat == coll %}
+            {{ var }}
+        {% elif cat == repo %}
+            {{ var }}
+        {% elif cat == data %}
+            {{ var }}
+        {% endif %}
     </div>
     <div class="main" style="float:right; margin:0; width:30%">
         <p>CONTENT NAVIGATION</p>
         <p>{{ NavigationPanel }}</p>
         {% for directory in directories %}
             <li>
-                <a href="/gallery/{{file}}">{{directory}}</a>
+                <a href="{% url 'data_manager.views.main' %}">{{directory}}</a>
             </li>
         {% endfor %}
-
+        <p><sub>
+            <a href="{% url 'data_manager.views.edit' %}?cat={{cat_open}}&id={{ content.id }}">EDIT: {{ content }}</a>
+        </sub></p>
     </div>
 </div>
 {% endblock %}

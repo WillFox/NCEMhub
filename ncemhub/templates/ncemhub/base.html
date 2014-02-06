@@ -8,9 +8,10 @@
 
 <center><em>A work in progress...</em><br /></center>
 <hr />
-	<form action="/gallery/file/" method="get">
-	<input type="submit" value="Create Text File">
+	<form action="{% url 'data_manager.views.initiate_database' %}" method="get">
+	<input type="submit" value="Database Start">
 	</form>
+	<p><a href="{% url 'data_manager.views.main' %}">New Directory Listing</a></p>
 <hr />
 	{% load staticfiles %}
 	<link rel='stylesheet' type='test/css' href="{% static 'ncemhub/style.css' %}" />

@@ -106,14 +106,16 @@ def fileStructureView(request):
     return render_to_response("gallery/image_list.html", dict(album=album, user=request.user,
         media_url=MEDIA_URL))
     return HttpResponseRedirect('/gallery')
+"""
+SUMMARY: Provides a view so that the user can look through there microscopy directories from other microscopes
+.....suggested_improvements.....
 
-#SUMMARY: Provides a view so that the user can look through there microscopy directories from other microscopes
-#.....suggested_improvements.....
-#
-#
+"""
 def microscopeListView(request,microscopeName):
    
-    """File Structure Interpreter"""
+    """
+    File Structure Interpreter
+    """
     #Sets default values for variables obtained through .GET
     NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
     try:
@@ -125,9 +127,9 @@ def microscopeListView(request,microscopeName):
     try:
         currentFileName=request.GET['file']
     except: currentFileName = NoFile
-    
-    #SUMMARY: (read note on side)
-    #################################
+    """
+    SECTION SUMMARY: (read note on side)
+    """
     if len(prefixBefore)<1:
         prefixBeforeExist=False
     else:
@@ -155,15 +157,17 @@ def microscopeListView(request,microscopeName):
                 n=i+2
             i= i+1
         return pathDeconstruct
-    #SECTION SUMMARY: Builds pathDeconstructor
-    #this list will hold the number of directory levels accessed in the tree such as
-    #  1     2     3         4       <--Level accessed
-    #users/data/microscope/info/
-    #
-    #First item in list is the number of "Levels" accessed, followed by each level's name as an appended item
-    #.....suggested_improvements.....
-    #This could have been substituted with len(list) and skipped the first item of the list,
-    #but i already did it this way
+    """
+    SECTION SUMMARY: Builds pathDeconstructor
+    this list will hold the number of directory levels accessed in the tree such as
+      1     2     3         4       <--Level accessed
+    users/data/microscope/info/
+    
+    First item in list is the number of "Levels" accessed, followed by each level's name as an appended item
+    .....suggested_improvements.....
+    This could have been substituted with len(list) and skipped the first item of the list,
+    but i already did it this way
+    """
     pathDeconstruct = []
     pathDeconstruct.append(0)
     if prefixBeforeExist==True:
@@ -203,12 +207,12 @@ def microscopeListView(request,microscopeName):
     if currentFileNameExist==True:
         prefix=prefixBefore
 
-
-    #SECTION SUMMARY: Build the contents of the data tree directly from existing directories
-    #.....suggested_improvements.....
-    #-separate the files from directories and utilize the separate passed variables for this
-    #-create a different view for the observation of the data if a file is chosen
-    #-find a way to not reference the data directly.  This will put a heavy load on the storage directory
+    """
+    SECTION SUMMARY: Build the contents of the data tree directly from existing directories
+    .....suggested_improvements.....
+    -create a different view for the observation of the data if a file is chosen
+    -find a way to not reference the data directly.  This will put a heavy load on the storage directory
+    """
     contents = ['None']
     if request.user.is_authenticated():
         user = User.objects.get(username=request.user)
@@ -217,6 +221,11 @@ def microscopeListView(request,microscopeName):
         for i in range(0,pathDeconstruct[0]):
             data_locator = data_locator + '/' + pathDeconstruct[i+1]
         contents = os.listdir(data_locator)
+    """
+    SECTION SUMMARY: Differentiates between files and directories
+    ......suggested_improvements.....
+    -find a better way to identify a file (seeing a dot in the name does not mean its necessarily a file)
+    """
     directories=[]
     files=[]
     isFile=False

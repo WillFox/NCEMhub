@@ -6,6 +6,7 @@ urlpatterns = patterns('',
 	url(r'^$', views.main, name='data_home'),
 	url(r'^detail/$', views.data_set_detail, name='data_detail'),
 	url(r'^initiate/$', views.initiate_database, name='initiateTest'),
+	url(r'^edit/$', views.edit, name='edit_content'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
 	#(r'^$','')
 	#url(r'^search/$',views.search, name='searchview'),

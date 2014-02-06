@@ -15,6 +15,7 @@ class Tag(models.Model):
     tag = models.CharField(max_length=50)
     def __unicode__(self):
         return self.tag
+#problem with this album is no two albums can be the same name without getting mixed up, no?
 
 class Album(models.Model):
     title = models.CharField(max_length=60)
@@ -28,7 +29,7 @@ class Album(models.Model):
     def __unicode__(self):
         return self.title
     def images(self):
-	lst = [x.image.name for x in self.image_set.all()]
+        lst = [x.image.name for x in self.image_set.all()]
         lst = ["<a href='/media/%s'>%s</a>" % (x, x.split('/')[-1]) for x in lst]
         return join(lst, ', ')
     images.allow_tags = True
@@ -113,7 +114,6 @@ class ImageAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
-
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Image, ImageAdmin)
