@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from user_authentication.forms import RegistrationForm,LoginForm
 import os
+import data_manager.urls
 from user_authentication.models import Patron
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
@@ -21,7 +22,7 @@ def PatronRegistration(request):
 			#patron.name = form.cleaned_date['name']
 			#patron.user_location = form.cleaned_data['user_location']
 			#patron.save()
-			patron = Patron(user=user, name=form.cleaned_data['name'], user_location=form.cleaned_data['user_location'])
+			patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
 			patron.save()
 			return HttpResponseRedirect('/user/profile')
 		else:
@@ -66,8 +67,8 @@ def LoginRequest(request):
 		
 def LogoutRequest(request):
 	logout(request)
-	return HttpResponseRedirect('/gallery')
+	return HttpResponseRedirect('/data/manager')
 def PatronProfile(request):
-	return HttpResponseRedirect('/gallery')
+	return HttpResponseRedirect('/data/manager')
 
 

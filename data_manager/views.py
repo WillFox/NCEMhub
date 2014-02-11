@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.forms import ModelForm
-from ncemhub.settings import MEDIA_URL
+from ncemhub.settings import MEDIA_URL, DATA_ROOT
 from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
 from django.template import RequestContext
 from gallery.utils import generic_search as get_query
@@ -28,6 +28,96 @@ Required:
 -NavigationPanel dependent on current contents (directories)
 -Contents section
 """
+
+def instrumentDirectoryView(request,microscopeName,cat):
+   
+    """
+    File Structure Interpreter
+    """
+    #Sets default values for variables obtained through .GET
+    NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
+    try:
+        prefixBefore=request.GET['prefix']
+    except: prefixBefore=NoFile
+    try:
+        currentDirectory=request.GET['currentdirectory']
+    except: currentDirectory=NoFile
+    try:
+        currentFileName=request.GET['file']
+    except: currentFileName = NoFile
+    """
+    SECTION SUMMARY: (read note on side)
+    """
+    if len(prefixBefore)<1:
+        prefixBeforeExist=False
+    else:
+        prefixBeforeExist=True
+    if len(currentDirectory)<1:
+        currentDirectoryExist=False         ####VERIFIES WHAT WAS PASSED IN URL####
+    else:
+        currentDirectoryExist=True
+    if len(currentFileName)<1:
+        currentFileNameExist=False
+    else:
+        currentFileNameExist=True
+    return 0
+    ##################################
+    #I will have to code for the case of 4 or 5 dashes in a row if we keep the FileDelimeter.... gah stupid user
+    #deconstruct file structure into list
+    """
+    SECTION SUMMARY: Builds pathDeconstructor
+    this list will hold the number of directory levels accessed in the tree such as
+      1     2     3         4       <--Level accessed
+    users/data/microscope/info/
+    
+    First item in list is the number of "Levels" accessed, followed by each level's name as an appended item
+    .....suggested_improvements.....
+    This could have been substituted with len(list) and skipped the first item of the list,
+    but i already did it this way
+    """
+"""
+    pathDeconstruct = []
+    pathDeconstruct.append(0)
+    if prefixBeforeExist==True:
+        sample = 'abc'
+        i=0
+        n=0
+        while i < len(prefixBefore):
+            sample=prefixBefore[i:i+3]
+            if sample==FileDelimeter:
+                pathDeconstruct[0]=pathDeconstruct[0]+1
+                pathDeconstruct.append(prefixBefore[n:i])
+                n=i+3
+            i= i+1
+        if pathDeconstruct[0]>0:
+            pathDeconstruct.append(prefixBefore[n:i])
+        if pathDeconstruct[0]<1:
+            pathDeconstruct.append(prefixBefore)
+        pathDeconstruct[0]=pathDeconstruct[0]+1
+    if currentDirectoryExist == True:
+        pathDeconstruct.append(currentDirectory)
+        pathDeconstruct[0]=pathDeconstruct[0]+1
+    prefix=''   #Initializing to blank strings so that they do not show up when not initialized
+    backone=''  #Which is sometimes the case
+    pastDirectory=''
+    if currentDirectoryExist==True:
+        if prefixBeforeExist == True:
+            prefix=prefixBefore+FileDelimeter+currentDirectory
+        else:
+            prefix=currentDirectory
+    if prefixBeforeExist==True:
+        pastDirectory=pathDeconstruct[pathDeconstruct[0]-1]
+        if pathDeconstruct[0]>1:
+            for i in range(pathDeconstruct[0]-2):
+                backone=backone+pathDeconstruct[i+1]
+                if i<pathDeconstruct[0]-3:
+                    backone=backone+FileDelimeter
+    if currentFileNameExist==True:
+        prefix=prefixBefore
+"""
+
+
+
 def main(request):
     instruments=''
     collections=''
@@ -35,19 +125,90 @@ def main(request):
     navpanel=''
     directories=''
     data_sets=''
+     #Sets default values for variables obtained through .GET
+    NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
+    try:
+        cat=request.GET['cat']
+    except: cat=NoFile
+    try:
+        pid=request.GET['id']
+    except: pid=NoFile
+    
     if request.user.is_authenticated():
         user = User.objects.get(username=request.user)
         instruments     = DataRecorder.objects.filter(Q(users=user) | Q(admin_owners=user)).distinct()
         collections     = Collection.objects.filter(Q(members=user) | Q(owners=user)).distinct()
         repositories    = Repository.objects.filter(Q(members=user) | Q(owners=user)).distinct()
         data_sets       = DataSet.objects.filter(owners=user)
-        
+    else:
+        instruments     = DataRecorder.objects.filter(public=True).distinct()
+        collections     = Collection.objects.filter(public=True).distinct()
+        repositories    = Repository.objects.filter(public=True).distinct()
+        data_sets       = DataSet.objects.filter(public=True)
+
+    #Allows users to view what the puclic observes without cluttering their personal repositories
+    try: 
+        public=request.GET['public']
+        instruments     = DataRecorder.objects.filter(public=True).distinct()
+        collections     = Collection.objects.filter(public=True).distinct()
+        repositories    = Repository.objects.filter(public=True).distinct()
+        data_sets       = DataSet.objects.filter(public=True)
+    except:
+        pass
+
+
+    pathDeconstruct = []
+    pathDeconstruct.append(0)
+    
+    directories=[]
+    files=[]
+    #The following directs to a view representative of the object chosen
+    if cat == "inst":
+        recorder=DataRecorder.objects.filter(id=pid).distinct()
+        recorder_slug=recorder[0].slug
+        """
+        SECTION SUMMARY: Build the contents of the data tree directly from existing directories
+        .....suggested_improvements.....
+        -create a different view for the observation of the data if a file is chosen
+        -find a way to not reference the data directly.  This will put a heavy load on the storage directory
+        """
+        contents = ['None']
+        if request.user.is_authenticated():
+            user = User.objects.get(username=request.user)
+            #The following is a hardcoded location of the data
+            data_locator = DATA_ROOT + '/' + user.username[0] + '/' + user.username + '/' + recorder_slug
+            for i in range(0,pathDeconstruct[0]):
+                data_locator = data_locator + '/' + pathDeconstruct[i+1]
+            contents = os.listdir(data_locator)
+        """
+        SECTION SUMMARY: Differentiates between files and directories
+        ......suggested_improvements.....
+        -find a better way to identify a file (seeing a dot in the name does not mean its necessarily a file)
+        """
+        isFile=False
+        for i in range(len(contents)):
+            sample=contents[i]
+            for n in range(len(sample)):
+                if sample[n]=='.':
+                    isFile=True
+                    files.append(sample)
+                    break
+            if isFile==False:
+                directories.append(sample)
+            isFile=False
+    if cat == "coll":
+        instrumentDirectoryView(request,recorder)
+    if cat == "repo":
+        instrumentDirectoryView(request,recorder)
+    if cat == "data":
+        instrumentDirectoryView(request,recorder)
     #albums = Album.objects.all()
     #if not request.user.is_authenticated():
     #   albums = albums.filter(public=True)
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,instruments=instruments,collections=collections, 
-        repositories=repositories,NavigationPanel=navpanel,directories=directories, data_sets=data_sets))
+        media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
+        repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files, data_sets=data_sets))
+
 def data_set_detail(request):
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL))
@@ -171,13 +332,13 @@ def initiate_database(request):
     #Collection,     name public created_on updated_on tags members owners data_recorder repositories 
 
     #Create Data Sets
-    data1 = DataSet.objects.create(name="ISOpropyl",public=True,data_path="../../../data/w",image_rep_path="www/media",
+    data1 = DataSet.objects.create(name="ISOpropyl",public=True,data_original_path="",data_path=MEDIA_URL+"data/",image_rep_path=MEDIA_URL+"data/2.jpg",
         description="Alcohol on a thin plane")
     #,owners=[user1],tags=[tag1,tag3], data_recorder=[recorder1],collections=[collection3]
-    data2 = DataSet.objects.create(name="Carbon nano tubes",public=True,data_path="../../../data/x",image_rep_path="www/media",
+    data2 = DataSet.objects.create(name="Carbon nano tubes",public=True,data_original_path="",data_path=MEDIA_URL+"data/",image_rep_path=MEDIA_URL+"data/3.jpg",
         description="graphite induce nano tubes")
     #,owners=[user1],tags=[tag1,tag2,tag3], data_recorder=[recorder2],collections=[collection2]
-    data3 = DataSet.objects.create(name="TestDataRun",public=True,data_path="../../../data/c",image_rep_path="www/media",
+    data3 = DataSet.objects.create(name="TestDataRun",public=True,data_original_path="",data_path=MEDIA_URL+"data/",image_rep_path=MEDIA_URL+"data/4.jpg",
         description="this is a test")
     #,owners=[user2],tags=[tag1,tag2], data_recorder=[recorder3],collections=[collection1]
     f.write('Data Set Creation----Passed\n')

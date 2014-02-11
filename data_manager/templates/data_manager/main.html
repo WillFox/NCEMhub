@@ -6,6 +6,7 @@
         <a href="">{{step}}</a>
     {% endfor %}
 </sub></p>
+{% if user.is_authenticated %}
 <div id="display"  style="margin:0px auto; width:100%" >
     <div id="recently_clecked" style="float:left; margin:0; width:50%;">
         <p>RECENTLY LOOKED AT:</p>
@@ -14,9 +15,9 @@
         <p>RECENTLY RECORDED:</p>
     </div>
 </div>
+{% endif %}
 <div id="display"  style="margin:0px auto; width:100%" >
     <div id="filesys" style="float:left; margin:0; width:20%;">
-
         <p>INSTRUMENTS</p>
         {% for instrument in instruments %}
             <li>
@@ -44,6 +45,8 @@
                 <a href="{% url 'data_manager.views.main' %}?cat=data&id={{ d_set.id }}">{{ d_set }}</a>
             </li>
         {% endfor %}
+
+        
     </div>
 
     <div class="main" style="float:left; margin:0; width:50%">
@@ -51,7 +54,12 @@
         <!-- Based on the content chosen decided by cat sent  -->
         <p>CONTENT:</p>
         {% if cat == "inst" %}
-            {{ var }}
+            {% for file in files  %}
+                <li>
+                    <a href="{% url 'data_manager.views.main' %}">{{ file }}</a>
+                </li>
+            {% endfor %}
+            <img src="{{ MEDIA_URL }}{{image}}" alt="">
         {% elif cat == coll %}
             {{ var }}
         {% elif cat == repo %}
@@ -62,12 +70,21 @@
     </div>
     <div class="main" style="float:right; margin:0; width:30%">
         <p>CONTENT NAVIGATION</p>
-        <p>{{ NavigationPanel }}</p>
+        {% if cat == "inst" %}
         {% for directory in directories %}
             <li>
                 <a href="{% url 'data_manager.views.main' %}">{{directory}}</a>
             </li>
-        {% endfor %}
+            {% endfor %}
+            <img src="{{ MEDIA_URL }}{{image}}" alt="">
+        {% elif cat == coll %}
+            {{ var }}
+        {% elif cat == repo %}
+            {{ var }}
+        {% elif cat == data %}
+            {{ var }}
+        {% endif %}
+        <p>{{ NavigationPanel }}</p>
         <p><sub>
             <a href="{% url 'data_manager.views.edit' %}?cat={{cat_open}}&id={{ content.id }}">EDIT: {{ content }}</a>
         </sub></p>

@@ -7,9 +7,10 @@ from os.path import join as pjoin
 from tempfile import *
 import os
 import Image as PImage
-from ncemhub.settings import MEDIA_ROOT
+from ncemhub.settings import MEDIA_ROOT, DATA_ROOT
 from shutil import *
 from user_authentication.models import Patron
+from django.db.models import signals
 #Each value unique to the data set, such as relative meta-data
 class DataCharacteristic(models.Model):
     name           = models.CharField(max_length=100, unique=True)
@@ -43,6 +44,18 @@ class DataRecorder(models.Model):
     def admin_owners_(self):
         lst = [x[1] for x in self.admin_owners.values_list()]
         return str(join(lst,', '))
+#Adds directory to user        
+def DataRecorder_post_add(sender,action,instance,model,pk_set,reverse,signal,using,**kwargs):
+    if action== 'post_add':
+        temp_user=[]
+        for pid in pk_set:
+            temp_user.extend(model.objects.filter(id=pid))
+        for tuser in temp_user:
+            if not os.path.exists(DATA_ROOT+ '/'+ tuser.username[0] + '/' + tuser.username + '/' + instance.slug):
+                os.mkdir(DATA_ROOT + '/' + tuser.username[0] + '/' + tuser.username + '/' + instance.slug)
+    #except:
+    #    pass
+signals.m2m_changed.connect(DataRecorder_post_add, sender=DataRecorder.users.through)
 
 class Repository(models.Model):
     name                = models.CharField(max_length=300)
@@ -99,6 +112,7 @@ class DataSet(models.Model):
     public              = models.BooleanField(default=False)
     created_on          = models.DateTimeField(auto_now_add=True)
     updated_on          = models.DateTimeField(auto_now=True)
+    data_original_path  = models.CharField(max_length=400)
     data_path           = models.CharField(max_length=400)#where the real data lies
                                             #metadata should be with directory path, then incorporated later
     #directory_path      = models.CharField(max_length=400)#where the data was stored 

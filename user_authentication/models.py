@@ -1,9 +1,11 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-
+from django.db.models import signals
+from ncemhub.settings import DATA_ROOT
+import os
 LOCALITY_CHOICES=(
-	('LBNL','Lawerence Berkeley NAtional Laboratory'),
+	('LBNL','Lawerence Berkeley National Laboratory'),
 	('NA','Not Listed'),
 	#('',''),
 )
@@ -18,34 +20,27 @@ class Patron(models.Model):
 	updated_at 			= models.DateTimeField(auto_now=True)
 	user_bio			= models.TextField(null=True)
 	def __unicode__(self):
-		return self.name
+		return unicode(self.user)
+
 """
-Organizations or institutes:
-These are official groups that have 'DataRecorders' or instrumentation
-
-These can only be made by a ***SITE ADMIN***
-
-class Orgs_Registered(models.Model):
-	name				= models.CharField(max_length=300)
-	slug 				= models.SlugField()
-	org_location		= models.CharField(max_length=300)
-	date_joined 		= models.DateTimeField(auto_now_add=True)
-	updated_at 			= models.DateTimeField(auto_now=True)
-	org_bio 			= models.TextField(null=True)
-	def __unicode__(self):
-		return self.name
-
-Groups or collaborations:
-These are user made groups for either collaborations or
-for interdepartmental user interactions.  Simply allow groups of data
-to be shared easily as opposed to sharing each data set individually
-
-class Group(models.Model):
-	name				= models.CharField(max_length=300)
-	slug 				= models.SlugField()
-	owners				= models.ManyToManyField(User, )
-	members				= 
+The following creates a folder for the newly created user in the designated file system
 """
+"""Argument explanation:
+
+       sender - The model class. (MyModel)
+       instance - The actual instance being saved.
+       created - Boolean; True if a new record was created.
+
+       *args, **kwargs - Capture the unneeded `raw` and `using`(1.3) arguments.
+"""
+def Patron_post_save(sender,instance,created,*args,**kwargs):
+    if created:
+    	if not os.path.exists(DATA_ROOT+ '/'+ instance.user.username[0] + '/' + instance.user.username):
+			os.mkdir(DATA_ROOT+ '/' + instance.user.username[0] + '/' + instance.user.username)
+
+post_save.connect(Patron_post_save, sender=Patron)
+
+
 #create user object to attatch to patron object
 #def create_patron_user_callback(sender, instance, **kwargs):
 #	user_authentication, new = Patron.objects.get_or_create(user=instance)

@@ -47,7 +47,10 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
-
+#####################
+#Data root is the location where a copy of the file system is stored in order to allow for user navigation
+DATA_ROOT = '../../../data'
+####################
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = '/project/projectdirs/ncemhub/ncemhub/bin/ncemhub/www/media/'
@@ -142,7 +145,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'user_authentication',
-    'gallery',
     'ncemhub',
     'data_manager',
 )

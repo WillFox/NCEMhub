@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from user_authentication.models import Patron
 
 class RegistrationForm(ModelForm):
-	username		=forms.CharField(label=(u'User Name'))
+	username		= forms.CharField(label=(u'User Name'))
 	email			= forms.EmailField(label=(u'Email Address'))
 	password		= forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
 	password1		= forms.CharField(label=(u'Verify Password'), widget=forms.PasswordInput(render_value=False))

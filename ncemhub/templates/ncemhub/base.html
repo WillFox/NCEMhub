@@ -3,19 +3,24 @@
 	<link rel="shortcut icon" href="/media/favicon.ico"/>
 	<title> NCEMhub </title>
 	</head>
-<u><center><em><h1>NCEMhub <br />A place for electron microscopists</h1></em></center></u>
+<u><center><em><h1>NCEMhub</h1></em></center></u>
 
+	<div class="main" style="float:left; margin:0; width:15%">
+		<a href="{% url 'data_manager.views.main' %}">.</a>
+	</div>
+	
 
-<center><em>A work in progress...</em><br /></center>
-<hr />
-	<form action="{% url 'data_manager.views.initiate_database' %}" method="get">
-	<input type="submit" value="Database Start">
-	</form>
-	<p><a href="{% url 'data_manager.views.main' %}">New Directory Listing</a></p>
-<hr />
+	<div class="main" style="float:right; margin:0; width:15%">
+		<form action="{% url 'data_manager.views.initiate_database' %}" method="get">
+		<input type="submit" value="Initialize Database">
+		</form>
+	</div>
+
+	
 	{% load staticfiles %}
 	<link rel='stylesheet' type='test/css' href="{% static 'ncemhub/style.css' %}" />
 	{% block extrahead %} {% endblock %}
+
 <body>
 <div id='pageContainer'>
 	<div id="nav_top_right">
@@ -25,15 +30,18 @@
 			{% if user.is_authenticated %} 
 				<li><a href="/user/profile">Profile</a></li>
 				<li><a href="/user/logout">Logout</a></li>
+				<li>
+					<a href="{% url 'data_manager.views.main' %}">Data</a>
+				</li>
+
 			{% else %} 
 				<li><a href="/user/login">Login</a></li>
 				<li><a href="/user/register">Register</a></li>
 			{% endif %}
 	
 			<li>
-				<a href="/gallery">Gallery</a>
+				<a href="{% url 'data_manager.views.main' %}?public=True">Gallery</a>
 			</li>
-
     		<li>
     			<form action="/gallery/search/" method="get">
         		<input type="text" name="q">
