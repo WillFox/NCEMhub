@@ -3,10 +3,10 @@
 	<link rel="shortcut icon" href="/media/favicon.ico"/>
 	<title> NCEMhub </title>
 	</head>
-<u><center><em><h1>NCEMhub</h1></em></center></u>
+
 
 	<div class="main" style="float:left; margin:0; width:15%">
-		<a href="{% url 'data_manager.views.main' %}">.</a>
+		<a href="{% url 'data_manager.views.main' %}?public=True"><u><em><h1>NCEMhub</h1></em></u></a>
 	</div>
 	
 
@@ -37,6 +37,9 @@
 			{% else %} 
 				<li><a href="/user/login">Login</a></li>
 				<li><a href="/user/register">Register</a></li>
+			{% endif %}
+			{% if admin_true %}
+				<li><a href="{% url 'data_manager.views.admin' %}">Admin</a></li>
 			{% endif %}
 	
 			<li>

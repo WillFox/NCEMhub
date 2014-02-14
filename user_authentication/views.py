@@ -8,6 +8,7 @@ import data_manager.urls
 from user_authentication.models import Patron
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import UpdateView
 def PatronRegistration(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/user/profile')
@@ -38,9 +39,36 @@ def Profile(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect('/user/logout/')
 	patron = request.user.get_profile
-	context = {'patron': patron}
-	return render_to_response('user_authentication/profile.html',context,context_instance=RequestContext(request))
+	context = {'patron': patron, 'user':User}
 
+	return render_to_response('user_authentication/profile.html',context,context_instance=RequestContext(request))
+def EditProfile(request):
+	if request.authenticated:
+		return render_to_response("data_manager/main.html", dict(user=request.user,))
+	else:
+		return HttpResponseRedirect('/')
+	if request.method == 'POST':
+		form = EditForm(request.POST)
+		if form.is_valid():
+			user=User.objects.create_user(username=form.cleaned_data['username'],email = form.cleaned_data['email'], password = form.cleaned_data['password'])		
+			user.save()
+			# \/ \/ \/ MAKES USER FOLDER! \/  \/  \/
+			#os.mkdir('../../../data/'+ user.slug[0] + '/' + user.slug)
+			#patron = user.get_profile()
+			#patron.name = form.cleaned_date['name']
+			#patron.user_location = form.cleaned_data['user_location']
+			#patron.save()
+			patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
+			patron.save()
+			return HttpResponseRedirect('/user/profile')
+		else:
+			return render_to_response('user_authentication/register.html',{'form':form}, context_instance=RequestContext(request))
+	
+	else:
+		''' user is not submitting the form, show them a blank registration form'''
+		form = RegistrationForm()
+		context = {'form':form}
+		return render_to_response('user_authentication/register.html',context,context_instance=RequestContext(request))
 
 
 def LoginRequest(request):

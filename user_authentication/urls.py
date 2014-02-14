@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 	url(r'^resetpassword/$',password_reset,name='passReset'),
 	url(r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',password_reset_confirm,name='resetConfirm'),
 	url(r'^reset/done/$',password_reset_complete,name='passResetComplete'),
+	url(r'^profile/edit/$',views.EditProfile, name='ProfEdit'),
 	#url(r'^profile$', views.PatronProfile, name='PatronProfile'),
 
 )

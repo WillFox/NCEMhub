@@ -133,7 +133,9 @@ def main(request):
     try:
         pid=request.GET['id']
     except: pid=NoFile
-    
+    admin_true=False
+    if request.user.is_authenticated():
+        admin_true=True
     if request.user.is_authenticated():
         user = User.objects.get(username=request.user)
         instruments     = DataRecorder.objects.filter(Q(users=user) | Q(admin_owners=user)).distinct()
@@ -147,8 +149,10 @@ def main(request):
         data_sets       = DataSet.objects.filter(public=True)
 
     #Allows users to view what the puclic observes without cluttering their personal repositories
+    public=''
     try: 
-        public=request.GET['public']
+        public_true=request.GET['public']
+        public='public=True&'
         instruments     = DataRecorder.objects.filter(public=True).distinct()
         collections     = Collection.objects.filter(public=True).distinct()
         repositories    = Repository.objects.filter(public=True).distinct()
@@ -162,8 +166,11 @@ def main(request):
     
     directories=[]
     files=[]
+    content_title=''
     #The following directs to a view representative of the object chosen
+    recorder=''
     if cat == "inst":
+        content_title='DIRECTORY'
         recorder=DataRecorder.objects.filter(id=pid).distinct()
         recorder_slug=recorder[0].slug
         """
@@ -196,22 +203,137 @@ def main(request):
             if isFile==False:
                 directories.append(sample)
             isFile=False
+    chosen_data=[]
     if cat == "coll":
-        instrumentDirectoryView(request,recorder)
+        content_title='REPOSITORY'
+        chosen=Collection.objects.filter(id=pid).distinct()
+        chosen_data=DataSet.objects.filter(collections=chosen).distinct()
+        print chosen_data
+    repository_data=[]
     if cat == "repo":
-        instrumentDirectoryView(request,recorder)
+        content_title='COLLECTION'
+        chosen_data=Repository.objects.filter(id=pid).distinct()
+    recent_data=[]
     if cat == "data":
-        instrumentDirectoryView(request,recorder)
+        content_title='INSTRUMENT'
+        chosen_data=DataSet.objects.filter(id=pid).distinct()
     #albums = Album.objects.all()
     #if not request.user.is_authenticated():
     #   albums = albums.filter(public=True)
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
-        repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files, data_sets=data_sets))
+        repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
+        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,public=public,admin_true=admin_true))
 
 def data_set_detail(request):
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL))
+def admin(request):
+    instruments=''
+    collections=''
+    repositories=''
+    navpanel=''
+    directories=''
+    data_sets=''
+     #Sets default values for variables obtained through .GET
+    NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
+    try:
+        cat=request.GET['cat']
+    except: cat=NoFile
+    try:
+        pid=request.GET['id']
+    except: pid=NoFile
+    admin_true=False
+    if request.user.is_authenticated():
+        admin_true=True
+    if request.user.is_authenticated():
+        user = User.objects.get(username=request.user)
+        instruments     = DataRecorder.objects.filter(admin_owners=user).distinct()
+        collections     = Collection.objects.filter(owners=user).distinct()
+        repositories    = Repository.objects.filter(owners=user).distinct()
+        data_sets       = DataSet.objects.filter(owners=user)
+    else:
+        instruments     = DataRecorder.objects.filter(public=True).distinct()
+        collections     = Collection.objects.filter(public=True).distinct()
+        repositories    = Repository.objects.filter(public=True).distinct()
+        data_sets       = DataSet.objects.filter(public=True)
+
+    #Allows users to view what the puclic observes without cluttering their personal repositories
+    public=''
+    try: 
+        public_true=request.GET['public']
+        public='public=True&'
+        instruments     = DataRecorder.objects.filter(public=True).distinct()
+        collections     = Collection.objects.filter(public=True).distinct()
+        repositories    = Repository.objects.filter(public=True).distinct()
+        data_sets       = DataSet.objects.filter(public=True)
+    except:
+        pass
+
+
+    pathDeconstruct = []
+    pathDeconstruct.append(0)
+    
+    directories=[]
+    files=[]
+    content_title=''
+    #The following directs to a view representative of the object chosen
+    recorder=''
+    if cat == "inst":
+        content_title='DIRECTORY'
+        recorder=DataRecorder.objects.filter(id=pid).distinct()
+        recorder_slug=recorder[0].slug
+        """
+        SECTION SUMMARY: Build the contents of the data tree directly from existing directories
+        .....suggested_improvements.....
+        -create a different view for the observation of the data if a file is chosen
+        -find a way to not reference the data directly.  This will put a heavy load on the storage directory
+        """
+        contents = ['None']
+        if request.user.is_authenticated():
+            user = User.objects.get(username=request.user)
+            #The following is a hardcoded location of the data
+            data_locator = DATA_ROOT + '/' + user.username[0] + '/' + user.username + '/' + recorder_slug
+            for i in range(0,pathDeconstruct[0]):
+                data_locator = data_locator + '/' + pathDeconstruct[i+1]
+            contents = os.listdir(data_locator)
+        """
+        SECTION SUMMARY: Differentiates between files and directories
+        ......suggested_improvements.....
+        -find a better way to identify a file (seeing a dot in the name does not mean its necessarily a file)
+        """
+        isFile=False
+        for i in range(len(contents)):
+            sample=contents[i]
+            for n in range(len(sample)):
+                if sample[n]=='.':
+                    isFile=True
+                    files.append(sample)
+                    break
+            if isFile==False:
+                directories.append(sample)
+            isFile=False
+    chosen_data=[]
+    if cat == "coll":
+        content_title='REPOSITORY'
+        chosen=Collection.objects.filter(id=pid).distinct()
+        chosen_data=DataSet.objects.filter(collections=chosen).distinct()
+        print chosen_data
+    repository_data=[]
+    if cat == "repo":
+        content_title='COLLECTION'
+        chosen_data=Repository.objects.filter(id=pid).distinct()
+    recent_data=[]
+    if cat == "data":
+        content_title='INSTRUMENT'
+        chosen_data=DataSet.objects.filter(id=pid).distinct()
+    #albums = Album.objects.all()
+    #if not request.user.is_authenticated():
+    #   albums = albums.filter(public=True)
+    return render_to_response("data_manager/admin.html", dict(user=request.user,
+        media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
+        repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
+        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,public=public,admin_true=admin_true))   
 def edit(request):
     return HttpResponseRedirect('/data/manager/')     
 def search(request):
