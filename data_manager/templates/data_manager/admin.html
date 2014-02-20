@@ -52,7 +52,7 @@
     <div class="main" style="float:left; margin:0; width:50%">
 
         <!-- Based on the content chosen decided by cat sent  -->
-        <p>CONTENT:</p>
+        <p>EDIT {{ content_title }}: {{ content_chosen }}</p>
         {% if cat == "inst" %}
             {% for file in files  %}
                 <li>

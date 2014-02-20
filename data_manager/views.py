@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.forms import ModelForm
-from ncemhub.settings import MEDIA_URL, DATA_ROOT
+from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT
 from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
 from django.template import RequestContext
 from gallery.utils import generic_search as get_query
@@ -221,13 +221,33 @@ def main(request):
     #if not request.user.is_authenticated():
     #   albums = albums.filter(public=True)
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,public=public,admin_true=admin_true))
+def download(request):
+    response = HttpResponse(MEDIA_ROOT+'2.jpg')
+    response['Content-Disposition'] = 'attachment; filename="2.jpg"'
+    return response
+    """
+    Thanks Florian, but I am still confused about what's happening. Below 
+    is the concept of my codes and perhaps you can help: 
 
-def data_set_detail(request):
-    return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL))
+    from django.core.files import File  
+
+    some_file  = open('bla/bla/bla/', "rw") 
+    django_file = File(some_file) 
+
+    t = loader.get_gemplate('somewhere/temp.html') 
+    c = Context({'file':django_file}) 
+    return HttpResponse(t.render(c)) 
+
+
+    ### in the template #### 
+    <a href="file:///{{ django_file.url }}>download</a> 
+
+
+    This may actually work but i would rather not have it work like this :/... drool
+    """
 def admin(request):
     instruments=''
     collections=''

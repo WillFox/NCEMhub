@@ -56,29 +56,82 @@
         {% if cat == "inst" %}
             {% for file in files  %}
                 <li>
-                    <a href="{% url 'data_manager.views.main' %}{{ public }}">{{ file }}</a>
+                    <a href="{% url 'data_manager.views.main' %}?{{ public }}">{{ file }}</a>
                 </li>
             {% endfor %}
             <img src="{{ MEDIA_URL }}{{image}}" alt="">
-        {% elif cat == coll %}
+        {% elif cat == "coll" %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{% url 'data_manager.views.main' %}{{ public }}">{{ data }}</a>
+                    <a href="{% url 'data_manager.views.main' %}?{{ public }}">{{ data }}</a>
                 </li>
             {% endfor %}
             {{ var }}
-        {% elif cat == repo %}
+        {% elif cat == "repo" %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
+                    <a href="{% url 'data_manager.views.main' %}?{{public}}">{{ data }}</a>
                 </li>
             {% endfor %}
             {{ var }}
-        {% elif cat == data %}
+        {% elif cat == "data" %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
+                        <a href="{{ media_url }}{{ data.image_rep_path }}"><img border="0" alt=""src="{{ media_url }}{{ data.image_rep_path }}" height="100" /></a>
                 </li>
+                <li>
+                    Data Set: {{ data.name }}
+                </li>
+                <li>
+                    Recorded: {{ data.created_on }}
+                </li>
+                <li>
+                    Last Updated: {{ data.updated_on }}
+                </li>
+                <li>
+                    Path Origin: {{ data.data_original_path }}
+                </li>
+                <li>
+                    Current Path: {{ data.data_path }}
+                </li>
+                <li>
+                    Temp Image: {{ data.image_rep_path }}
+                </li>
+                <li>
+                    Description: {{ data.description }}
+                </li>
+                <li>
+                    Owners:
+                    {% for ownr in data.owners.all %}
+                        {{ ownr }}, 
+                    {% endfor %}
+                </li>
+                <li>
+                    Tags: 
+                    {% for tag in data.tags.all %}
+                        {{ tag }}, 
+                    {% endfor %}
+                </li>
+                <li>
+                    Data Recorder(s): 
+                    {% for datrec in data.data_recorder.all %}
+                        {{ datrec }}, 
+                    {% endfor %}
+                </li>
+                <li>
+                    Collections: 
+                    {% for collect in data.collections.all %}
+                        {{ collect }}, 
+                    {% endfor %}
+                </li>
+                <li>
+                    Attributes: 
+                    {% for characs in data.data_char.all %}
+                        {{ characs }}, 
+                    {% endfor %}
+                </li>
+                    <form action="{% url 'data_manager.views.download' %}" method="get">
+                    <input type="submit" value="Download">
             {% endfor %}
             {{ var }}
         {% endif %}
@@ -92,11 +145,11 @@
             </li>
             {% endfor %}
             <img src="{{ MEDIA_URL }}{{image}}" alt="">
-        {% elif cat == coll %}
+        {% elif cat == "coll" %}
             {{ var }}
-        {% elif cat == repo %}
+        {% elif cat == "repo" %}
             {{ var }}
-        {% elif cat == data %}
+        {% elif cat == "data" %}
             {{ var }}
         {% endif %}
         <p>{{ NavigationPanel }}</p>

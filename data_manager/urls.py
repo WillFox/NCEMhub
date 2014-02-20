@@ -4,10 +4,11 @@ from data_manager import views
 
 urlpatterns = patterns('',
 	url(r'^$', views.main, name='data_home'),
-	url(r'^detail/$', views.data_set_detail, name='data_detail'),
+	#url(r'^detail/$', views.data_set_detail, name='data_detail'),
 	url(r'^initiate/$', views.initiate_database, name='initiateTest'),
 	url(r'^edit/$', views.edit, name='edit_content'),
 	url(r'^content/admin/$',views.admin,name='admin_content'),
+	url(r'^download/$',views.download,name='file_download'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
 	#(r'^$','')
 	#url(r'^search/$',views.search, name='searchview'),
