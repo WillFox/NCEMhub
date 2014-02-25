@@ -61,17 +61,56 @@
             {% endfor %}
             <img src="{{ MEDIA_URL }}{{image}}" alt="">
         {% elif cat == "coll" %}
+            Collection Members: {{chosen.members}}
+            {% for memb in chosen.members %}
+                {{ memb }}
+            {% endfor %}
             {% for data in chosen_data  %}
                 <li>
                     <a href="{% url 'data_manager.views.main' %}?{{ public }}">{{ data }}</a>
                 </li>
+                <UL>
+                    <li>
+                        Tags:
+                        {% for tag in data.tags.all %}
+                            {{ tag }}, 
+                        {% endfor %}
+                    </li>
+                    <li>
+                        Owners:
+                        {% for ownr in data.owners.all %}
+                            {{ ownr }}, 
+                        {% endfor %}
+                    </li>
+                </UL>
             {% endfor %}
             {{ var }}
         {% elif cat == "repo" %}
             {% for data in chosen_data  %}
+                
                 <li>
                     <a href="{% url 'data_manager.views.main' %}?{{public}}">{{ data }}</a>
                 </li>
+                <UL>
+                    <li>
+                        Tags:
+                        {% for tag in data.tags.all %}
+                            {{ tag }}, 
+                        {% endfor %}
+                    </li>
+                    <li>
+                        Owners:
+                        {% for ownr in data.owners.all %}
+                            {{ ownr }}, 
+                        {% endfor %}
+                    </li>
+                    <li>
+                        Members:
+                        {% for member in data.members.all %}
+                            {{ member }}, 
+                        {% endfor %}                        
+                    </li>
+                </UL>
             {% endfor %}
             {{ var }}
         {% elif cat == "data" %}

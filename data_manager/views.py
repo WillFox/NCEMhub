@@ -12,6 +12,7 @@ from user_authentication.models import Patron
 from django.contrib.auth.models import User
 import os
 from django.db.models import Q
+from django.core.files import File
 #FileDelimeter is the object used to show a new directory depth in the url.
 FileDelimeter= '---'
 
@@ -212,7 +213,8 @@ def main(request):
     repository_data=[]
     if cat == "repo":
         content_title='COLLECTION'
-        chosen_data=Repository.objects.filter(id=pid).distinct()
+        chosen=Repository.objects.filter(id=pid).distinct()
+        chosen_data=Collection.objects.filter(repositories=chosen).distinct()
     recent_data=[]
     if cat == "data":
         content_title='INSTRUMENT'
@@ -223,7 +225,7 @@ def main(request):
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
-        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,public=public,admin_true=admin_true))
+        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
 def download(request):
     response = HttpResponse(MEDIA_ROOT+'2.jpg')
     response['Content-Disposition'] = 'attachment; filename="2.jpg"'
@@ -234,7 +236,7 @@ def download(request):
 
     from django.core.files import File  
 
-    some_file  = open('bla/bla/bla/', "rw") 
+    some_file  = open('bla/bla/bla/', "r") 
     django_file = File(some_file) 
 
     t = loader.get_gemplate('somewhere/temp.html') 
