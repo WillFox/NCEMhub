@@ -1,5 +1,55 @@
 {% extends "ncemhub/base.html" %}
 {% block content %}
+<form action="" method="post">
+{% csrf_token %}
+{% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+<div class="register_div">
+	{% if form.username.errors %} <p class="error">{{ form.username.errors }}</p>{% endif %}
+	<p><label for="username"{% if form.username.errors %} class="error"{% endif %}> Username:</label></p>
+	<p>{{ form.username }}</p>
+</div>
+<div class="register_div">
+	{% if form.email.errors %} <p class="error">{{ form.email.errors }}</p>{% endif %}
+	<p><label for="email"{% if form.email.errors %} class="error"{% endif %}> Email:</label></p>
+	<p>{{ form.email }}</p>
+</div>
+<div class="register_div">
+	{% if form.first_name.errors %} <p class="error">{{ form.first_name.errors }}</p>{% endif %}
+	<p><label for="first_name"{% if form.first_name.errors %} class="error"{% endif %}> First Name:</label></p>
+	<p>{{ form.first_name }}</p>
+</div>
+<div class="register_div">
+	{% if form.last_name.errors %} <p class="error">{{ form.last_name.errors }}</p>{% endif %}
+	<p><label for="last_name"{% if form.last_name.errors %} class="error"{% endif %}> Last Name:</label></p>
+	<p>{{ form.last_name }}</p>
+</div>
+<div class="register_div">
+	{% if form.user_location.errors %} <p class="error">{{ form.user_location.errors }}</p>{% endif %}
+	<p><label for="user_location"{% if form.user_location.errors %} class="error"{% endif %}> User Location:</label></p>
+	<p>{{ form.user_location }}</p>
+</div>
 
+<div class="register_div">
+	{% if form.user_bio.errors %} <p class="error">{{ form.user_bio.errors }}</p>{% endif %}
+	<p><label for="user_bio"{% if form.user_bio.errors %} class="error"{% endif %}> User Bio:</label></p>
+	<p>{{ form.user_bio }}</p>
+</div>
+<p><input type="submit" alt="register"/></p>
+</form>
+
+<div class="register_div">
+	{% if form.password.errors %} <p class="error">{{ form.password.errors }}</p>{% endif %}
+	<p><label for="password"{% if form.password.errors %} class="error"{% endif %}> Password:</label></p>
+	<p>{{ form.password }}</p>
+</div>
+<div class="register_div">
+	{% if form.password.errors %} <p class="error">{{ form.password.errors }}</p>{% endif %}
+	<p><label for="password"{% if form.password.errors %} class="error"{% endif %}> Password:</label></p>
+	<p>{{ form.password }}</p>
+</div>
+<div class="register_div">
+	{% if form.password1.errors %} <p class="error">{{ form.password1.errors }}</p>{% endif %}
+	<p><label for="password1"{% if form.password1.errors %} class="error"{% endif %}> Verify Password:</label></p>
+	<p>{{ form.password1 }}</p>
+</div>
 {% endblock %}
-

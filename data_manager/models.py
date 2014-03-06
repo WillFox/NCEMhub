@@ -51,8 +51,8 @@ def DataRecorder_post_add(sender,action,instance,model,pk_set,reverse,signal,usi
         for pid in pk_set:
             temp_user.extend(model.objects.filter(id=pid))
         for tuser in temp_user:
-            if not os.path.exists(DATA_ROOT+ '/'+ tuser.username[0] + '/' + tuser.username + '/' + instance.slug):
-                os.mkdir(DATA_ROOT + '/' + tuser.username[0] + '/' + tuser.username + '/' + instance.slug)
+            if not os.path.exists(DATA_ROOT+ '/'+ tuser.username + '/' + instance.slug):
+                os.mkdir(DATA_ROOT + '/' + tuser.username + '/' + instance.slug)
     #except:
     #    pass
 signals.m2m_changed.connect(DataRecorder_post_add, sender=DataRecorder.users.through)

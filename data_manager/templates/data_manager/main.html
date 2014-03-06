@@ -18,7 +18,7 @@
 {% endif %}
 <div id="display"  style="margin:0px auto; width:100%" >
     <div id="filesys" style="float:left; margin:0; width:20%;">
-        <p>INSTRUMENTS</p>
+        <sub><p>INSTRUMENTS</p>
         {% for instrument in instruments %}
             <li>
                 <a href="{% url 'data_manager.views.main' %}?{{public}}cat=inst&id={{ instrument.id }}">{{instrument}}</a>
@@ -45,7 +45,7 @@
                 <a href="{% url 'data_manager.views.main' %}?{{public}}cat=data&id={{ d_set.id }}">{{ d_set }}</a>
             </li>
         {% endfor %}
-
+        </sub>
         
     </div>
 
@@ -61,10 +61,31 @@
             {% endfor %}
             <img src="{{ MEDIA_URL }}{{image}}" alt="">
         {% elif cat == "coll" %}
-            Collection Members: {{chosen.members}}
-            {% for memb in chosen.members %}
-                {{ memb }}
-            {% endfor %}
+            <table border="1" style="width:300px">
+                <tr>
+                    <td>Collection Members:</tr>
+                </tr>
+                <tr>
+                    <td>
+                    {% for memb in chosen.members.all %}
+                        {{ memb }},
+                    {% endfor %}
+                    </td>
+                <tr>
+            </table>
+            <p></p>
+            <table border="1" style="width:300px">
+                <tr>
+                    <td>Collection Owners:</tr>
+                </tr>
+                <tr>
+                    <td>
+                    {% for own in chosen.owners.all %}
+                        {{ own }},
+                    {% endfor %}
+                    </td>
+                <tr>
+            </table>
             {% for data in chosen_data  %}
                 <li>
                     <a href="{% url 'data_manager.views.main' %}?{{ public }}">{{ data }}</a>
@@ -166,7 +187,8 @@
                 <li>
                     Attributes: 
                     {% for characs in data.data_char.all %}
-                        {{ characs }}, 
+                        {{ characs }}:
+                        {{ characs.}} 
                     {% endfor %}
                 </li>
                     <form action="{% url 'data_manager.views.download' %}" method="get">

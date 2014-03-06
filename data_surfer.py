@@ -18,14 +18,14 @@ def walkPath():
 		for dirp in dirpath:
 			lib_data_copy.write(dirp)
 		lib_data_copy.write('\n')
-		print dirpath
+		#print dirpath
 		lib_data_copy.write('[')
 		for filename in filenames:
 			lib_data_copy.write(filename)
 			lib_data_copy.write(FileSep)
 		lib_data_copy.write(']')
 		lib_data_copy.write('\n')
-		print filenames
+		#print filenames
 	lib_data_copy.write('{ENDLINE}')
 	lib_data_copy.close()
 	return True
@@ -50,8 +50,8 @@ it with the old file system build and adds each of the files that have
 been added:
 
 ---not sure where the meta data will be kept at the moment
----if a file exists in the old directory that does not exist 
-in the new directort, then a never ending loop will occur
+---if a directory exists in the old directory copy that does not exist 
+in the new directory, then a never ending loop will occur
 """
 def correlatePath():
 	lib_data = open('data_struct.txt','r')
@@ -83,7 +83,7 @@ def correlatePath():
 				"""
 				Add all file from fileNEW
 				"""
-				separate_NEW = separateFiles(fileNew)
+				separate_NEW = separateFiles(fileNEW)
 				for newF in newToAdd:
 					add_data_set(newF)
 					lib_new_data.write(dirNEW)

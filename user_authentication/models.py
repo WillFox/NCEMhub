@@ -35,8 +35,8 @@ The following creates a folder for the newly created user in the designated file
 """
 def Patron_post_save(sender,instance,created,*args,**kwargs):
     if created:
-    	if not os.path.exists(DATA_ROOT+ '/'+ instance.user.username[0] + '/' + instance.user.username):
-			os.mkdir(DATA_ROOT+ '/' + instance.user.username[0] + '/' + instance.user.username)
+    	if not os.path.exists(DATA_ROOT+ '/'+ instance.user.username):
+			os.mkdir(DATA_ROOT+ '/' + instance.user.username)
 
 post_save.connect(Patron_post_save, sender=Patron)
 

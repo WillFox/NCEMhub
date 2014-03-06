@@ -120,6 +120,7 @@ def instrumentDirectoryView(request,microscopeName,cat):
 
 
 def main(request):
+    chosen=''
     instruments=''
     collections=''
     repositories=''
@@ -184,7 +185,7 @@ def main(request):
         if request.user.is_authenticated():
             user = User.objects.get(username=request.user)
             #The following is a hardcoded location of the data
-            data_locator = DATA_ROOT + '/' + user.username[0] + '/' + user.username + '/' + recorder_slug
+            data_locator = DATA_ROOT + '/' + user.username + '/' + recorder_slug
             for i in range(0,pathDeconstruct[0]):
                 data_locator = data_locator + '/' + pathDeconstruct[i+1]
             contents = os.listdir(data_locator)
@@ -222,6 +223,10 @@ def main(request):
     #albums = Album.objects.all()
     #if not request.user.is_authenticated():
     #   albums = albums.filter(public=True)
+    try:
+        chosen = chosen[0]
+    except:
+        chosen=chosen
     return render_to_response("data_manager/main.html", dict(user=request.user,
         media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
@@ -315,7 +320,7 @@ def admin(request):
         if request.user.is_authenticated():
             user = User.objects.get(username=request.user)
             #The following is a hardcoded location of the data
-            data_locator = DATA_ROOT + '/' + user.username[0] + '/' + user.username + '/' + recorder_slug
+            data_locator = DATA_ROOT + '/' + user.username + '/' + recorder_slug
             for i in range(0,pathDeconstruct[0]):
                 data_locator = data_locator + '/' + pathDeconstruct[i+1]
             contents = os.listdir(data_locator)
