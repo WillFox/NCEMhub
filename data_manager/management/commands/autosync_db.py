@@ -75,6 +75,7 @@ def add_dm3_to_db(newF,dirNEW):
     """
     SUMMARY: Crate Tags/ Assign Data Characteristics/ Create image and asign path
     """
+
     #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
     #    description="None")   
     #data1.owners.add(user1)
@@ -85,7 +86,7 @@ def add_dm3_to_db(newF,dirNEW):
 def add_undefined_file():
     return 0
 def first_lib_data_run():
-    f=open('data_struct.txt','w')
+    f=open('data_manager/data_struct.txt','w')
     f.write('{ENDLINE}')
     f.close()
     return 0
@@ -96,7 +97,7 @@ SUMMARY: Goes over entire directory where data is transferred and
 makes copy to be compared to last synced view
 """
 def walkPath():
-    lib_data_copy = open('data_struct_copy.txt', 'w')
+    lib_data_copy = open('data_manager/data_struct_copy.txt', 'w')
     for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
         for dirp in dirpath:
             lib_data_copy.write(dirp)
@@ -151,12 +152,12 @@ in the new directory, then a never ending loop will occur
 """
 def correlatePath():
     try: 
-        lib_data = open('data_struct.txt','r')
+        lib_data = open('data_manager/data_struct.txt','r')
     except:
         first_lib_data_run()
-        lib_data = open('data_struct.txt','r')
-    lib_data_copy = open('data_struct_copy.txt', 'r')
-    lib_new_data = open('data_struct_changes.txt','w')
+        lib_data = open('data_manager/data_struct.txt','r')
+    lib_data_copy = open('data_manager/data_struct_copy.txt', 'r')
+    lib_new_data = open('data_manager/data_struct_changes.txt','w')
     working = True
     dirNEW = lib_data_copy.readline()
     fileNEW = lib_data_copy.readline()
@@ -165,7 +166,7 @@ def correlatePath():
     if dirOLD == '':
         lib_data.close()
         first_lib_data_run()
-        lib_data = open('data_struct.txt','r')
+        lib_data = open('data_manager/data_struct.txt','r')
         dirOLD=lib_data.readline()
     newToAdd=''
     if dirNEW == '{ENDLINE}':
@@ -293,15 +294,15 @@ def LOG_copy_NEW_to_OLD():
     logFileName= 'dataTransferLog/LOG-' + str(time.time()) + ".txt"
 
     lib_data_log = open(logFileName, 'w')
-    lib_data = open('data_struct.txt','r')
+    lib_data = open('data_manager/data_struct.txt','r')
     line = ''
     while line != '{ENDLINE}':
         line = lib_data.readline()
         lib_data_log.write(line)
     lib_data.close()
     lib_data_log.close()
-    lib_data = open('data_struct.txt','w')
-    lib_data_copy = open('data_struct_copy.txt', 'r')
+    lib_data = open('data_manager/data_struct.txt','w')
+    lib_data_copy = open('data_manager/data_struct_copy.txt', 'r')
     line = ''
     while line != '{ENDLINE}':
         line = lib_data_copy.readline()
@@ -319,7 +320,7 @@ operation based on the file extension or other to be
 determined factors.
 """
 class Command(BaseCommand):
-    filename = "sync_instruction.txt"
+    filename = "data_manager/sync_instruction.txt"
     fRead = open(filename,'w')
     fRead.write("sync")
     fRead.close()
