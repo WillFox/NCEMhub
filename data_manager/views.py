@@ -7,7 +7,6 @@ from django.forms import ModelForm
 from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT
 from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
 from django.template import RequestContext
-from gallery.utils import generic_search as get_query
 from user_authentication.models import Patron
 from django.contrib.auth.models import User
 import os
@@ -118,7 +117,10 @@ def instrumentDirectoryView(request,microscopeName,cat):
 """
 
 
-
+"""
+WARNING: URLs are a loophole and only require authentication
+Need to check if member/admin/owner before showing data
+"""
 def main(request):
     chosen=''
     instruments=''

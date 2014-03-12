@@ -6,6 +6,8 @@ from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repositor
 from user_authentication.models import Patron
 from django.contrib.auth.models import User
 from django.db.models import Q
+import Utility_Dev.dm3reader_v072
+import Utility_Dev.dm3lib_v099
 
 
 DATA_PATH = '../../../data'
