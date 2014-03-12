@@ -109,7 +109,6 @@ def correlatePath():
 SUMMARY: creates a log before over-writing the new file system mirror
 as the new original system mirror, in oreder to be used for future 
 updates.
-
 """
 def LOG_copy_NEW_to_OLD():
 	logFileName= 'dataTransferLog/LOG-' + str(time.time()) + ".txt"

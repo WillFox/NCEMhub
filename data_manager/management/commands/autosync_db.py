@@ -1,15 +1,89 @@
 from django.core.management.base import BaseCommand, CommandError
 import os
 import time
+from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT
+from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
+from user_authentication.models import Patron
+from django.contrib.auth.models import User
+from django.db.models import Q
+
 
 DATA_PATH = '../../../data'
 FileSep = ','
 start_time=time.time()
 sleepy_time=60
+
+
 """
 UTILITIES
 """
+def add_dm3_to_db(newF,dirNEW):
+    print 'adding '+newF+' ::: '+ dirNEW
+    noError=True
+    #Find User
+    user_start=0
+    user_end=None
+    instr_start = 0
+    instr_end=None
+    i=0
+    find_instrument=False
+    """
+    the following is a complicated mess that defines who the user is
+    and what the instrument/data_recorder is which is
+    derived from the directory where the file was 
+    deposited.
+    """
+    for i in range(len(dirNEW)):
+        if dirNEW[i]=="\\":
 
+            if user_end == None:
+                if user_start==0:
+                    user_start=i+1
+                else:
+                    user_end=i
+                    find_instrument = True
+            if find_instrument==True:
+                if instr_start == 0:
+                    instr_start=i+1
+                else:
+                    if instr_end == None:
+                        instr_end=i
+
+    data_user = dirNEW[user_start:user_end]
+    data_name = newF[:-4]
+    data_instrument = dirNEW[instr_start:instr_end]
+    error=''
+    error_detail=''
+    """
+    SUMMARY:  Error detection
+    Error marking for in case the file drop location does not match
+    the information found within the database
+    ---add to a log file, not a print statement!
+    """
+    try:
+        error_detail="Owner non existent"
+        owner = User.objects.filter(username=data_user).distinct()
+        error_detail="Instrument/Data Recorder non existent"
+        data_recorder = DataRecorder.objects.filter(name=data_instrument)
+        error_detail = "Data set unable to be created"
+        data = DataSet.objects.create(name=data_name,public=False,data_original_path=dirNEW,data_path=dirNEW)
+    except:
+        error = "File Location not coherrent with database"
+        print error
+        print '\n'
+        print error_detail
+    """
+    SUMMARY: Crate Tags/ Assign Data Characteristics/ Create image and asign path
+    """
+    #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
+    #    description="None")   
+    #data1.owners.add(user1)
+    #data1.tags.add(tag)
+    #data1.data_recorder.add(recorder1)
+    #data1.collections.add(collection3) 
+    return True
+def add_undefined_file():
+    return 0
 def first_lib_data_run():
     f=open('data_struct.txt','w')
     f.write('{ENDLINE}')
@@ -27,14 +101,12 @@ def walkPath():
         for dirp in dirpath:
             lib_data_copy.write(dirp)
         lib_data_copy.write('\n')
-        #print dirpath
         lib_data_copy.write('[')
         for filename in filenames:
             lib_data_copy.write(filename)
             lib_data_copy.write(FileSep)
         lib_data_copy.write(']')
         lib_data_copy.write('\n')
-        #print filenames
     lib_data_copy.write('{ENDLINE}')
     lib_data_copy.close()
     return True
@@ -53,7 +125,20 @@ to the repository.  This may include any of the following:
 #Each action should be a separate function found in the UTILITIES above
 #       representing all file types and potential analysis options
 def add_data_set(newF,dirNEW):
-    return True
+    file_added=False
+    if newF[-4:]=='.dm3':
+        print "This is a DM3"
+        add_dm3_to_db(newF,dirNEW)
+        file_added=True
+    if newF[-4:]=='.DM3':
+        print "This is a DM3"
+        add_dm3_to_db(newF,dirNEW)
+        file_added=True
+    if file_added==False:
+        print "This file type is not recognized"
+        add_undefined_file()
+        file_added=True
+    return file_added
 
 """
 SUMMARY: Takes the copy of the file system from one folder and compares
@@ -135,7 +220,7 @@ def correlatePath():
                 """
                 #separate_NEW is what holds all new files
                 for newF in separate_NEW:
-                    add_data_set(newF,dirNEW)
+                    add_data_set(newF,dirNEW)####
                     lib_new_data.write(dirNEW)
                     lib_new_data.write('\n')
                     lib_new_data.write(newF)
@@ -156,13 +241,12 @@ def correlatePath():
                         separate_NEW.append(fileNEWtemp[n:i])
                         n=i+1
                 for newF in separate_NEW:
-                    add_data_set(newF,dirNEW)
+                    add_data_set(newF,dirNEW)####
                     lib_new_data.write(dirNEW)
                     lib_new_data.write('\n')
                     lib_new_data.write(newF)
                     lib_new_data.write('\n')
             newFiles=True
-            print 'CHANGE'
 
         if dirNEW==dirOLD:
             """
@@ -202,8 +286,7 @@ def correlatePath():
     return True
 """
 SUMMARY: creates a log before over-writing the new file system mirror
-as the new original system mirror, in oreder to be used for future 
-updates.
+as the new original system mirror, in order to be used for error tracking.
 
 """
 def LOG_copy_NEW_to_OLD():
@@ -225,20 +308,37 @@ def LOG_copy_NEW_to_OLD():
         lib_data.write(line)
 
     return True
-
+"""
+SUMMARY: The class that is initiated by the following Command
+* * * * * * 
+python manage.py autosync_db
+* * * * * * 
+This command will run through the entire database looking for 
+new files.  Once a new file is found it will perform an 
+operation based on the file extension or other to be 
+determined factors.
+"""
 class Command(BaseCommand):
-    args = '<poll_id poll_id ...>'
-    help = 'Closes the specified poll for voting'
-    filename = "hello.txt"
+    filename = "sync_instruction.txt"
     fRead = open(filename,'w')
-    fRead.write("this worked")
+    fRead.write("sync")
+    fRead.close()
     n=0
-    while True:
+    sync=True
+    while sync:
         walkPath()
         correlatePath()
         LOG_copy_NEW_to_OLD()
         time.sleep(sleepy_time)
-        print("test ",n)
+        print "sync cycle: ",n
+        #The following looks for a change in a text
+        #file in order to determine if it should keep 
+        #running
+        f= open(filename,'r')
+        instruction_line=f.readline()
+        f.close()
+        if not instruction_line == 'sync':
+            sync=False
         n=n+1
     def handle(self, *args, **options):
         n=1

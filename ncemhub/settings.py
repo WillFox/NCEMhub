@@ -122,10 +122,6 @@ TEMPLATE_DIRS = (
 #provide our get_profile()
 AUTH_PROFILE_MODULE = 'user_authentication.Patron'
 
-#added based on tip from django tutorial : http://www.youtube.com/watch?v=z6pXNf2SzQQ&list=PL313A26329E0C8900
-#::::::: BEGIN ADDITION :::::::::
-#::::::: END ADDITION :::::::::
-
 #URL for login required decorator to use
 LOGIN_URL = '/user/login/'
 

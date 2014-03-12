@@ -6,7 +6,7 @@
         <a href="">{{step}}</a>
     {% endfor %}
 </sub></p>
-{% if user.is_authenticated %}
+{% if user.is_superuser %}
 <div id="display"  style="margin:0px auto; width:100%" >
     <div id="recently_clecked" style="float:left; margin:0; width:50%;">
         <p>RECENTLY LOOKED AT:</p>
@@ -184,13 +184,32 @@
                         {{ collect }}, 
                     {% endfor %}
                 </li>
-                <li>
-                    Attributes: 
-                    {% for characs in data.data_char.all %}
-                        {{ characs }}:
-                        {{ characs.}} 
-                    {% endfor %}
-                </li>
+                    <table border="1" style="width:300px">
+                    <tr>
+                        <td>
+                            ATTRIBUTE
+                        </td>
+                        <td>
+                            Float Field
+                        </td>
+                        <td>
+                            Text/Units
+                        </td>
+                    </tr>
+                        <tr>
+                        {% for characs in data.value_set.all %}
+                            <td>
+                            {{ characs.characteristic }}
+                            </td>
+                            <td>
+                            {{ characs.float_value }}
+                            </td>
+                            <td>
+                            {{ characs.text_value }} 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                     <form action="{% url 'data_manager.views.download' %}" method="get">
                     <input type="submit" value="Download">
             {% endfor %}

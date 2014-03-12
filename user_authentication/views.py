@@ -39,7 +39,8 @@ def Profile(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect('/user/logout/')
 	patron = request.user.get_profile
-	context = {'patron': patron, 'user':User}
+	user = request.user
+	context = {'patron': patron, 'user':user}
 
 	return render_to_response('user_authentication/profile.html',context,context_instance=RequestContext(request))
 def EditProfile(request):

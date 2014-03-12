@@ -4,7 +4,7 @@
 	<p>Email: {{ user.email }}</p>
 	<p>Locality: {{ patron.user_location }}</p>
 	<p>Date Join: {{ patron.date_joined }}</p>
-	<p>Bio: {{ patron.bio }}</p>
+	<p>Bio: {{ patron.user_bio }}</p>
 	<p><a href="{% url 'user_authentication.views.EditProfile' %}">Edit Info</a></p>
 	<p></p>
 {% endblock %}

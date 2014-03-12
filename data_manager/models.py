@@ -150,7 +150,7 @@ class Value(models.Model):
     text_value          = models.CharField(max_length=100,null=True,blank=True)
     float_value         = models.FloatField(null=True,blank=True)
     def __unicode__(self):
-        return self.text_value
+        return unicode(self.text_value) or u''
     def characteristic_(self):
         lst = [x[1] for x in self.characteristic.values_list()]
         return str(join(lst, ', '))

@@ -7,15 +7,13 @@
 
 	<div class="main" style="float:left; margin:0; width:15%">
 		<a href="{% url 'data_manager.views.main' %}?public=True"><u><em><h1>NCEMhub</h1></em></u></a>
-	</div>
-	
-
-	<div class="main" style="float:right; margin:0; width:15%">
 		<form action="{% url 'data_manager.views.initiate_database' %}" method="get">
 		<input type="submit" value="Initialize Database">
 		</form>
 	</div>
-
+	
+	<!--{% if request.user.is_superuser %} -->
+	<!--{% endif %}-->
 	
 	{% load staticfiles %}
 	<link rel='stylesheet' type='test/css' href="{% static 'ncemhub/style.css' %}" />
@@ -38,7 +36,7 @@
 				<li><a href="/user/login">Login</a></li>
 				<li><a href="/user/register">Register</a></li>
 			{% endif %}
-			{% if admin_true %}
+			{% if user.is_authenticated %}
 				<li><a href="{% url 'data_manager.views.admin' %}">Admin</a></li>
 			{% endif %}
 	
