@@ -210,8 +210,9 @@
                         </tr>
                         {% endfor %}
                     </table>
-                    <form action="{% url 'data_manager.views.download' %}" method="get">
-                    <input type="submit" value="Download">
+                    <form action="{% url 'data_manager.views.download' %}?{{public}}cat=data&id={{ data.id }}" method="get">
+                        <input type="submit" value="Download">
+                    </form>
             {% endfor %}
             {{ var }}
         {% endif %}

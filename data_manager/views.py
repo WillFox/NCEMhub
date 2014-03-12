@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 import os
 from django.db.models import Q
 from django.core.files import File
+from django.views.static import serve
 #FileDelimeter is the object used to show a new directory depth in the url.
 FileDelimeter= '---'
 
@@ -234,29 +235,38 @@ def main(request):
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
 def download(request):
-    response = HttpResponse(MEDIA_ROOT+'2.jpg')
-    response['Content-Disposition'] = 'attachment; filename="2.jpg"'
-    return response
-    """
-    Thanks Florian, but I am still confused about what's happening. Below 
-    is the concept of my codes and perhaps you can help: 
+    error=[]
+    try:
+        cat=request.GET['cat']
+        error.append("Data category not declared")
+    except: 
+        cat=None
+        error.append("No file at the location")
+    try:
+        pid=request.GET['id']
+    except: 
+        pid=None
+        error.append("No PID passed")
+    pid=4
+    data=DataSet.objects.filter(id=pid).distinct()
+    data_set=''
+    try:
+        data_set=data[0]
+    except:
+        error.append("Data set not unique or not found within DB")
+    for i in range(len(error)):
+        print error[i]
+    #response = HttpResponse.write(data_set.data_path)
+    #response['Content-Disposition'] = 'attachment; filename="'+data_set.data_path+'"'
+    #response['Content-Disposition'] = 'attachment; filename="2.jpg"'
+    filepath =data_set.data_path
+    print filepath
+    if os.path.isfile(filepath):
+        return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+    else:
+        return HttpResponseRedirect('/data/manager/')
 
-    from django.core.files import File  
 
-    some_file  = open('bla/bla/bla/', "r") 
-    django_file = File(some_file) 
-
-    t = loader.get_gemplate('somewhere/temp.html') 
-    c = Context({'file':django_file}) 
-    return HttpResponse(t.render(c)) 
-
-
-    ### in the template #### 
-    <a href="file:///{{ django_file.url }}>download</a> 
-
-
-    This may actually work but i would rather not have it work like this :/... drool
-    """
 def admin(request):
     instruments=''
     collections=''

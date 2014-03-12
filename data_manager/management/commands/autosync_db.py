@@ -51,8 +51,83 @@ def add_dm3_to_db(newF,dirNEW):
                     if instr_end == None:
                         instr_end=i
 
+
     data_user = dirNEW[user_start:user_end]
     data_name = newF[:-4]
+    data_instrument = dirNEW[instr_start:instr_end]
+    if instr_end == None:
+        data_instrument = dirNEW[instr_start:]
+    error=''
+    error_detail=''
+    """
+    SUMMARY:  Error detection
+    Error marking for in case the file drop location does not match
+    the information found within the database
+    ---add to a log file, not a print statement!
+    """
+    dir_path=dirNEW+'\\'+newF
+    try:
+        error_detail="Owner non existent"
+        owner = User.objects.filter(username=data_user).distinct()
+        error_detail="Instrument/Data Recorder non existent"
+        data_recorder = DataRecorder.objects.filter(slug=data_instrument).distinct()
+        error_detail = "Data set unable to be created"
+        data = DataSet.objects.create(name=data_name,public=False,data_original_path=dirNEW,
+            data_path=dir_path,image_rep_path='/',description=' ')
+        data.owners.add(owner[0])
+        data.data_recorder.add(data_recorder[0])
+    except:
+        print data_user
+        print data_instrument
+        error = "File Location is not coherrent with database:"
+        print error
+        print '\n'
+        print error_detail
+    """
+    SUMMARY: Create Tags/ Assign Data Characteristics/ Create image and asign path
+    """
+    #filename=dirNEW+'/'+newF
+    #Utility_Dev.dm3reader_v072.parseDM3( filename, dump=True )
+
+    #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
+    #    description="None")   
+    #data1.owners.add(user1)
+    #data1.tags.add(tag)
+    #data1.data_recorder.add(recorder1)
+    #data1.collections.add(collection3) 
+    return True
+
+"""
+SUMMARY: Creates data repository that is not data specific
+"""
+def add_undefined_file(newF,dirNEW):
+    print 'adding '+newF+' ::: '+ dirNEW
+    noError=True
+    #Find User
+    user_start=0
+    user_end=None
+    instr_start = 0
+    instr_end=None
+    i=0
+    find_instrument=False
+    for i in range(len(dirNEW)):
+        if dirNEW[i]=="\\":
+
+            if user_end == None:
+                if user_start==0:
+                    user_start=i+1
+                else:
+                    user_end=i
+                    find_instrument = True
+            if find_instrument==True:
+                if instr_start == 0:
+                    instr_start=i+1
+                else:
+                    if instr_end == None:
+                        instr_end=i
+
+    data_user = dirNEW[user_start:user_end]
+    data_name = newF
     data_instrument = dirNEW[instr_start:instr_end]
     error=''
     error_detail=''
@@ -69,23 +144,13 @@ def add_dm3_to_db(newF,dirNEW):
         data_recorder = DataRecorder.objects.filter(name=data_instrument)
         error_detail = "Data set unable to be created"
         data = DataSet.objects.create(name=data_name,public=False,data_original_path=dirNEW,data_path=dirNEW)
+        data.owners.add(owner[0])
+        data.data_recorder.add(data_recorder[0])
     except:
         error = "File Location not coherrent with database"
         print error
         print '\n'
         print error_detail
-    """
-    SUMMARY: Crate Tags/ Assign Data Characteristics/ Create image and asign path
-    """
-
-    #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
-    #    description="None")   
-    #data1.owners.add(user1)
-    #data1.tags.add(tag)
-    #data1.data_recorder.add(recorder1)
-    #data1.collections.add(collection3) 
-    return True
-def add_undefined_file():
     return 0
 def first_lib_data_run():
     f=open('data_manager/data_struct.txt','w')
@@ -138,8 +203,8 @@ def add_data_set(newF,dirNEW):
         add_dm3_to_db(newF,dirNEW)
         file_added=True
     if file_added==False:
-        print "This file type is not recognized"
-        add_undefined_file()
+        add_undefined_file(newF,dirNEW)
+        print "This file type is not recognized, but has been added to the database"
         file_added=True
     return file_added
 
@@ -162,14 +227,19 @@ def correlatePath():
     lib_new_data = open('data_manager/data_struct_changes.txt','w')
     working = True
     dirNEW = lib_data_copy.readline()
+    dirNEW = dirNEW.rstrip('\n')
     fileNEW = lib_data_copy.readline()
+    fileNEW = fileNEW.rstrip('\n')
     dirOLD = lib_data.readline()
+    dirOLD = dirOLD.rstrip('\n')
     fileOLD = lib_data.readline()
+    fileOLD = fileOLD.rstrip('\n')
     if dirOLD == '':
         lib_data.close()
         first_lib_data_run()
         lib_data = open('data_manager/data_struct.txt','r')
         dirOLD=lib_data.readline()
+        dirOLD = dirOLD.rstrip('\n')
     newToAdd=''
     if dirNEW == '{ENDLINE}':
         if dirOLD == '{ENDLINE}':
@@ -256,9 +326,13 @@ def correlatePath():
             Increments when directory exists in old and new structures
             """
             dirNEW = lib_data_copy.readline()
+            dirNEW = dirNEW.rstrip('\n')
             fileNEW = lib_data_copy.readline()
+            fileNEW = fileNEW.rstrip('\n')
             dirOLD = lib_data.readline()
+            dirOLD = dirOLD.rstrip('\n')
             fileOLD = lib_data.readline()
+            fileOLD = fileOLD.rstrip('\n')
         else:
             directoryDELETED=True
             #find out if directory was deleted
@@ -273,13 +347,17 @@ def correlatePath():
                 Incremeents when directory only exists in old structure
                 """
                 dirOLD = lib_data.readline()
+                dirOLD = dirOLD.rstrip('\n')
                 fileOLD = lib_data.readline()
+                fileOLD = fileOLD.rstrip('\n')
             else:    
                 """
                 Increments when directory only exists in new structure
                 """
                 dirNEW = lib_data_copy.readline()
+                dirNEW = dirNEW.rstrip('\n')
                 fileNEW = lib_data_copy.readline()
+                fileNEW = fileNEW.rstrip('\n')
         if dirNEW == '{ENDLINE}':
             if dirOLD == '{ENDLINE}':
                 working = False
