@@ -17,7 +17,7 @@
 
 import sys, os, time
 import struct
-from PIL import Image
+import Image
 import numpy
 import scipy.misc
 
