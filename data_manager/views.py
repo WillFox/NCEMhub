@@ -242,12 +242,7 @@ def download(request):
     except: 
         cat=None
         error.append("No file at the location")
-    try:
-        pid=request.GET['id']
-    except: 
-        pid=None
-        error.append("No PID passed")
-    pid=4
+    pid=request.GET['id']
     data=DataSet.objects.filter(id=pid).distinct()
     data_set=''
     try:

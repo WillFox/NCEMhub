@@ -19,10 +19,7 @@ sleepy_time=60
 """
 UTILITIES
 """
-def add_dm3_to_db(newF,dirNEW):
-    print 'adding '+newF+' ::: '+ dirNEW
-    noError=True
-    #Find User
+def extract_user_and_instrument(newF,dirNEW):
     user_start=0
     user_end=None
     instr_start = 0
@@ -57,6 +54,61 @@ def add_dm3_to_db(newF,dirNEW):
     data_instrument = dirNEW[instr_start:instr_end]
     if instr_end == None:
         data_instrument = dirNEW[instr_start:]
+    file_data={"data_user":data_user,"data_instrument":data_instrument,"data_name":data_name}    
+    return file_data
+
+def create_characteristics_dm3(data,tag_list):
+    tag_units=''
+    tags_added=0
+    for tag, tag_value in tag_list.iteritems():
+        tag = unicode(tag,errors='ignore')
+        tag_value = unicode(tag_value, errors='ignore')
+        for i in range(len(tag)):
+            if tag[i] == '.':
+                tag_name = tag[i+1:]
+        test_unique = DataCharacteristic.objects.filter(name_detail=tag).distinct()
+        copy_now=False
+        tag_units=''
+        for i in range(len(tag_name)):
+            if tag_name[i]==')':
+                copy_now=False
+            if copy_now==True:
+                tag_units=tag_units+tag_name[i]
+            if tag_name[i]=='(':
+                copy_now=True
+        if len(test_unique)>0:
+            data_char = test_unique[0]
+        else:
+            data_char = DataCharacteristic.objects.create(name=tag_name, name_detail=tag)
+        tag_is_float=False
+        try:
+            float(tag_value)
+            tag_is_float=True
+        except:
+            tag_is_float=False
+        if tag_is_float == False:
+            tag_text = tag_value
+            value_char = Value(characteristic = data_char, data_set= data, text_value= tag_text )
+        else:
+            tag_text = tag_units
+            tag_value = float(tag_value)
+            value_char = Value(characteristic = data_char, data_set= data, text_value= tag_text, float_value=tag_value )
+        value_char.save()
+        tags_added=tags_added+1
+    print "Total tags added to ", data, ": ", tags_added
+    #value1 = Value(characteristic = characteristic1, data_set = data1,
+    #   text_value = "Confocal")
+    #value1.save()
+    return 0
+
+def add_dm3_to_db(newF,dirNEW):
+    print 'adding '+newF+' ::: '+ dirNEW
+    noError=True
+    #Find User
+    dict_ui=extract_user_and_instrument(newF,dirNEW)
+    data_user=dict_ui['data_user']
+    data_instrument=dict_ui['data_instrument']
+    data_name=dict_ui['data_name']
     error=''
     error_detail=''
     """
@@ -81,14 +133,18 @@ def add_dm3_to_db(newF,dirNEW):
         print data_instrument
         error = "File Location is not coherrent with database:"
         print error
-        print '\n'
         print error_detail
     """
     SUMMARY: Create Tags/ Assign Data Characteristics/ Create image and asign path
     """
-    #filename=dirNEW+'/'+newF
-    #Utility_Dev.dm3reader_v072.parseDM3( filename, dump=True )
-
+    filename=dirNEW+'\\'+newF
+    tag_list=Utility_Dev.dm3reader_v072.parseDM3( filename, dump=False )
+    if tag_list==0:
+        print "Tags not recovered"
+    else:
+        print "Writing tags to data sets..."
+        create_characteristics_dm3(data,tag_list)
+        
     #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
     #    description="None")   
     #data1.owners.add(user1)

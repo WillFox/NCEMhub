@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from string import join
 from django.core.files import File
-from os.path import join as pjoin
 from tempfile import *
 import os
 import Image as PImage
@@ -13,7 +12,8 @@ from user_authentication.models import Patron
 from django.db.models import signals
 #Each value unique to the data set, such as relative meta-data
 class DataCharacteristic(models.Model):
-    name           = models.CharField(max_length=100, unique=True)
+    name            = models.CharField(max_length=100)
+    name_detail     = models.CharField(max_length=400, unique=True)
     def __unicode__(self):
         return self.name
 
