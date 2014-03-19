@@ -9,6 +9,7 @@ from user_authentication.models import Patron
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
+from data_manager import views
 def PatronRegistration(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/user/profile')
@@ -96,8 +97,8 @@ def LoginRequest(request):
 		
 def LogoutRequest(request):
 	logout(request)
-	return HttpResponseRedirect('/data/manager')
+	return HttpResponseRedirect('/')
 def PatronProfile(request):
-	return HttpResponseRedirect('/data/manager')
+	return HttpResponseRedirect('/')
 
 

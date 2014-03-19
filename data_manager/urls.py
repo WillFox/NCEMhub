@@ -9,6 +9,15 @@ urlpatterns = patterns('',
 	url(r'^edit/$', views.edit, name='edit_content'),
 	url(r'^content/admin/$',views.admin,name='admin_content'),
 	url(r'^download/$',views.download,name='file_download'),
+	url(r'^gallery$',views.gallery,name='gallery_public'),
+	url(r'^data$',views.user_data,name='summary_recent_data'),
+	url(r'^data/(?P<data_set_id>[-\w]+)$',views.data_detail,name='data_all_detail'),
+	url(r'^data/(?P<data_set_id>[-\w]+)/edit$',views.data_edit,name='edit_single_dataset'),
+	url(r'^data/(?P<data_set_id>[-\w]+)/edit/(?P<detail_id>[-\w]+)$',views.data_detail_edit,name='edit_detail_of_dataset'),
+	url(r'^collection$',views.collection_detail,name='view_collection'),
+	url(r'^collection/(?P<data_set_id>[-\w]+)$',views.collection_detail_edit,name='edit_collection'),
+	url(r'^profile/(?P<user_id>[-\w]+)$',views.user_profile,name='view_profile'),
+	url(r'^profile/(?P<user_id>[-\w]+)/edit$',views.user_profile_edit,name='edit_profile'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
 	#(r'^$','')
 	#url(r'^search/$',views.search, name='searchview'),
@@ -16,6 +25,18 @@ urlpatterns = patterns('',
 	#url(r'^data_set/$',views.create_task, name='fileCreate'),
 	#url(r'^(?P<microscopeName>[-\w]+)/$', views.microscopeListView),
 )
+"""
+https://www.ncemhub.gov/											#home
+https://www.ncemhub.gov/gallery										#public data sets
+https://www.ncemhub.gov/data										#recent data view (edited/viewed)
+https://www.ncemhub.gov/data/<data_set_id>							#detail image view
+https://www.ncemhub.gov/data/<data_set_id>/edit 				 	#edit specific image 
+https://www.ncemhub.gov/data/<data_set_id>/edit/<data_set_detail> 	#edit specific image detail
+https://www.ncemhub.gov/collection/<collection_id>					#
+https://www.ncemhub.gov/collection/<collection_id>/edit 			#
+https://www.ncemhub.gov/profile/<user_id>							#view the profile of a user
+https://www.ncemhub.gov/
+"""
 
 """
 URL's:

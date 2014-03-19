@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>NCEM Hub</title>
+    <title>NCEMhub</title>
 
     <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -41,19 +41,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">NCEM Hub</a>
+          <a class="navbar-brand" href="/">NCEMhub</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#profile">Profile</a></li>
-              <li><a href="#data">Data</a></li>
-              <li><a href="#admin">Admin</a></li>
-              <li><a href="#gallery">Gallery</a></li>
-              <li><a href="#signin">Sign in</a></li>
-              <li><a href="#about">About</a></li>
+            <li class="active"><a href="/">Home</a></li>
+              {% if user.is_authenticated %}  
+                <li><a href="/profile/{{user.id}}">Profile</a></li>
+                <li><a href="/data">Data</a></li>
+              {% endif %}
+              <li><a href="/gallery">Gallery</a></li>
+              {% if user.is_authenticated %}
+                <li><a href="/user/logout">Log out</a></li>
+              {% else %}
+                <li><a href="/user/login">Sign in</a></li>
+              {% endif %}
             <li><a href="#contact">Contact</a></li>
-              <li><a href="#signin">Sign in</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -68,8 +71,8 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            <h1>GREETING HERE</h1>
-            <p>INTRO HERE</p>
+            <h1>Welcome to NCEMhub</h1>
+            <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
           </div>
 {#          <div class="row">#}
 {#            <div class="col-6 col-sm-6 col-lg-4">#}
@@ -79,7 +82,11 @@
 {#            </div><!--/span-->#}
 {##}
 {#          </div><!--/row-->#}
+        {% block content %}
 
+        {% endblock %}
+
+<!--
         {% block collection %}
             <div class="row">
                 <div class="col-md-9">
@@ -88,17 +95,17 @@
                     <div class="row">
                         <div class="col-md-6">
                         IMAGE PLACEMENT
-                    {{ image_id }}
+                        {{ image_id }}
+                        </div>
+                        <div class="col-md-6">
+                        TAG PLACEMENT
+                        {{ tag }}
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                    TAG PLACEMENT
-                    {{ tag }}
                 </div>
             </div>
-            </div>
-        </div>
         {% endblock %}
-
+-->
         </div><!--/span-->
 
 {#        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">#}

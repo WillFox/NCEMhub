@@ -10,9 +10,8 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-	url(r'^$','ncemhub.views.home', name = 'home'),
 	url(r'^user/', include('user_authentication.urls')),
-	url(r'^data/manager/',include('data_manager.urls')),
+	url(r'^',include('data_manager.urls')),
     url(r'^admin/', include(admin.site.urls)),
 	# Uncomment the admin/doc line below to enable admin documentation:
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

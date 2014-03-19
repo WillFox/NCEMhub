@@ -29,100 +29,30 @@ Required:
 -NavigationPanel dependent on current contents (directories)
 -Contents section
 """
-
-def instrumentDirectoryView(request,microscopeName,cat):
-   
-    """
-    File Structure Interpreter
-    """
-    #Sets default values for variables obtained through .GET
-    NoFile=''   #Sets what a null response should be (AKA what a file and directory cannot be named)
-    try:
-        prefixBefore=request.GET['prefix']
-    except: prefixBefore=NoFile
-    try:
-        currentDirectory=request.GET['currentdirectory']
-    except: currentDirectory=NoFile
-    try:
-        currentFileName=request.GET['file']
-    except: currentFileName = NoFile
-    """
-    SECTION SUMMARY: (read note on side)
-    """
-    if len(prefixBefore)<1:
-        prefixBeforeExist=False
-    else:
-        prefixBeforeExist=True
-    if len(currentDirectory)<1:
-        currentDirectoryExist=False         ####VERIFIES WHAT WAS PASSED IN URL####
-    else:
-        currentDirectoryExist=True
-    if len(currentFileName)<1:
-        currentFileNameExist=False
-    else:
-        currentFileNameExist=True
-    return 0
-    ##################################
-    #I will have to code for the case of 4 or 5 dashes in a row if we keep the FileDelimeter.... gah stupid user
-    #deconstruct file structure into list
-    """
-    SECTION SUMMARY: Builds pathDeconstructor
-    this list will hold the number of directory levels accessed in the tree such as
-      1     2     3         4       <--Level accessed
-    users/data/microscope/info/
-    
-    First item in list is the number of "Levels" accessed, followed by each level's name as an appended item
-    .....suggested_improvements.....
-    This could have been substituted with len(list) and skipped the first item of the list,
-    but i already did it this way
-    """
 """
-    pathDeconstruct = []
-    pathDeconstruct.append(0)
-    if prefixBeforeExist==True:
-        sample = 'abc'
-        i=0
-        n=0
-        while i < len(prefixBefore):
-            sample=prefixBefore[i:i+3]
-            if sample==FileDelimeter:
-                pathDeconstruct[0]=pathDeconstruct[0]+1
-                pathDeconstruct.append(prefixBefore[n:i])
-                n=i+3
-            i= i+1
-        if pathDeconstruct[0]>0:
-            pathDeconstruct.append(prefixBefore[n:i])
-        if pathDeconstruct[0]<1:
-            pathDeconstruct.append(prefixBefore)
-        pathDeconstruct[0]=pathDeconstruct[0]+1
-    if currentDirectoryExist == True:
-        pathDeconstruct.append(currentDirectory)
-        pathDeconstruct[0]=pathDeconstruct[0]+1
-    prefix=''   #Initializing to blank strings so that they do not show up when not initialized
-    backone=''  #Which is sometimes the case
-    pastDirectory=''
-    if currentDirectoryExist==True:
-        if prefixBeforeExist == True:
-            prefix=prefixBefore+FileDelimeter+currentDirectory
-        else:
-            prefix=currentDirectory
-    if prefixBeforeExist==True:
-        pastDirectory=pathDeconstruct[pathDeconstruct[0]-1]
-        if pathDeconstruct[0]>1:
-            for i in range(pathDeconstruct[0]-2):
-                backone=backone+pathDeconstruct[i+1]
-                if i<pathDeconstruct[0]-3:
-                    backone=backone+FileDelimeter
-    if currentFileNameExist==True:
-        prefix=prefixBefore
+https://www.ncemhub.gov/                                            #home
+https://www.ncemhub.gov/gallery                                     #public data sets
+https://www.ncemhub.gov/data                                        #recent data view (edited/viewed)
+https://www.ncemhub.gov/data/<data_set_id>                          #detail image view
+https://www.ncemhub.gov/data/<data_set_id>/edit                     #edit specific image 
+https://www.ncemhub.gov/data/<data_set_id>/edit/<data_set_detail>   #edit specific image detail
+https://www.ncemhub.gov/collection/<collection_id>                  #
+https://www.ncemhub.gov/collection/<collection_id>/edit             #
+https://www.ncemhub.gov/profile/<user_id>                           #view the profile of a user
+https://www.ncemhub.gov/
 """
-
-
 """
-WARNING: URLs are a loophole and only require authentication
-Need to check if member/admin/owner before showing data
+Displays:
+#Recently added folder
+#Recently altered data
+#Recently Viewed data
 """
 def main(request):
+    data_chosen  = DataSet.objects.filter(public=True)
+    return render_to_response("data_manager/main.html", dict(user=request.user,
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,))
+
+def home(request):    
     chosen=''
     instruments=''
     collections=''
@@ -234,6 +164,68 @@ def main(request):
         media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
+"""
+Displays:
+#displays a public listing of data and info
+"""
+def gallery(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#a list of all data taken by user
+"""
+def user_data(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#displays data and its detailed info with download button
+"""
+def data_detail(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form that allows base options to be edited
+"""
+def data_edit(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form to edit a specific detail/ or add one
+"""
+def data_detail_edit(request):
+    return HttpResponseRedirect('/')
+"""
+Displays:
+#lists data sets with some info that are within a collection
+"""
+def collection_detail(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form for each field to edit if wanted
+"""
+def collection_detail_edit(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#profile with the given user id
+"""
+def user_profile(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form for each field to edit if wanted
+"""
+def user_profile_edit(request):
+    return HttpResponseRedirect('/')     
+"""
+###################################################
+###################################################
+#######################ALL BELOW###################
+###################TO BE DEPRECATED################
+###################################################
+"""
+
 def download(request):
     error=[]
     try:
@@ -259,7 +251,7 @@ def download(request):
     if os.path.isfile(filepath):
         return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
     else:
-        return HttpResponseRedirect('/data/manager/')
+        return HttpResponseRedirect('/')
 
 
 def admin(request):
@@ -369,7 +361,7 @@ def admin(request):
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,public=public,admin_true=admin_true))   
 def edit(request):
-    return HttpResponseRedirect('/data/manager/')     
+    return HttpResponseRedirect('/')     
 def search(request):
     query_string = ''
     found_entries = None
@@ -556,4 +548,4 @@ def initiate_database(request):
     #Create Values for the chars... somehow
     f.write('Values----Passed\n')
     #Value,      characteristic data_set text_value float_value         = models.FloatField()
-    return HttpResponseRedirect('/data/manager/')
+    return HttpResponseRedirect('/')
