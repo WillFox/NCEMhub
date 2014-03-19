@@ -1,0 +1,41 @@
+../../../data
+[]
+../../../data\cophus
+[]
+../../../data\cophus\libra
+[]
+../../../data\cophus\team_0.5
+[]
+../../../data\cophus\team_i
+[]
+../../../data\deskinner
+[]
+../../../data\deskinner\team_i
+[]
+../../../data\wfox
+[]
+../../../data\wfox\team_i
+[1 - Copy.txt,1.txt,T.dm3,]
+../../../data\wfox\team_i\August
+[]
+../../../data\wfox\team_i\December
+[]
+../../../data\wfox\team_i\February
+[]
+../../../data\wfox\team_i\January
+[]
+../../../data\wfox\team_i\November
+[]
+../../../data\wfox\team_i\October
+[]
+../../../data\wfox\team_i\September
+[T - Copy - Copy (2).dm3,T - Copy - Copy (3).dm3,T - Copy - Copy (4).dm3,T - Copy - Copy (5).dm3,T - Copy - Copy (6).dm3,T - Copy - Copy.dm3,T - Copy.dm3,T.dm3,]
+../../../data\wfox\team_i\September\New folder
+[T.dm3,]
+../../../data\wsfox
+[]
+../../../data\wsfox\team_0.5
+[]
+../../../data\wsfox\team_i
+[]
+{ENDLINE}

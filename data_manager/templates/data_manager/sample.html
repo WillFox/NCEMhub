@@ -1,0 +1,64 @@
+{% extends "ncemhub/base_bs_main.html" %}
+{% block content %}
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>Welcome to NCEMhub</h1>
+            <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
+          </div>
+    <div class="row">
+        {% for d_set in data_sets %}
+            <div class="col-6 col-sm-6 col-lg-4">
+                <h2>{{d_set}} </h2>
+                <p>
+                    Created on: {{ d_set.created_on }}
+                </p>
+                <p>
+                    Recorded on: 
+                    {%for recor in d_set.data_recorder.all %}
+                        {{ recor }}
+                    {%endfor%}
+                </p>
+                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for collection in collections %}
+            <div class="col-6 col-sm-6 col-lg-4">
+                <h2>{{d_set}} </h2>
+                <p>
+                    Created on: {{ collection.created_on }}
+                </p>
+                <p>
+                    Recorded on: 
+                    {%for recor in collection.data_recorder.all %}
+                        {{ recor }}
+                    {%endfor%}
+                </p>
+                <p><a class="btn btn-default" href="{% url 'data_manager.views.collection_detail' %}/{{collection.id}}" role="button">View details &raquo;</a></p>
+            </div>
+        {% endfor %}
+    </div>
+        </div><!--/span-->
+
+{#        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">#}
+{#          <div class="list-group">#}
+{#            <a href="#" class="list-group-item active">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#          </div>#}
+        </div><!--/span-->
+      </div><!--/row-->
+{% endblock %}

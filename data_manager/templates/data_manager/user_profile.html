@@ -1,0 +1,96 @@
+{% extends "ncemhub/base_bs_profile.html" %}
+{% block content %}
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>{{pro_view_user.username}}</h1>
+                <p>Name: {{ patron.first_name }} {{ patron.last_name }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>Locality: {{ patron.user_location }}</p>
+                <p>Date Join: {{ patron.date_joined }}</p>
+                <p>Bio: {{ patron.user_bio }}</p>
+                {% ifequal user.id pro_view_user.id %}
+                <p><a href="{% url 'user_authentication.views.EditProfile' %}">Edit Info</a></p>
+                {% endifequal %}
+                <p></p>
+          </div>
+
+<!--
+        {% block collection %}
+            <div class="row">
+                <div class="col-md-9">
+                    COLLECTION NAME
+                    {{ collection_name }}
+                    <div class="row">
+                        <div class="col-md-6">
+                        IMAGE PLACEMENT
+                        {{ image_id }}
+                        </div>
+                        <div class="col-md-6">
+                        TAG PLACEMENT
+                        {{ tag }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+-->
+        </div><!--/span-->
+
+{#        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">#}
+{#          <div class="list-group">#}
+{#            <a href="#" class="list-group-item active">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#            <a href="#" class="list-group-item">Link</a>#}
+{#          </div>#}
+        </div><!--/span-->
+      </div><!--/row-->
+	<div class="row">
+        {% for d_set in pub_data %}
+            <div class="col-6 col-sm-6 col-lg-4">
+                <h2>{{d_set}} </h2>
+                <p>
+                    Created on: {{ d_set.created_on }}
+                </p>
+                <p>
+                    Recorded on: 
+                    {%for recor in d_set.data_recorder.all %}
+                        {{ recor }}
+                    {%endfor%}
+                </p>
+                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+            </div>
+        {% endfor %}
+    </div>
+    <p>---------------------------------------------------------------------</p>
+    <p>SHARED WITH YOU</p>
+    <div class="row">
+        {% for d_set in shared_data %}
+            <div class="col-6 col-sm-6 col-lg-4">
+                <h2>{{d_set}} </h2>
+                <p>
+                    Created on: {{ d_set.created_on }}
+                </p>
+                <p>
+                    Recorded on: 
+                    {%for recor in d_set.data_recorder.all %}
+                        {{ recor }}
+                    {%endfor%}
+                </p>
+                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
