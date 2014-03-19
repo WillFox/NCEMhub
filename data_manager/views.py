@@ -48,10 +48,110 @@ Displays:
 #Recently Viewed data
 """
 def main(request):
-    data_chosen  = DataSet.objects.filter(public=True)
+    data_chosen  = DataSet.objects.filter(public=True).distinct()
+    collection_chosen = Collection.objects.filter(public=True).distinct()
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,))
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,collections=collection_chosen))
 
+
+"""
+Displays:
+#displays a public listing of data and info
+"""
+def gallery(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#a list of all data taken by user
+"""
+def user_data(request):    
+    user=request.user
+    data_chosen=DataSet.objects.filter(owners=user).distinct()
+    return render_to_response("data_manager/user_data.html", dict(user=request.user,
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))  
+"""
+Displays:
+#displays data and its detailed info with download button
+"""
+def data_detail(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form that allows base options to be edited
+"""
+def data_edit(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form to edit a specific detail/ or add one
+"""
+def data_detail_edit(request):
+    return HttpResponseRedirect('/')
+"""
+Displays:
+#lists data sets with some info that are within a collection
+"""
+def collections(request):
+    user=request.user
+    data_chosen=Collection.objects.filter(owners=user).distinct()
+    return render_to_response("data_manager/collections.html", dict(user=request.user,
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))  
+"""
+Displays:
+#lists data sets with some info that are within a collection
+"""
+def collection_detail(request):
+    return HttpResponseRedirect('/')     
+"""
+Displays:
+#form for each field to edit if wanted
+"""
+def collection_detail_edit(request):
+    return HttpResponseRedirect('/') 
+
+"""
+Displays:
+#lists available instruments with directories
+"""
+def directories(request):
+    user=request.user
+    data_chosen=DataRecorder.objects.filter(users=user).distinct()
+    return render_to_response("data_manager/directories.html", dict(user=request.user,
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))     
+
+"""
+Displays:
+#folders transferred from an instrument
+"""
+def directories_instrument(request):
+    return HttpResponseRedirect('/')       
+"""
+Displays:
+#profile with the given user id
+"""
+def user_profile(request,user_id):
+    user=request.user
+    pro_user=User.objects.filter(id=user_id).distinct()
+    pro_user=pro_user[0]
+    patron_info = Patron.objects.get(user=pro_user)
+    pub_data_chosen=DataSet.objects.filter(Q(owners=pro_user)|Q(public=True))
+    shared_data_chosen=DataSet.objects.filter(Q(owners=user)|Q(owners=pro_user))
+    return render_to_response("data_manager/user_profile.html", dict(user=request.user,
+        pro_view_user=pro_user, pub_data=pub_data_chosen, shared_data=shared_data_chosen,
+        patron=patron_info, media_url=MEDIA_URL,media_root=MEDIA_ROOT))
+"""
+Displays:
+#form for each field to edit if wanted
+"""
+def user_profile_edit(request):
+    return HttpResponseRedirect('/')     
+"""
+###################################################
+###################################################
+#######################ALL BELOW###################
+###################TO BE DEPRECATED################
+###################################################
+"""
 def home(request):    
     chosen=''
     instruments=''
@@ -164,68 +264,6 @@ def home(request):
         media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
-"""
-Displays:
-#displays a public listing of data and info
-"""
-def gallery(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#a list of all data taken by user
-"""
-def user_data(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#displays data and its detailed info with download button
-"""
-def data_detail(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#form that allows base options to be edited
-"""
-def data_edit(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#form to edit a specific detail/ or add one
-"""
-def data_detail_edit(request):
-    return HttpResponseRedirect('/')
-"""
-Displays:
-#lists data sets with some info that are within a collection
-"""
-def collection_detail(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#form for each field to edit if wanted
-"""
-def collection_detail_edit(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#profile with the given user id
-"""
-def user_profile(request):
-    return HttpResponseRedirect('/')     
-"""
-Displays:
-#form for each field to edit if wanted
-"""
-def user_profile_edit(request):
-    return HttpResponseRedirect('/')     
-"""
-###################################################
-###################################################
-#######################ALL BELOW###################
-###################TO BE DEPRECATED################
-###################################################
-"""
-
 def download(request):
     error=[]
     try:

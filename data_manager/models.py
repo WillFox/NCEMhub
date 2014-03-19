@@ -171,7 +171,7 @@ class ValueInline(admin.TabularInline):
 class DataSetAdmin(admin.ModelAdmin):
     inlines = (ValueInline,)
     search_fields = ["name"]
-    list_display = ["name","tags_","owners_","data_char_","created_on","updated_on"]
+    list_display = ["name","tags_","owners_","created_on","updated_on"]
     list_filter = ["tags","owners","data_recorder","data_char"]
     def save_model(self, request, obj, form, change):
         obj.user = request.user
