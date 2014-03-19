@@ -32,21 +32,37 @@ def extract_user_and_instrument(newF,dirNEW):
     derived from the directory where the file was 
     deposited.
     """
+    start_looking=False
     for i in range(len(dirNEW)):
-        if dirNEW[i]=="\\":
-
-            if user_end == None:
-                if user_start==0:
-                    user_start=i+1
-                else:
-                    user_end=i
-                    find_instrument = True
-            if find_instrument==True:
-                if instr_start == 0:
-                    instr_start=i+1
-                else:
-                    if instr_end == None:
-                        instr_end=i
+        if dirNEW[i]=='d':
+            start_looking=True
+        if start_looking==True:
+            if dirNEW[i]=="\\":
+                if user_end == None:
+                    if user_start==0:
+                        user_start=i+1
+                    else:
+                        user_end=i
+                        find_instrument = True
+                if find_instrument==True:
+                    if instr_start == 0:
+                        instr_start=i+1
+                    else:
+                        if instr_end == None:
+                            instr_end=i
+            if dirNEW[i]=="/":
+                if user_end == None:
+                    if user_start==0:
+                        user_start=i+1
+                    else:
+                        user_end=i
+                        find_instrument = True
+                if find_instrument==True:
+                    if instr_start == 0:
+                        instr_start=i+1
+                    else:
+                        if instr_end == None:
+                            instr_end=i
 
 
     data_user = dirNEW[user_start:user_end]
