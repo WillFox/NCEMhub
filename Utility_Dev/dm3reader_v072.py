@@ -522,7 +522,8 @@ def parseDM3( filename, dump=False ):
 	
 	except IOError:
 		print "Error -- cannot access data file. Terminating."
-		sys.exit()
+		#sys.exit()
+		return 0
 	except NameError:
 		print '%s does not appear to be a DM3 file.' % filename
 		return 0
