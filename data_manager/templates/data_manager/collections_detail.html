@@ -55,23 +55,4 @@
             </div>
         {% endfor %}
     </div>
-    <p>---------------------------------------------------------------------</p>
-    <p>SHARED WITH YOU</p>
-    <div class="row">
-        {% for d_set in shared_data %}
-            <div class="col-6 col-sm-6 col-lg-4">
-                <h2>{{d_set}} </h2>
-                <p>
-                    Created on: {{ d_set.created_on }}
-                </p>
-                <p>
-                    Recorded on: 
-                    {%for recor in d_set.data_recorder.all %}
-                        {{ recor }}
-                    {%endfor%}
-                </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}

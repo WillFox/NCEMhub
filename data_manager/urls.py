@@ -5,20 +5,22 @@ from data_manager import views
 urlpatterns = patterns('',
 	url(r'^$', views.main, name='data_home'),
 	#url(r'^detail/$', views.data_set_detail, name='data_detail'),
-	url(r'^initiate/$', views.initiate_database, name='initiateTest'),
-	url(r'^edit/$', views.edit, name='edit_content'),
-	url(r'^content/admin/$',views.admin,name='admin_content'),
 	url(r'^download/$',views.download,name='file_download'),
 	url(r'^gallery$',views.gallery,name='gallery_public'),
+
 	url(r'^data$',views.user_data,name='summary_recent_data'),
-	url(r'^data/(?P<data_set_id>[-\w]+)$',views.data_detail,name='data_all_detail'),
+	url(r'^data/(?P<data_set_id>[-\w]+)$',views.data_detail,name='detail_of_data'),
+	url(r'^data/(?P<data_set_id>[-\w]+)/more$',views.data_detail_more,name='all_info_data'),
 	url(r'^data/(?P<data_set_id>[-\w]+)/edit$',views.data_edit,name='edit_single_dataset'),
 	url(r'^data/(?P<data_set_id>[-\w]+)/edit/(?P<detail_id>[-\w]+)$',views.data_detail_edit,name='edit_detail_of_dataset'),
+
 	url(r'^collection$',views.collections,name='view_all_collections'),
-	url(r'^collection/(?P<data_set_id>[-\w]+)$',views.collection_detail,name='view_collection'),
-	url(r'^collection/(?P<data_set_id>[-\w]+)/edit$',views.collection_detail_edit,name='edit_collection'),
+	url(r'^collection/(?P<collection_id>[-\w]+)$',views.collection_detail,name='view_collection'),
+	url(r'^collection/(?P<collection_id>[-\w]+)/edit$',views.collection_detail_edit,name='edit_collection'),
+
 	url(r'^profile/(?P<user_id>[-\w]+)$',views.user_profile,name='view_profile'),
 	url(r'^profile/(?P<user_id>[-\w]+)/edit$',views.user_profile_edit,name='edit_profile'),
+
 	url(r'^directories$',views.directories, name='directories'),
 	url(r'^directories/(?P<user_id>[-\w]+)$',views.directories_instrument, name='instrument_directory'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
@@ -33,6 +35,7 @@ https://www.ncemhub.gov/											#home
 https://www.ncemhub.gov/gallery										#public data sets
 https://www.ncemhub.gov/data										#recent data view (edited/viewed)
 https://www.ncemhub.gov/data/<data_set_id>							#detail image view
+https://www.ncemhub.gov/data/<data_set_id>/more						#shows all characteristics
 https://www.ncemhub.gov/data/<data_set_id>/edit 				 	#edit specific image 
 https://www.ncemhub.gov/data/<data_set_id>/edit/<data_set_detail> 	#edit specific image detail
 https://www.ncemhub.gov/collection/<collection_id>					#

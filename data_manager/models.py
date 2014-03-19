@@ -113,11 +113,8 @@ class DataSet(models.Model):
     created_on          = models.DateTimeField(auto_now_add=True)
     updated_on          = models.DateTimeField(auto_now=True)
     data_original_path  = models.CharField(max_length=400)
-    data_path           = models.CharField(max_length=400)#where the real data lies
-                                            #metadata should be with directory path, then incorporated later
-    #directory_path      = models.CharField(max_length=400)#where the data was stored 
-                                            #when transferred (keep folder structure)
-    #metadata_path       = models.CharField(max_length=400)
+    data_path           = models.CharField(max_length=400)
+    data_quality        = models.IntegerField(default=0)#  0=static <><><> 100=perfect
     image_rep_path      = models.CharField(max_length=400)
     description         = models.TextField(max_length=2000)
     owners              = models.ManyToManyField(User,related_name='owner_dataset')
@@ -145,10 +142,23 @@ class DataSet(models.Model):
         return str(join(lst, ', '))
 
 class Value(models.Model):
+    veryhigh=1
+    high=2
+    medium=3
+    low=4
+    verylow=5
+    Priority = (
+        (veryhigh,  'Very High' ),
+        (high,      'High'),
+        (medium,    'Medium'),
+        (low,       'Low'),
+        (verylow,   'Very Low'),
+        )
     characteristic      = models.ForeignKey(DataCharacteristic)
     data_set            = models.ForeignKey(DataSet)
     text_value          = models.CharField(max_length=100,null=True,blank=True)
     float_value         = models.FloatField(null=True,blank=True)
+    priority_value      = models.IntegerField(choices=Priority, default=low)
     def __unicode__(self):
         return unicode(self.text_value) or u''
     def characteristic_(self):

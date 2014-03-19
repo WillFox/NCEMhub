@@ -1,4 +1,4 @@
-{% extends "ncemhub/base_bs_data.html" %}
+{% extends "ncemhub/base_bs_data_more.html" %}
 {% block content %}
 
       <div class="row row-offcanvas row-offcanvas-right">
@@ -39,39 +39,36 @@
         </div><!--/span-->
       </div><!--/row-->
 	<div class="row">
-        {% for d_set in data_chosen %}
-            <div class="col-6 col-sm-6 col-lg-4">
-                <h2>{{d_set}} </h2>
-                <p>
-                    Created on: {{ d_set.created_on }}
-                </p>
-                <p>
-                    Recorded on: 
-                    {%for recor in d_set.data_recorder.all %}
-                        {{ recor }}
-                    {%endfor%}
-                </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
-            </div>
-        {% endfor %}
-    </div>
-    <p>---------------------------------------------------------------------</p>
-    <p>SHARED WITH YOU</p>
-    <div class="row">
-        {% for d_set in shared_data %}
-            <div class="col-6 col-sm-6 col-lg-4">
-                <h2>{{d_set}} </h2>
-                <p>
-                    Created on: {{ d_set.created_on }}
-                </p>
-                <p>
-                    Recorded on: 
-                    {%for recor in d_set.data_recorder.all %}
-                        {{ recor }}
-                    {%endfor%}
-                </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
-            </div>
-        {% endfor %}
+          <h2 class="sub-header">Metadata from File</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Characteristic</th>
+                  <th>Float Value</th>
+                  <th>Text Value</th>
+                  <th>Priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for charac in data_details.value_set.all %}
+                <tr>
+                  <td>#</td>  
+                  <td>{{charac.characteristic}}</td>
+                  <td>
+                  {% ifequal charac.float_value None %}  
+                    {{EmptyVariable}}
+                  {% else %}
+                    {{ charac.float_value }}
+                  {% endifequal %}
+                  </td>
+                  <td>{{ charac.text_value }}</td>
+                  <td>{{ charac.priority_value }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
     </div>
 {% endblock %}
