@@ -153,7 +153,7 @@ def add_dm3_to_db(newF,dirNEW):
     """
     SUMMARY: Create Tags/ Assign Data Characteristics/ Create image and asign path
     """
-    filename=dirNEW+'\\'+newF
+    filename=dirNEW+'/'+newF
     tag_list=Utility_Dev.dm3reader_v072.parseDM3( filename, dump=False )
     if tag_list==0:
         print "Tags not recovered"
