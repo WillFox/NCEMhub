@@ -10,12 +10,16 @@ import Utility_Dev.dm3reader_v072
 import Utility_Dev.dm3lib_v099
 
 
-DATA_PATH = '../../../data'
+
 FileSep = ','
 start_time=time.time()
 sleepy_time=60
-
-
+if os.name=='nt':
+    DATA_PATH = '..\\..\\..\\data'
+    directory_sep='\\'
+else:
+    DATA_PATH = '../../../data'
+    directory_sep = '/'
 """
 UTILITIES
 """
@@ -133,7 +137,7 @@ def add_dm3_to_db(newF,dirNEW):
     the information found within the database
     ---add to a log file, not a print statement!
     """
-    dir_path=dirNEW+'\\'+newF
+    dir_path=dirNEW+directory_sep+newF
     try:
         error_detail="Owner non existent"
         owner = User.objects.filter(username=data_user).distinct()
@@ -153,7 +157,8 @@ def add_dm3_to_db(newF,dirNEW):
     """
     SUMMARY: Create Tags/ Assign Data Characteristics/ Create image and asign path
     """
-    filename=dirNEW+'/'+newF
+
+    filename=dirNEW+directory_sep+newF
     tag_list=Utility_Dev.dm3reader_v072.parseDM3( filename, dump=False )
     if tag_list==0:
         print "Tags not recovered"
@@ -189,10 +194,7 @@ def add_undefined_file(newF,dirNEW):
     the information found within the database
     ---add to a log file, not a print statement!
     """
-    if os.name='nt':
-        dir_path=dirNEW+'\\'+newF
-    else:
-        dir_path=dirNEW+'/'+newF
+    dir_path=dirNEW+directory_sep+newF
     try:
         error_detail="Owner non existent"
         owner = User.objects.filter(username=data_user).distinct()

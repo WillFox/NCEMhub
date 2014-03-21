@@ -162,7 +162,7 @@ def directories_instrument(request,instrument_slug):
     if not user.is_authenticated:
         return HttpResponseRedirect('/')
     if os.name=='nt':
-        data_path2=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
+        data_path=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
     else:
         data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
 
