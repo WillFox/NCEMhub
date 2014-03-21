@@ -159,8 +159,15 @@ Displays:
 def directories_instrument(request,instrument_slug):
     instrument = DataRecorder.objects.get(slug=instrument_slug)
     user = request.user
-    data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
-    data_path2=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
+    if not user.is_authenticated:
+        return HttpResponseRedirect('/')
+    if os.name=='nt':
+        data_path2=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
+    else:
+        data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
+
+    
+    
     directories=[]
     data_files=[]
     for dir_file in os.listdir(data_path):
@@ -168,7 +175,7 @@ def directories_instrument(request,instrument_slug):
             try:
                 data_files.append(DataSet.objects.get(data_path=data_path+dir_file))
             except:
-                data_files.append(DataSet.objects.get(data_path=data_path2+dir_file))
+                print dir_file," is not coherrent with db: data_manager.views.directories_instrument"
             #data_files.append(DataSet.objects.filter(Q(name=dir_file)|Q(data_original_path=data_path)))
         else:
             directories.append(dir_file)

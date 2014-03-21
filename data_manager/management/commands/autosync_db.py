@@ -189,7 +189,10 @@ def add_undefined_file(newF,dirNEW):
     the information found within the database
     ---add to a log file, not a print statement!
     """
-    dir_path=dirNEW+'\\'+newF
+    if os.name='nt':
+        dir_path=dirNEW+'\\'+newF
+    else:
+        dir_path=dirNEW+'/'+newF
     try:
         error_detail="Owner non existent"
         owner = User.objects.filter(username=data_user).distinct()
