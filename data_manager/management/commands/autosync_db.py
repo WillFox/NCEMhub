@@ -174,33 +174,13 @@ SUMMARY: Creates data repository that is not data specific
 """
 def add_undefined_file(newF,dirNEW):
     print 'adding '+newF+' ::: '+ dirNEW
+    print 'adding '+newF+' ::: '+ dirNEW
     noError=True
     #Find User
-    user_start=0
-    user_end=None
-    instr_start = 0
-    instr_end=None
-    i=0
-    find_instrument=False
-    for i in range(len(dirNEW)):
-        if dirNEW[i]=="\\":
-
-            if user_end == None:
-                if user_start==0:
-                    user_start=i+1
-                else:
-                    user_end=i
-                    find_instrument = True
-            if find_instrument==True:
-                if instr_start == 0:
-                    instr_start=i+1
-                else:
-                    if instr_end == None:
-                        instr_end=i
-
-    data_user = dirNEW[user_start:user_end]
-    data_name = newF
-    data_instrument = dirNEW[instr_start:instr_end]
+    dict_ui=extract_user_and_instrument(newF,dirNEW)
+    data_user=dict_ui['data_user']
+    data_instrument=dict_ui['data_instrument']
+    data_name=dict_ui['data_name']
     error=''
     error_detail=''
     """
@@ -209,19 +189,22 @@ def add_undefined_file(newF,dirNEW):
     the information found within the database
     ---add to a log file, not a print statement!
     """
+    dir_path=dirNEW+'\\'+newF
     try:
         error_detail="Owner non existent"
         owner = User.objects.filter(username=data_user).distinct()
         error_detail="Instrument/Data Recorder non existent"
-        data_recorder = DataRecorder.objects.filter(name=data_instrument)
+        data_recorder = DataRecorder.objects.filter(slug=data_instrument).distinct()
         error_detail = "Data set unable to be created"
-        data = DataSet.objects.create(name=data_name,public=False,data_original_path=dirNEW,data_path=dirNEW)
+        data = DataSet.objects.create(name=data_name,public=False,data_original_path=dirNEW,
+            data_path=dir_path,image_rep_path='/',description=' ')
         data.owners.add(owner[0])
         data.data_recorder.add(data_recorder[0])
     except:
-        error = "File Location not coherrent with database"
+        print data_user
+        print data_instrument
+        error = "File Location is not coherrent with database:"
         print error
-        print '\n'
         print error_detail
     return 0
 def first_lib_data_run():

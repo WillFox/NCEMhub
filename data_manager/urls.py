@@ -5,7 +5,7 @@ from data_manager import views
 urlpatterns = patterns('',
 	url(r'^$', views.main, name='data_home'),
 	#url(r'^detail/$', views.data_set_detail, name='data_detail'),
-	url(r'^download/$',views.download,name='file_download'),
+	url(r'^download$',views.download,name='file_download'),
 	url(r'^gallery$',views.gallery,name='gallery_public'),
 
 	url(r'^data$',views.user_data,name='summary_recent_data'),
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
 	url(r'^profile/(?P<user_id>[-\w]+)/edit$',views.user_profile_edit,name='edit_profile'),
 
 	url(r'^directories$',views.directories, name='directories'),
-	url(r'^directories/(?P<user_id>[-\w]+)$',views.directories_instrument, name='instrument_directory'),
+	url(r'^directories/(?P<instrument_slug>[-\w]+)$',views.directories_instrument, name='instrument_directory'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
 	#(r'^$','')
 	#url(r'^search/$',views.search, name='searchview'),

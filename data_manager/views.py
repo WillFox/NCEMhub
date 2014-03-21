@@ -51,7 +51,7 @@ def main(request):
     data_chosen  = DataSet.objects.filter(public=True).distinct()
     collection_chosen = Collection.objects.filter(public=True).distinct()
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,collections=collection_chosen))
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,collections=collection_chosen, home=" class=active"))
 
 
 """
@@ -68,7 +68,7 @@ def user_data(request):
     user=request.user
     data_chosen=DataSet.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/user_data.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))  
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))  
 """
 Displays:
 #displays data and its detailed info with download button
@@ -86,7 +86,7 @@ def data_detail(request,data_set_id):
         data_chosen=DataSet.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/data_detail.html", dict(user=request.user,
         data_chosen=data_chosen,data_restriction=data_restriction, data_details=data_details, 
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT))     
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
 """
 Displays:
 #form that allows base options to be edited
@@ -104,12 +104,12 @@ def data_detail_more(request,data_set_id):
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/data_detail_more.html", dict(user=request.user, 
-        data_details=data_details, media_url=MEDIA_URL,media_root=MEDIA_ROOT))     
+        data_details=data_details, media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
 """
 Displays:
 #form that allows base options to be edited
 """
-def data_edit(request):
+def data_edit(request,data_set_id):
     return HttpResponseRedirect('/')     
 """
 Displays:
@@ -125,7 +125,7 @@ def collections(request):
     user=request.user
     data_chosen=Collection.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/collections.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))  
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))  
 """
 Displays:
 #lists data sets with some info that are within a collection
@@ -134,7 +134,7 @@ def collection_detail(request,collection_id):
     user=request.user
     collection_chosen=Collection.objects.get(id=collection_id)
     return render_to_response("data_manager/collections.html", dict(user=request.user,
-        collection_chosen=collection_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))      
+        collection_chosen=collection_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))      
 """
 Displays:
 #form for each field to edit if wanted
@@ -150,14 +150,31 @@ def directories(request):
     user=request.user
     data_chosen=DataRecorder.objects.filter(users=user).distinct()
     return render_to_response("data_manager/directories.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT))     
+        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
 
 """
 Displays:
 #folders transferred from an instrument
 """
-def directories_instrument(request):
-    return HttpResponseRedirect('/')       
+def directories_instrument(request,instrument_slug):
+    instrument = DataRecorder.objects.get(slug=instrument_slug)
+    user = request.user
+    data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
+    data_path2=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
+    directories=[]
+    data_files=[]
+    for dir_file in os.listdir(data_path):
+        if os.path.isfile(data_path+dir_file):
+            try:
+                data_files.append(DataSet.objects.get(data_path=data_path+dir_file))
+            except:
+                data_files.append(DataSet.objects.get(data_path=data_path2+dir_file))
+            #data_files.append(DataSet.objects.filter(Q(name=dir_file)|Q(data_original_path=data_path)))
+        else:
+            directories.append(dir_file)
+    return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
+        data_files=data_files,directories=directories, instrument=instrument_slug,
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))           
 """
 Displays:
 #profile with the given user id
@@ -171,7 +188,7 @@ def user_profile(request,user_id):
     shared_data_chosen=DataSet.objects.filter(Q(owners=user)|Q(owners=pro_user))
     return render_to_response("data_manager/user_profile.html", dict(user=request.user,
         pro_view_user=pro_user, pub_data=pub_data_chosen, shared_data=shared_data_chosen,
-        patron=patron_info, media_url=MEDIA_URL,media_root=MEDIA_ROOT))
+        patron=patron_info, media_url=MEDIA_URL,media_root=MEDIA_ROOT, profile =" class=active"))
 """
 Displays:
 #form for each field to edit if wanted

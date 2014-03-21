@@ -45,16 +45,15 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li{{ home }}><a href="/">Home</a></li>
               {% if user.is_authenticated %}  
-                <li><a href="/profile/{{user.id}}">Profile</a></li>
-                <li><a href="/data">Data</a></li>
+                <li{{ profile }}><a href="/profile/{{user.id}}">Profile</a></li>
+                <li{{data_page}}><a href="/data">Data</a></li>
               {% endif %}
-              <li><a href="/gallery">Gallery</a></li>
               {% if user.is_authenticated %}
-                <li><a href="/user/logout">Log out</a></li>
+                <li{{ log_out }}><a href="/user/logout">Log out</a></li>
               {% else %}
-                <li><a href="/user/login">Sign in</a></li>
+                <li{{sign_in}}><a href="/user/login">Sign in</a></li>
               {% endif %}
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -70,10 +69,12 @@
           <p class="pull-right visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
+        {% ifequal home  " class=active" %}
           <div class="jumbotron">
             <h1>Welcome to NCEMhub</h1>
             <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
           </div>
+        {% endifequal %}
         {% block content %}
 
         {% endblock %}
