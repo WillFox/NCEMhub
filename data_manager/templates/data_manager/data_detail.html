@@ -3,6 +3,7 @@
 
           <div class="jumbotron">
             <h1>{{data_details.name}}</h1>
+            <img src="{{media_url}}thumbnails/{{data_details.id}}.jpg" alt="{{data_details.name}}" width="128" height="128">
             <p>Created on: {{data_details.created_on}}</p>
             <p>Recorded on:
             {%for recor in data_details.data_recorder.all %}
@@ -13,7 +14,7 @@
                 {{ owner }}
             {%endfor%}</p>
             {% if user.is_authenticated %}
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.download' %}/{{data_details.id}}" role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
+                <p><a class="btn btn-default" href="/download/{{data_details.id}}" role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
             {% endif %}
             <p><a href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more">More Details</a></p>
           </div>
@@ -42,6 +43,7 @@
         {% for d_set in data_chosen %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>
@@ -60,6 +62,7 @@
         {% for d_set in shared_data %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>

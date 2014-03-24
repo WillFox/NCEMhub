@@ -321,15 +321,9 @@ def home(request):
         media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
-def download(request):
+def download(request,data_set_id):
     error=[]
-    try:
-        cat=request.GET['cat']
-        error.append("Data category not declared")
-    except: 
-        cat=None
-        error.append("No file at the location")
-    pid=request.GET['id']
+    pid=data_set_id
     data=DataSet.objects.filter(id=pid).distinct()
     data_set=''
     try:
@@ -341,8 +335,9 @@ def download(request):
     #response = HttpResponse.write(data_set.data_path)
     #response['Content-Disposition'] = 'attachment; filename="'+data_set.data_path+'"'
     #response['Content-Disposition'] = 'attachment; filename="2.jpg"'
-    filepath =data_set.data_path
+    filepath = data_set.data_path
     print filepath
+    print request
     if os.path.isfile(filepath):
         return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
     else:

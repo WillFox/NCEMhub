@@ -56,6 +56,7 @@
         {% for d_set in pub_data %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>
@@ -74,6 +75,7 @@
         {% for d_set in shared_data %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>

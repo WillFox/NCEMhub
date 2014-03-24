@@ -5,7 +5,7 @@ from data_manager import views
 urlpatterns = patterns('',
 	url(r'^$', views.main, name='data_home'),
 	#url(r'^detail/$', views.data_set_detail, name='data_detail'),
-	url(r'^download$',views.download,name='file_download'),
+	url(r'^download/(?P<data_set_id>[-\w]+)$',views.download,name='file_download'),
 	url(r'^gallery$',views.gallery,name='gallery_public'),
 
 	url(r'^data$',views.user_data,name='summary_recent_data'),

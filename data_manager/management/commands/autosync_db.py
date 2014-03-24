@@ -16,9 +16,13 @@ start_time=time.time()
 sleepy_time=60
 if os.name=='nt':
     DATA_PATH = '..\\..\\..\\data'
+    MEDIA_ROOT = '\\project\\projectdirs\\ncemhub\\ncemhub\\bin\\ncemhub\\www\\media\\'
+    THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails\\'
     directory_sep='\\'
 else:
     DATA_PATH = '../../../data'
+    MEDIA_ROOT = '/project/projectdirs/ncemhub/ncemhub/bin/ncemhub/www/media/'
+    THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails/'
     directory_sep = '/'
 """
 UTILITIES
@@ -165,7 +169,12 @@ def add_dm3_to_db(newF,dirNEW):
     else:
         print "Writing tags to data sets..."
         create_characteristics_dm3(data,tag_list)
-        
+    #create thumbnail for DM3    
+    tn_file=THUMBNAIL_ROOT+ str(data.id) +'.jpg'
+    Utility_Dev.dm3reader_v072.thumbnail_dm3(filename,tn_file)
+    data.image_rep_path = tn_file
+    data.save()
+
     #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
     #    description="None")   
     #data1.owners.add(user1)

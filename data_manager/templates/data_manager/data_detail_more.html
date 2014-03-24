@@ -3,6 +3,7 @@
 
           <div class="jumbotron">
             <h1>{{data_details.name}}</h1>
+            <img src="{{media_url}}thumbnails/{{data_details.id}}.jpg" alt="{{data_details.name}}">
             <p>Created on: {{data_details.created_on}}</p>
             <p>Recorded on:
             {%for recor in data_details.data_recorder.all %}
@@ -13,7 +14,7 @@
                 {{ owner }}
             {%endfor%}</p>
             {% if user.is_authenticated %}
-              <p><a class="btn btn-default" href="{% url 'data_manager.views.download' %}/{{data_details.id}}" role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
+              <p><a class="btn btn-default" href="/download/{{data_details.id}}"role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
             {% endif %}
           </div>
 
