@@ -31,7 +31,11 @@
   </head>
 
   <body>
-
+  {% comment %}
+  The following requires that each view send a variable if they want a menu item highlighted
+  None of hte views should require their own html for this section
+  {% endcomment %}
+    {% block menu %}
     <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -55,10 +59,11 @@
               {% else %}
                 <li{{sign_in}}><a href="/user/login">Sign in</a></li>
               {% endif %}
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/contact">Contact</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
+      {% endblock %}
     </div><!-- /.navbar -->
 
     <div class="container">
@@ -69,37 +74,39 @@
           <p class="pull-right visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
-        {% ifequal home  " class=active" %}
-          <div class="jumbotron">
-            <h1>Welcome to NCEMhub</h1>
-            <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
-          </div>
-        {% endifequal %}
+{% comment %}
+The following secion is for if there is anything that should be focused on. 
+
+It will show up at the top of the screen highly emphasized as the significant content.
+If nothing should be emphasized, simple put the section label in the root html without any info
+{% endcomment %}
+          {% block focus_content %}
+            
+            {% ifequal home  " class=active" %}
+              <div class="jumbotron">
+                <h1>Welcome to NCEMhub</h1>
+                <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
+              </div>
+            {% endifequal %}
+          
+          {% endblock %}
+
+{% comment %}
+
+Place the iterative list to be displayed normally simply a variable type will need to be passed to the root html
+but for detail listing, the block content will need to be more specific
+
+{% endcomment %}
+
         {% block content %}
 
         {% endblock %}
+{% comment %}
 
-<!--
-        {% block collection %}
-            <div class="row">
-                <div class="col-md-9">
-                    COLLECTION NAME
-                    {{ collection_name }}
-                    <div class="row">
-                        <div class="col-md-6">
-                        IMAGE PLACEMENT
-                        {{ image_id }}
-                        </div>
-                        <div class="col-md-6">
-                        TAG PLACEMENT
-                        {{ tag }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endblock %}
--->
-        </div><!--/span-->
+Not sure what to do with this yet
+
+{% endcomment %}
+        {% block side_nav %}
 
 {#        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">#}
 {#          <div class="list-group">#}
@@ -114,6 +121,7 @@
 {#            <a href="#" class="list-group-item">Link</a>#}
 {#            <a href="#" class="list-group-item">Link</a>#}
 {#          </div>#}
+          {% endblock %}
         </div><!--/span-->
       </div><!--/row-->
 

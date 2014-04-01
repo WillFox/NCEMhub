@@ -13,6 +13,7 @@ import os
 from django.db.models import Q
 from django.core.files import File
 from django.views.static import serve
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #FileDelimeter is the object used to show a new directory depth in the url.
 FileDelimeter= '---'
 
@@ -47,11 +48,27 @@ Displays:
 #Recently altered data
 #Recently Viewed data
 """
+
+"""
+Define common variables
+"""
+
+
+
+PER_PAGE=15
 def main(request):
     data_chosen  = DataSet.objects.filter(public=True).distinct()
     collection_chosen = Collection.objects.filter(public=True).distinct()
+    paginator = Paginator(data_chosen,PER_PAGE)
+    page= request.GET.get('page')
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        datas = paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_sets=data_chosen,collections=collection_chosen, home=" class=active"))
+        media_url=MEDIA_URL, data_chosen=datas,paginator=paginator,collections=collection_chosen, home=" class=active"))
 
 
 """
@@ -67,8 +84,16 @@ Displays:
 def user_data(request):    
     user=request.user
     data_chosen=DataSet.objects.filter(owners=user).distinct()
+    paginator = Paginator(data_chosen,PER_PAGE)
+    page= request.GET.get('page')
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        datas= paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/user_data.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))  
+        data_chosen=datas,media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))  
 """
 Displays:
 #displays data and its detailed info with download button
@@ -79,14 +104,26 @@ def data_detail(request,data_set_id):
     data_details=DataSet.objects.get(id=data_set_id)
     if not user in data_details.owners.all():
         data_restriction="Access Denied"
+        if not data_details.public == True:
+            return HttpResponseRedirect('/')
     if data_details.public == True:
         data_details=DataSet.objects.get(id=data_set_id)
         data_chosen=DataSet.objects.filter(public=True).distinct()
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
+
+
+    paginator = Paginator(data_chosen,PER_PAGE)
+    page= request.GET.get('page')
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        datas= paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/data_detail.html", dict(user=request.user,
-        data_chosen=data_chosen,data_restriction=data_restriction, data_details=data_details, 
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
+        data_chosen=datas,data_restriction=data_restriction, data_details=data_details, 
+        media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))     
 """
 Displays:
 #form that allows base options to be edited
@@ -104,7 +141,7 @@ def data_detail_more(request,data_set_id):
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/data_detail_more.html", dict(user=request.user, 
-        data_details=data_details, media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
+        data_details=data_details, media_url=MEDIA_URL, data_page=" class=active"))     
 """
 Displays:
 #form that allows base options to be edited
@@ -125,7 +162,7 @@ def collections(request):
     user=request.user
     data_chosen=Collection.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/collections.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))  
+        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))  
 """
 Displays:
 #lists data sets with some info that are within a collection
@@ -134,7 +171,7 @@ def collection_detail(request,collection_id):
     user=request.user
     collection_chosen=Collection.objects.get(id=collection_id)
     return render_to_response("data_manager/collections.html", dict(user=request.user,
-        collection_chosen=collection_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))      
+        collection_chosen=collection_chosen,media_url=MEDIA_URL, data_page=" class=active"))      
 """
 Displays:
 #form for each field to edit if wanted
@@ -150,7 +187,7 @@ def directories(request):
     user=request.user
     data_chosen=DataRecorder.objects.filter(users=user).distinct()
     return render_to_response("data_manager/directories.html", dict(user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))     
+        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))     
 
 """
 Displays:
@@ -180,7 +217,7 @@ def directories_instrument(request,instrument_slug):
         else:
             directories.append(dir_file)
     return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
-        data_files=data_files,directories=directories, instrument=instrument_slug,
+        data_files=data_files,directories=directories, instrument=instrument_slug,paginator=paginator,
         media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))           
 """
 Displays:
@@ -193,9 +230,19 @@ def user_profile(request,user_id):
     patron_info = Patron.objects.get(user=pro_user)
     pub_data_chosen=DataSet.objects.filter(Q(owners=pro_user)|Q(public=True))
     shared_data_chosen=DataSet.objects.filter(Q(owners=user)|Q(owners=pro_user))
+
+    paginator = Paginator(shared_data_chosen,PER_PAGE)
+    page= request.GET.get('page')
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        datas= paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/user_profile.html", dict(user=request.user,
-        pro_view_user=pro_user, pub_data=pub_data_chosen, shared_data=shared_data_chosen,
-        patron=patron_info, media_url=MEDIA_URL,media_root=MEDIA_ROOT, profile =" class=active"))
+        pro_view_user=pro_user, #pub_data=pub_data_chosen, 
+        data_chosen=datas, paginator=paginator,
+        patron=patron_info, media_url=MEDIA_URL, profile =" class=active"))
 """
 Displays:
 #form for each field to edit if wanted
@@ -318,9 +365,10 @@ def home(request):
     except:
         chosen=chosen
     return render_to_response("data_manager/main.html", dict(user=request.user,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT,instruments=instruments,collections=collections, cat=cat,
+        media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
-        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,public=public,admin_true=admin_true))
+        content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,
+        public=public,admin_true=admin_true))
 def download(request,data_set_id):
     error=[]
     pid=data_set_id
@@ -354,6 +402,7 @@ def search(request):
         attributes = Image._meta.get_all_field_names()
         #found_entries = ['NO MATCHES']
     return render_to_response('gallery/search_results.html',
-                          dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,numEntries=len(found_entries),attrib=attributes),
+                          dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,
+                            numEntries=len(found_entries),attrib=attributes),
                           context_instance=RequestContext(request))
 

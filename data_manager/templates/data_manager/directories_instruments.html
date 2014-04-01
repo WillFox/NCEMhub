@@ -25,10 +25,38 @@
           </div>
         </div><!--/span-->
       </div><!--/row-->
+    <ul class="pagination">
+            {% if data_chosen.has_previous %}
+                <li><a href="?page={{ data_chosen.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><a href="">&laquo;</a></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+                {%ifequal i data_chosen.number %}
+                    <li class="active"><a href="?page={{i}}">{{i}}</a></li>
+                {%else%}
+                    <li><a href="?page={{i}}">{{i}}</a></li>
+                {% endifequal %}
+            {% endfor %}
+            {% if data_chosen.has_next %}
+                <li><a href="?page={{ data_chosen.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><a href="">&raquo;</a></li>
+            {% endif %}
+    </ul>
 	<div class="row">
         {% for d_set in data_files %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                {% if d_set.image_rep_path == "/" %}
+                    {%comment%}
+                        This checks if the image file exists
+                    {%endcomment%}
+                {% else %}
+                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                    <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
+                    </a>
+                {% endif %}
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>

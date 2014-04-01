@@ -3,7 +3,15 @@
 
           <div class="jumbotron">
             <h1>{{data_details.name}}</h1>
-            <img src="{{media_url}}thumbnails/{{data_details.id}}.jpg" alt="{{data_details.name}}">
+                {% if d_set.image_rep_path == "/" %}
+                    {%comment%}
+                        This checks if the image file exists
+                    {%endcomment%}
+                {% else %}
+                    <a class="btn btn-default" href="{{media_url}}thumbnails/{{data_details.id}}.jpg" role="button">
+                    <img src="{{media_url}}thumbnails/{{data_details.id}}.jpg" alt="{{data_details.name}}" width="256">
+                    </a>
+                {% endif %}
             <p>Created on: {{data_details.created_on}}</p>
             <p>Recorded on:
             {%for recor in data_details.data_recorder.all %}

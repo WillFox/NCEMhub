@@ -12,6 +12,7 @@ import os, struct
 
 #########################################
 
+
 def thumbnail_dm3(dm3_file,tn_file):
 	#dm3_file='T.dm3' 
 	makeJPEG=True
@@ -60,7 +61,7 @@ def thumbnail_dm3(dm3_file,tn_file):
 			
 			# read tn image data
 			dm3.seek( tn_offset )
-			pgmlist=[]\
+			pgmlist=[]
 			for i in range( tn_height ):
 				startlist=True
 				for ii in range( tn_width ):
@@ -120,3 +121,56 @@ def thumbnail_dm3(dm3_file,tn_file):
 	# else, return false value
 	else:
 		return False
+
+
+def page_lists(datas,page):
+	pages = datas
+	#show 3 options before and 3 options after
+	page_options=[]
+	pages_passed=[]
+	girth_pages=3
+	for i in range(pages):
+		page_options.append(i+1-page)
+	for i in range(len(page_options)):
+		if abs(page_options[i])<girth_pages+1:
+			pages_passed.append(i+1)
+	for i in range(1):
+		this_thing=1
+
+	if pages_passed[0]==1:
+		pages_passed.insert(0,1)
+	if pages_passed[-1]==pages:
+		pages_passed.append(pages)
+	pages_short=girth_pages*2+1-len(pages_passed)
+	if pages<girth_pages*2+1:
+		pages_short=0
+		while pages_short>0:#Less than expected pages
+			if pages_passed[0]==1:
+				pages_passed.append(pages_passed[-1]+1)
+			if pages_passed[-1]==pages:
+				pages_passed.insert(0,pages_passed[0]-1)
+				pages_short=girth_pages*2+1-len(pages_passed)
+
+	print page, pages_passed
+	#make sure enough arguments are passed
+	return page_options
+
+#page_lists(5,1)
+#page_lists(5,2)
+#page_lists(5,3)
+#page_lists(5,4)
+#page_lists(5,5)
+#print "=============="
+#page_lists(8,1)
+#page_lists(8,2)
+#page_lists(8,3)
+#page_lists(8,4)
+#page_lists(8,5)
+#page_lists(8,6)
+#page_lists(8,7)
+#page_lists(8,8)
+#print "=============="
+#page_lists(4,1)
+#page_lists(4,2)
+#page_lists(4,3)
+#page_lists(4,4)
