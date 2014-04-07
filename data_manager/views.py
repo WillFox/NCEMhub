@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -14,22 +14,7 @@ from django.db.models import Q
 from django.core.files import File
 from django.views.static import serve
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-#FileDelimeter is the object used to show a new directory depth in the url.
-FileDelimeter= '---'
-
-"""
-FUNCTION SUMMARY: 
-This is the first place seen once an individual logs in.  
-Allows quick access to all data (no fluff [jiggly puff] please)
-
-Required:
--Recently added/utilized section 
--Display possible instruments
--Display possible collections
--Display possible Repositories
--NavigationPanel dependent on current contents (directories)
--Contents section
-"""
+from django.core.urlresolvers import reverse
 """
 https://www.ncemhub.gov/                                            #home
 https://www.ncemhub.gov/gallery                                     #public data sets
@@ -49,13 +34,27 @@ Displays:
 #Recently Viewed data
 """
 
+
 """
 Define common variables
 """
-
-
-
+#FileDelimeter is the object used to show a new directory depth in the url.
+FileDelimeter= '---'
 PER_PAGE=15
+
+"""
+FUNCTION SUMMARY: 
+This is the first place seen once an individual logs in.  
+Allows quick access to all data (no fluff [jiggly puff] please)
+
+Required:
+-Recently added/utilized section 
+-Display possible instruments
+-Display possible collections
+-Display possible Repositories
+-NavigationPanel dependent on current contents (directories)
+-Contents section
+"""
 def main(request):
     data_chosen  = DataSet.objects.filter(public=True).distinct()
     collection_chosen = Collection.objects.filter(public=True).distinct()
@@ -126,7 +125,7 @@ def data_detail(request,data_set_id):
         media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))     
 """
 Displays:
-#form that allows base options to be edited
+#all info for a single data set and links to edit data
 """
 def data_detail_more(request,data_set_id):
     user=request.user
@@ -144,15 +143,69 @@ def data_detail_more(request,data_set_id):
         data_details=data_details, media_url=MEDIA_URL, data_page=" class=active"))     
 """
 Displays:
+#form that allows a specific characteristic to be edited
+"""
+def data_detail_characteristic(request,data_set_id,detail_id):
+    user=request.user
+    data_restriction=''
+    data_details=DataSet.objects.get(id=data_set_id)
+    
+    if not user in data_details.owners.all():
+        data_restriction="Access Denied"
+    if data_details.public == True:
+        data_details=DataSet.objects.get(id=data_set_id)
+        data_chosen=DataSet.objects.filter(public=True).distinct()
+    else:
+        data_chosen=DataSet.objects.filter(owners=user).distinct()
+    return HttpResponseRedirect('/')
+"""
+Displays:
 #form that allows base options to be edited
 """
 def data_edit(request,data_set_id):
-    return HttpResponseRedirect('/')     
+    user=request.user
+    if user.is_authenticated:
+        data_set=DataSet.objects.get(id=data_set_id)
+        if user in data_set.owners.all():
+            #allowed to edit the data_set
+            print "This worked"
+        else:
+            if data_set.public == True:
+                print "You may view this but not edit it"
+            else:
+                print "You cannot view nor edit this data"
+                return HttpResponseRedirect("/")
+    else:
+        if data_set.public == True:
+                print "You may view this but not edit it"
+        else:
+            print "You cannot view nor edit this data"
+            return HttpResponseRedirect("/")
+    return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
+        media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"))     
 """
 Displays:
 #form to edit a specific detail/ or add one
 """
-def data_detail_edit(request):
+def data_detail_edit(request,data_set_id):
+    """
+    d = get_object_or_404(DataSet, id=data_set_id)
+    try:
+        selected_choice = p.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the poll voting form.
+        return render(request, 'polls/detail.html', {
+            'poll': p,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+    """
     return HttpResponseRedirect('/')
 """
 Displays:
@@ -384,8 +437,6 @@ def download(request,data_set_id):
     #response['Content-Disposition'] = 'attachment; filename="'+data_set.data_path+'"'
     #response['Content-Disposition'] = 'attachment; filename="2.jpg"'
     filepath = data_set.data_path
-    print filepath
-    print request
     if os.path.isfile(filepath):
         return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
     else:

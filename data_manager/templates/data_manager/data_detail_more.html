@@ -63,7 +63,7 @@
                 {% for charac in data_details.value_set.all %}
                 <tr>
                   <td>#</td>  
-                  <td>{{charac.characteristic}}</td>
+                  <td><a href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more/{{charac.id}}">{{charac.characteristic}}</a></td>
                   <td>
                   {% ifequal charac.float_value None %}  
                     {{EmptyVariable}}

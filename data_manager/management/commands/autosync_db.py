@@ -174,6 +174,11 @@ def add_dm3_to_db(newF,dirNEW):
     Utility_Dev.dm3reader_v072.thumbnail_dm3(filename,tn_file)
     data.image_rep_path = tn_file
     data.save()
+    
+    #import Utility_Dev.dm3lib_v099 as d
+    #data = d.DM3(filename)
+    #im = data.getImage
+    #all_data=list(im.getdata())
 
     #data1 = DataSet.objects.create(name=newF[:-4],public=False,data_original_path=dirNEW,data_path=dirNEW,image_rep_path=MEDIA_URL+"data/2.jpg",
     #    description="None")   

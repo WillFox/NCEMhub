@@ -2,9 +2,12 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from user_authentication.models import Patron
+from django.views.generic.edit import UpdateView
+from data_manager.models import DataSet
 
+"""
 class RegistrationForm(ModelForm):
-	username		=forms.CharField(label=(u'User Name'))
+	username		= forms.CharField(label=(u'User Name'))
 	email			= forms.EmailField(label=(u'Email Address'))
 	password		= forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
 	password1		= forms.CharField(label=(u'Verify Password'), widget=forms.PasswordInput(render_value=False))
@@ -27,6 +30,17 @@ class RegistrationForm(ModelForm):
 class LoginForm(forms.Form):
 	username	= forms.CharField(label=(u'User Name'))
 	password	= forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
+"""
+class DataSetForm(ModelForm):
+	class Meta:
+		model=DataSet
+		fields= ['name']
+		
 
 
-
+class ContactForm(forms.Form):
+	subject = forms.CharField(max_length=100)
+	message = forms.CharField()
+	message = forms.CharField()
+	sender = forms.EmailField()
+	cc_myself = forms.BooleanField(required=False)

@@ -26,7 +26,7 @@ class RegistrationForm(ModelForm):
 		return self.cleaned_data
 class LoginForm(forms.Form):
 	username	= forms.CharField(label=(u'User Name'))
-	password	= forms.CharField(label=(u'Paessword'), widget=forms.PasswordInput(render_value=False))
+	password	= forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
 
 class EditForm(forms.Form):
 	username		= forms.CharField(label=(u'User Name'))

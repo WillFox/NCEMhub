@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^data$',views.user_data,name='summary_recent_data'),
 	url(r'^data/(?P<data_set_id>[-\w]+)$',views.data_detail,name='detail_of_data'),
 	url(r'^data/(?P<data_set_id>[-\w]+)/more$',views.data_detail_more,name='all_info_data'),
+	url(r'^data/(?P<data_set_id>[-\w]+)/more/(?P<detail_id>[-\w]+)$',views.data_detail_characteristic,name='detail_characteristic'),
 	url(r'^data/(?P<data_set_id>[-\w]+)/edit$',views.data_edit,name='edit_single_dataset'),
 	url(r'^data/(?P<data_set_id>[-\w]+)/edit/(?P<detail_id>[-\w]+)$',views.data_detail_edit,name='edit_detail_of_dataset'),
 

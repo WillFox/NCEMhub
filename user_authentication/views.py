@@ -26,7 +26,7 @@ def PatronRegistration(request):
 			#patron.save()
 			patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
 			patron.save()
-			return HttpResponseRedirect('/user/profile')
+			return HttpResponseRedirect('/profile/'+str(user.id))
 		else:
 			return render_to_response('user_authentication/register.html',{'form':form}, context_instance=RequestContext(request))
 	

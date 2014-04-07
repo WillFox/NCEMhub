@@ -1,0 +1,62 @@
+{% extends "ncemhub/base_bs_main.html" %}
+{% block content %}
+
+      <div class="jumbotron">
+            <h1>Edit: {{data_details.name}}</h1>
+            	{%if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
+ 
+               <form action="{%url 'data_manager.views.user_data' %}" method="post">
+				{% csrf_token %}
+				<li>
+					Name:
+					<input type="text" name="name" value="{{data_details.name}}">
+				</li>
+				{% comment %}
+				<li>
+					<input type="checkbox" name="public">Public<br>
+				</li>
+				<li>
+					Created On: {{ data_details.created_on }}
+				</li>
+				<li>
+					Updated On: {{ data_details.updated_on }}
+				</li>
+				<li>
+					Data Path: {{data_details.data_path}}
+				</li>
+				<li>
+					Description:
+					<input type="text" name="description" value="{{data_details.description}}">
+				</li>
+				<li>
+					Owners: 
+					<input type="text" name="description" value="{%for owner in data_details.owners.all%}{{ owner }}, {%endfor%}">
+				</li>
+				<li>
+					Tags: {%for tag in data_details.tags.all%}{{ tag }}, {%endfor%}
+				</li>
+				<li>
+					Data Recorder: {%for recorder in data_details.data_recorder.all%}{{ recorder }} {%endfor%}
+				</li>
+				<li>
+					Collections: {%for collection in data_details.collections.all%}{{ collection }} {%endfor%}
+				</li>
+				{% endcomment %}
+				<p><input type="submit" alt="register"/></p>
+				</form>
+          </div>
+
+        </div><!--/span-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="list-group">
+            {% if user.is_authenticated %}
+
+              <a href="{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
+              <a href="{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
+              <a href="{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
+            {% endif %}
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+{%endblock%}

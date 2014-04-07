@@ -121,7 +121,9 @@ def thumbnail_dm3(dm3_file,tn_file):
 	# else, return false value
 	else:
 		return False
-
+dm3_file='T.dm3'
+#tn_file
+thumbnail_dm3(dm3_file,tn_file)
 
 def page_lists(datas,page):
 	pages = datas
