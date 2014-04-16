@@ -18,6 +18,7 @@
 
 import sys, struct, os
 import Image
+import dm3lib_v099 as dm3_lib
 import numpy
 version='0.72'
 
@@ -752,6 +753,10 @@ def dm3_image_form(dm3_file,im_file,dm3_data_list):
 			
 	# parse DM3 file
 	tags = parseDM3( dm3_file, dump=False )
+    #import Utility_Dev.dm3lib_v099 as d
+    #data = d.DM3(filename)
+    #im = data.getImage
+    #all_data=list(im.getdata())
 
 	# if OK, extract Tags [and thumbnail]
 	if tags:

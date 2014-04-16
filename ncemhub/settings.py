@@ -1,5 +1,5 @@
 # Django settings for NCEMhub project.
-
+import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -49,7 +49,12 @@ USE_L10N = True
 USE_TZ = True
 #####################
 #Data root is the location where a copy of the file system is stored in order to allow for user navigation
-DATA_ROOT = '../../../data'
+if os.name=='nt':
+    DATA_PATH = '..\\..\\..\\data'
+    DATA_ROOT = '..\\..\\..\\data'
+else:
+    DATA_PATH = '../../../data'
+    DATA_ROOT = '../../../data'
 ####################
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"

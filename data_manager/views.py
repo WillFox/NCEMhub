@@ -168,45 +168,86 @@ def data_edit(request,data_set_id):
         data_set=DataSet.objects.get(id=data_set_id)
         if user in data_set.owners.all():
             #allowed to edit the data_set
-            print "This worked"
+            error = "None"
         else:
             if data_set.public == True:
-                print "You may view this but not edit it"
+                error = "You may view this but not edit it"
             else:
-                print "You cannot view nor edit this data"
+                error = "You cannot view nor edit this data"
                 return HttpResponseRedirect("/")
     else:
         if data_set.public == True:
-                print "You may view this but not edit it"
+            error = "You may view this but not edit it"
         else:
-            print "You cannot view nor edit this data"
+            error = "You cannot view nor edit this data"
             return HttpResponseRedirect("/")
+    if request.method == 'POST':
+        form = request.POST
+        data_set.name = form['name']
+        data_set.save()
+        return HttpResponseRedirect("/")
     return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
-        media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"))     
+        media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
+        context_instance=RequestContext(request))     
+"""
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/user/profile')
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user=User.objects.create_user(username=form.cleaned_data['username'],email = form.cleaned_data['email'], password = form.cleaned_data['password'])      
+            user.save()
+            # \/ \/ \/ MAKES USER FOLDER! \/  \/  \/
+            #os.mkdir('../../../data/'+ user.slug[0] + '/' + user.slug)
+            #patron = user.get_profile()
+            #patron.name = form.cleaned_date['name']
+            #patron.user_location = form.cleaned_data['user_location']
+            #patron.save()
+            patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
+            patron.save()
+            return HttpResponseRedirect('/profile/'+str(user.id))
+        else:
+            return render_to_response('user_authentication/register.html',{'form':form}, context_instance=RequestContext(request))
+    
+    else:
+        ''' user is not submitting the form, show them a blank registration form'''
+        form = RegistrationForm()
+        context = {'form':form}
+        return render_to_response('user_authentication/register.html',context,context_instance=RequestContext(request))
+#login required
+"""
+
 """
 Displays:
 #form to edit a specific detail/ or add one
 """
 def data_detail_edit(request,data_set_id):
-    """
-    d = get_object_or_404(DataSet, id=data_set_id)
-    try:
-        selected_choice = p.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the poll voting form.
-        return render(request, 'polls/detail.html', {
-            'poll': p,
-            'error_message': "You didn't select a choice.",
-        })
+    user=request.user
+    if user.is_authenticated:
+        data_set=DataSet.objects.get(id=data_set_id)
+        if user in data_set.owners.all():
+            #allowed to edit the data_set
+            error = "None"
+        else:
+            if data_set.public == True:
+                error = "You may view this but not edit it"
+            else:
+                error = "You cannot view nor edit this data"
+                return HttpResponseRedirect("/")
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
-    """
-    return HttpResponseRedirect('/')
+        if data_set.public == True:
+            error = "You may view this but not edit it"
+        else:
+            error = "You cannot view nor edit this data"
+            return HttpResponseRedirect("/")
+    if request.method == 'POST':
+        form = request.POST
+        data_set.name = form['name']
+        data_set.save()
+        return HttpResponseRedirect("/")
+    return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
+        media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
+        context_instance=RequestContext(request))
 """
 Displays:
 #lists data sets with some info that are within a collection
@@ -251,7 +292,7 @@ def directories_instrument(request,instrument_slug):
     user = request.user
     if not user.is_authenticated:
         return HttpResponseRedirect('/')
-    if os.name=='nt':
+    if os.name == 'nt':
         data_path=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
     else:
         data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
@@ -265,12 +306,21 @@ def directories_instrument(request,instrument_slug):
             try:
                 data_files.append(DataSet.objects.get(data_path=data_path+dir_file))
             except:
-                print dir_file," is not coherrent with db: data_manager.views.directories_instrument"
+                error = dir_file," is not coherrent with db: data_manager.views.directories_instrument"
+            
             #data_files.append(DataSet.objects.filter(Q(name=dir_file)|Q(data_original_path=data_path)))
         else:
             directories.append(dir_file)
+    paginator = Paginator(data_files,PER_PAGE)
+    page= request.GET.get('page')
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        datas= paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
-        data_files=data_files,directories=directories, instrument=instrument_slug,paginator=paginator,
+        data_chosen=data_files,directories=directories, instrument=instrument_slug,#paginator=paginator,
         media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))           
 """
 Displays:

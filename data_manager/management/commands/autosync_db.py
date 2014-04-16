@@ -8,25 +8,31 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 import Utility_Dev.dm3reader_v072
 import Utility_Dev.dm3lib_v099
-
-
+import numpy
+import Image
 
 FileSep = ','
 start_time=time.time()
-sleepy_time=60
+#sleepy_time=60
 if os.name=='nt':
     DATA_PATH = '..\\..\\..\\data'
     MEDIA_ROOT = '\\project\\projectdirs\\ncemhub\\ncemhub\\bin\\ncemhub\\www\\media\\'
     THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails\\'
+    FULL_IMAGE_ROOT = MEDIA_ROOT+'full_image\\'
     directory_sep='\\'
 else:
     DATA_PATH = '../../../data'
     MEDIA_ROOT = '/project/projectdirs/ncemhub/ncemhub/bin/ncemhub/www/media/'
     THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails/'
+    FULL_IMAGE_ROOT = MEDIA_ROOT+'full_image/'
     directory_sep = '/'
 """
 UTILITIES
 """
+def create_image_from_list():
+
+    return True
+
 def extract_user_and_instrument(newF,dirNEW):
     user_start=0
     user_end=None
@@ -174,7 +180,53 @@ def add_dm3_to_db(newF,dirNEW):
     Utility_Dev.dm3reader_v072.thumbnail_dm3(filename,tn_file)
     data.image_rep_path = tn_file
     data.save()
-    
+    """
+    Adds the actual image
+    ***(should be incorporated within a separate function later)
+    """
+    data=Utility_Dev.dm3lib_v099.DM3(filename) 
+    im= data.getImage()
+    all_data=list(im.getdata())
+    im_size=im.size
+    im_height=im_size[0]
+    im_width=im_size[1]
+    sum_data=0.0
+    N=0.0
+    #find sum
+    for i in range(im_height):
+        for ii in range(im_width):
+            scaled=float(all_data[i*im_width+ii])
+            sum_data=scaled+sum_data
+            N=1+N
+    average=sum_data/N
+    #find variance and standard deviation
+    sum_squared=0.0
+    for i in range(im_height):
+        for ii in range(im_width):
+            scaled=float(all_data[i*im_width+ii])-average
+            scaled=scaled*scaled
+            sum_squared=sum_squared+scaled
+    variance = sum_squared/N
+    standard_deviation = numpy.sqrt([variance])
+    standard_deviation=standard_deviation[0]
+    #find color for each pixel based on standard deviation
+    for i in range(im_height):
+        for ii in range(im_width):
+            scaled=float(all_data[i*im_width+ii])
+            std_i = (scaled-average)/standard_deviation
+            color = (std_i+3.0)*(255.0/6.0)
+            if color > 255:
+                color = 255
+            if color < 0:
+                color = 0
+            all_data[i*im_width+ii]=int(color)
+    im2=Image.new(im.mode, im.size)
+    im2.putdata(all_data)
+    #list_of_pixels = list(im.getdata())
+    # Do something to the pixels...
+    #im2 = Image.new(im.mode, im.size)
+    #im2.putdata(list_of_pixels)
+
     #import Utility_Dev.dm3lib_v099 as d
     #data = d.DM3(filename)
     #im = data.getImage
@@ -484,6 +536,12 @@ class Command(BaseCommand):
         walkPath()
         correlatePath()
         LOG_copy_NEW_to_OLD()
+        t=time.localtime()
+        """
+        calculates time until midnight in which data will be synced (local time)
+        """
+        sleepy_time=(24*60*60)-(t[3]*60*60+t[4]*60+t[5])
+        print "Sleepy_time=",sleepy_time
         time.sleep(sleepy_time)
         print "sync cycle: ",n
         #The following looks for a change in a text

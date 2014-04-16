@@ -17,7 +17,7 @@
 ..\..\..\data\wfox\libra
 []
 ..\..\..\data\wfox\team_i
-[1 - Copy.txt,1.txt,T.dm3,]
+[1 - Copy.txt,1.txt,T - Copy.dm3,T.dm3,]
 ..\..\..\data\wfox\team_i\August
 []
 ..\..\..\data\wfox\team_i\December

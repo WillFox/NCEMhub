@@ -24,7 +24,24 @@
 {#            <a href="#" class="list-group-item">Link</a>#}
           </div>
         </div><!--/span-->
-      </div><!--/row-->
+
+        <div class="btn-group-vertical">
+            {% for previous in up_directory %}
+              <button type="button" class="btn btn-default">previous</button>
+            {% endfor %}
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Directories
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                {% for dir in directories %}
+                    <li><a href="#">{{dir}}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+          </div><!--/row-->
     <ul class="pagination">
             {% if data_chosen.has_previous %}
                 <li><a href="?page={{ data_chosen.previous_page_number }}">&laquo;</a></li>
@@ -45,7 +62,7 @@
             {% endif %}
     </ul>
 	<div class="row">
-        {% for d_set in data_files %}
+        {% for d_set in data_chosen %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
                 {% if d_set.image_rep_path == "/" %}
