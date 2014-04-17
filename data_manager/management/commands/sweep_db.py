@@ -171,9 +171,15 @@ SUMMARY: Goes over entire directory where data is transferred and
 makes copy to be compared to last synced view
 """
 def walkPath():
+    proceed=False
     for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
         for filename in filenames:
-            operationList(dirpath,filename)
+            if proceed:
+                operationList(dirpath,filename)
+            if filename=='428.jpg':
+                proceed=True
+
+            
     return True
 
 """
