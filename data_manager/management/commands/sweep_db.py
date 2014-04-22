@@ -174,10 +174,7 @@ def walkPath():
     proceed=False
     for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
         for filename in filenames:
-            if proceed:
-                operationList(dirpath,filename)
-            if filename=='428.jpg':
-                proceed=True
+            operationList(dirpath,filename)
 
             
     return True

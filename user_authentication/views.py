@@ -84,7 +84,7 @@ def LoginRequest(request):
 			patron = authenticate(username=username, password=password)
 			if patron is not None:
 				login(request,patron)
-				return HttpResponseRedirect('/')
+				return HttpResponseRedirect('/directories')
 			else:
 				return render_to_response('login.html', {'form':form}, context_instance=RquestContext(request))
 		else:

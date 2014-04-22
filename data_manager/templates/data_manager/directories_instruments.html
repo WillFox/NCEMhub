@@ -36,7 +36,7 @@
             </button>
             <ul class="dropdown-menu">
                 {% for dir in directories %}
-                    <li><a href="#">{{dir}}</a></li>
+                    <li><a href="?path={{path}}&directory={{dir}}">{{dir}}</a></li>
                 {% endfor %}
             </ul>
           </div>
@@ -65,15 +65,9 @@
         {% for d_set in data_chosen %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
-                {% if d_set.image_rep_path == "/" %}
-                    {%comment%}
-                        This checks if the image file exists
-                    {%endcomment%}
-                {% else %}
-                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
-                    </a>
-                {% endif %}
+                </a>
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>

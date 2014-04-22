@@ -34,6 +34,8 @@
 [T - Copy - Copy (2).dm3,T - Copy - Copy (3).dm3,T - Copy - Copy (4).dm3,T - Copy - Copy (5).dm3,T - Copy - Copy (6).dm3,T - Copy - Copy.dm3,T - Copy.dm3,T.dm3,]
 ..\..\..\data\wfox\team_i\September\New folder
 [T.dm3,]
+..\..\..\data\wfox\team_i\September\New folder\New folder more
+[T.dm3,]
 ..\..\..\data\wsfox
 []
 ..\..\..\data\wsfox\team_0.5

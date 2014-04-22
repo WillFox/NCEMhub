@@ -293,12 +293,28 @@ def directories_instrument(request,instrument_slug):
     if not user.is_authenticated:
         return HttpResponseRedirect('/')
     if os.name == 'nt':
-        data_path=DATA_ROOT+'\\'+user.username+'\\'+instrument.slug+'\\'
+        path_sep='\\'
     else:
-        data_path=DATA_ROOT+'/'+user.username+'/'+instrument.slug+'/'
-
+        path_sep='/'
+    data_path=DATA_ROOT+path_sep+user.username+path_sep+instrument.slug+path_sep
     
-    
+    try:
+        path=request.GET['path']
+    except:
+        path=''
+    try: 
+        directory=request.GET['directory']
+    except:
+        directory=''
+    if path == '':
+        if directory=='':
+            data_path=data_path
+        else:    
+            data_path=data_path+directory+path_sep
+            path=directory
+    else:
+        data_path=data_path+path+path_sep+directory+path_sep
+        path=path+path_sep+directory
     directories=[]
     data_files=[]
     for dir_file in os.listdir(data_path):
@@ -307,7 +323,6 @@ def directories_instrument(request,instrument_slug):
                 data_files.append(DataSet.objects.get(data_path=data_path+dir_file))
             except:
                 error = dir_file," is not coherrent with db: data_manager.views.directories_instrument"
-            
             #data_files.append(DataSet.objects.filter(Q(name=dir_file)|Q(data_original_path=data_path)))
         else:
             directories.append(dir_file)
@@ -321,7 +336,7 @@ def directories_instrument(request,instrument_slug):
         datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
         data_chosen=data_files,directories=directories, instrument=instrument_slug,#paginator=paginator,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active"))           
+        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active", path=path))           
 """
 Displays:
 #profile with the given user id

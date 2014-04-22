@@ -53,7 +53,7 @@
                         This checks if the image file exists
                     {%endcomment%}
                 {% else %}
-                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                    <a class="btn btn-default" href="{% url 'data_manager.views.directories' %}/{{d_set.slug}}" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                     </a>
                 {% endif %}
