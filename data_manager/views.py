@@ -162,6 +162,16 @@ def data_detail_characteristic(request,data_set_id,detail_id):
 Displays:
 #form that allows base options to be edited
 """
+def sep_posted_value(string_values):
+    n=0
+    real_list=[]
+    for i in range(len(string_values)):
+        if string_values[i]==',':
+
+            real_list.append(string_values[n:i])
+            n=i+1
+            print string_values[n:i] 
+    return real_list
 def data_edit(request,data_set_id):
     user=request.user
     if user.is_authenticated:
@@ -184,8 +194,106 @@ def data_edit(request,data_set_id):
     if request.method == 'POST':
         form = request.POST
         data_set.name = form['name']
+        data_set.description=form['description']
+
+        errors=[]
+
+        owners=form['owners']
+        owners=sep_posted_value(owners)
+        owners_current=[]
+        for i in data_set.owners.all():
+            owners_current.append(i.username)
+        #owner must be added to current
+        for i in owners:
+            if not i in owners_current:
+                #owner must be added to current
+                try:
+                    new_owner=User.objects.get(username=i)
+                    data_set.owners.add(new_owner)
+                except:
+                    error= "fail add", i
+        #owner must be deleted from current
+        for i in owners_current:
+            if not i in owners:
+                try:
+                    new_owner=User.objects.get(username=i)
+                    data_set.owners.remove(new_owner)
+                except:
+                    error= "fail remove", i
+            
+        tags=form['tags']
+        tags=sep_posted_value(tags) 
+        tags_current=[]
+        for i in data_set.tags.all():
+            tags_current.append(i.tag)
+        #tag must be added to current
+        for i in tags:
+            if not i in tags_current:
+                #tag must be added to current
+                try:
+                    new_tag=Tag.objects.get(tag=i)
+                    data_set.tags.add(new_tag)
+                except:
+                    error= "fail add", i
+        #tag must be deleted from current
+        for i in tags_current:
+            if not i in tags:
+                try:
+                    new_tag=Tag.objects.get(tag=i)
+                    data_set.tags.remove(new_tag)
+                except:
+                    error= "fail remove", i
+        
+        recorders=form['recorders']
+        recorders=sep_posted_value(recorders)
+        recorders_current=data_set.data_recorder.all()
+        print 'recorders',recorders
+        recorders_current=[]
+        for i in data_set.data_recorder.all():
+            recorders_current.append(i.name)
+        #recorder must be added to current
+        for i in recorders:
+            if not i in recorders_current:
+                #recorder must be added to current
+                try:
+                    new_recorder=DataRecorder.objects.get(name=i)
+                    data_set.data_recorder.add(new_recorder)
+                except:
+                    error= "fail add", i
+        #recorder must be deleted from current
+        for i in recorders_current:
+            if not i in recorders:
+                try:
+                    new_recorder=DataRecorder.objects.get(name=i)
+                    data_set.data_recorder.remove(new_recorder)
+                except:
+                    error= "fail remove", i
+            
+        collections=['collections']
+        collections=sep_posted_value(collections)
+        collections_current=[]
+        for i in data_set.collections.all():
+            collections_current.append(i.name)
+        #owner must be added to current
+        for i in collections:
+            if not i in collections_current:
+                #owner must be added to current
+                try:
+                    new_collection=Collection.objects.get(name=i)
+                    data_set.collections.add(new_collection)
+                except:
+                    error= "fail add", i
+        #owner must be deleted from current
+        for i in collections_current:
+            if not i in collections:
+                try:
+                    new_collection=Collection.objects.get(name=i)
+                    data_set.collections.remove(new_collection)
+                except:
+                    error= "fail remove", i
+            
         data_set.save()
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect("/data/"+str(data_set.id)+"/more")
     return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
         media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
         context_instance=RequestContext(request))     
@@ -334,9 +442,34 @@ def directories_instrument(request,instrument_slug):
         datas= paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
+    class bread_crumbs():
+        path = ''
+        dir_name = ''
+        directory= ''
+        def __unicode__(self):
+            return self.dir_name
+
+    """
+    Bread CRUMBS
+    -develops a class of the following
+    bread_crumb[i] = name of back track
+    bread_crumb[i].link = link to back track
+    """
+    n=0
+    bread_crumb_list=[]
+    for i in range(len(path)):
+        if path[i] == path_sep:
+            new_crumb=bread_crumbs()
+            if n==0:
+                new_crumb.path=path[:n]
+            else:        
+                new_crumb.path=path[:n-1]
+            new_crumb.dir_name=path[n:i]
+            bread_crumb_list.append(new_crumb)
+            n=i+1
     return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
-        data_chosen=data_files,directories=directories, instrument=instrument_slug,#paginator=paginator,
-        media_url=MEDIA_URL,media_root=MEDIA_ROOT, data_page=" class=active", path=path))           
+        data_chosen=data_files,directories=directories, instrument=DataRecorder.objects.get(slug=instrument_slug),#paginator=paginator,
+        media_url=MEDIA_URL,bread_crumbs=bread_crumb_list,directory=directory,media_root=MEDIA_ROOT, data_page=" class=active", path=path))           
 """
 Displays:
 #profile with the given user id

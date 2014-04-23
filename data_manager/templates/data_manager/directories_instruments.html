@@ -25,23 +25,62 @@
           </div>
         </div><!--/span-->
 
-        <div class="btn-group-vertical">
-            {% for previous in up_directory %}
-              <button type="button" class="btn btn-default">previous</button>
-            {% endfor %}
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Directories
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                {% for dir in directories %}
-                    <li><a href="?path={{path}}&directory={{dir}}">{{dir}}</a></li>
-                {% endfor %}
-            </ul>
-          </div>
-        </div>
+        
           </div><!--/row-->
+    <ol class="breadcrumb">
+        <li>
+            <a href="?">{{instrument.name}}</a>
+        </li>
+        {%for prev in bread_crumbs%}
+            <li><a href="?path={{prev.path}}&directory={{prev}}">{{prev}}</a></li>
+        {% endfor %}
+        {% ifnotequal directory "" %}
+        <li class="active">{{directory}}</li>
+        {% endifnotequal %}
+        
+        <li>
+            <div class="btn-group-vertical">
+                {% for previous in up_directory %}
+                    <button type="button" class="btn btn-default">previous</button>
+                {% endfor %}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Directories
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                    {% for dir in directories %}
+                        <li><a href="?path={{path}}&directory={{dir}}">{{dir}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ol>
+    <div class="btn-group-vertical">
+        <div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">Left</button>
+              <button type="button" class="btn btn-default">Middle</button>
+              <button type="button" class="btn btn-default">Right</button>
+            </div>
+        </div>
+        <div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">Left</button>
+              <button type="button" class="btn btn-default">Middle</button>
+              <button type="button" class="btn btn-default">Right</button>
+            </div>
+        </div>
+        <div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">Left</button>
+              <button type="button" class="btn btn-default">Middle</button>
+              <button type="button" class="btn btn-default">Right</button>
+            </div>
+        </div>
+    </div>
+    <div>
     <ul class="pagination">
             {% if data_chosen.has_previous %}
                 <li><a href="?page={{ data_chosen.previous_page_number }}">&laquo;</a></li>
@@ -61,11 +100,12 @@
                 <li class="disabled"><a href="">&raquo;</a></li>
             {% endif %}
     </ul>
+</div>
 	<div class="row">
         {% for d_set in data_chosen %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
-                <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}/more" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 </a>
                 <p>
@@ -77,7 +117,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}/more" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>

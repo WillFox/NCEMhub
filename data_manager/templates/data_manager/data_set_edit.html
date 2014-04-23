@@ -24,24 +24,33 @@
 				<li>
 					Data Path: {{data_details.data_path}}
 				</li>
+
+				{% endcomment %}
 				<li>
 					Description:
-					<input type="text" name="description" value="{{data_details.description}}">
 				</li>
+				<li>
+					<textarea cols="50" rows="4" name="description" >{{data_details.description}}</textarea>
+				</li>
+				<p>
+					separate the following by commas (e.g. carbon, platinum, crystal, )
+				</p>
 				<li>
 					Owners: 
-					<input type="text" name="description" value="{%for owner in data_details.owners.all%}{{ owner }}, {%endfor%}">
+					<input type="text" name="owners" value="{%for owner in data_details.owners.all%}{{ owner }}, {%endfor%}">
 				</li>
 				<li>
-					Tags: {%for tag in data_details.tags.all%}{{ tag }}, {%endfor%}
+					Tags: 
+					<input type="text" name="tags" value="{%for tag in data_details.tags.all%}{{ tag }}, {%endfor%}">
 				</li>
 				<li>
-					Data Recorder: {%for recorder in data_details.data_recorder.all%}{{ recorder }} {%endfor%}
+					Data Recorder: 
+					<input type="text" name="recorders" value="{%for recorder in data_details.data_recorder.all%}{{ recorder }}, {%endfor%}">
 				</li>
 				<li>
-					Collections: {%for collection in data_details.collections.all%}{{ collection }} {%endfor%}
+					Collections: 
+					<input type="text" name="collections" value="{%for collection in data_details.collections.all%}{{ collection }} {%endfor%}">
 				</li>
-				{% endcomment %}
 				<p><input type="submit" alt="register"/></p>
 				</form>
           </div>
