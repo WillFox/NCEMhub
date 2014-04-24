@@ -37,12 +37,9 @@
         {% ifnotequal directory "" %}
         <li class="active">{{directory}}</li>
         {% endifnotequal %}
-        
+        {% ifnotequal directories '' %}
         <li>
             <div class="btn-group-vertical">
-                {% for previous in up_directory %}
-                    <button type="button" class="btn btn-default">previous</button>
-                {% endfor %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         Directories
@@ -56,46 +53,36 @@
                 </div>
             </div>
         </li>
+        {% endifnotequal %}
     </ol>
     <div class="btn-group-vertical">
+        {%for year in years %}
         <div>
             <div class="btn-group">
-              <button type="button" class="btn btn-default">Left</button>
-              <button type="button" class="btn btn-default">Middle</button>
-              <button type="button" class="btn btn-default">Right</button>
+                <button type="button" class="btn btn-default"><a href="?path={{path_current}}&directory={{directory_current}}&year={{year.year}}">{{year.year}}</a></button>
+              {%for month in year.months %}  
+                <button type="button" class="btn btn-default"><a href="?path={{path_current}}&directory={{directory_current}}&year={{year.year}}&month={{month}}">{{month}}</a></button>
+              {% endfor %}
             </div>
         </div>
-        <div>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default">Left</button>
-              <button type="button" class="btn btn-default">Middle</button>
-              <button type="button" class="btn btn-default">Right</button>
-            </div>
-        </div>
-        <div>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default">Left</button>
-              <button type="button" class="btn btn-default">Middle</button>
-              <button type="button" class="btn btn-default">Right</button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     <div>
     <ul class="pagination">
             {% if data_chosen.has_previous %}
-                <li><a href="?page={{ data_chosen.previous_page_number }}">&laquo;</a></li>
+                <li><a href="?page={{ data_chosen.previous_page_number }}&path={{path_current}}&directory={{directory_current}}">&laquo;</a></li>
             {% else %}
                 <li class="disabled"><a href="">&laquo;</a></li>
             {% endif %}
             {% for i in paginator.page_range %}
                 {%ifequal i data_chosen.number %}
-                    <li class="active"><a href="?page={{i}}">{{i}}</a></li>
+                    <li class="active"><a href="?page={{i}}&path={{path_current}}&directory={{directory_current}}">{{i}}</a></li>
                 {%else%}
-                    <li><a href="?page={{i}}">{{i}}</a></li>
+                    <li><a href="?page={{i}}&path={{path_current}}&directory={{directory_current}}">{{i}}</a></li>
                 {% endifequal %}
             {% endfor %}
             {% if data_chosen.has_next %}
-                <li><a href="?page={{ data_chosen.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ data_chosen.next_page_number }}&path={{path_current}}&directory={{directory_current}}">&raquo;</a></li>
             {% else %}
                 <li class="disabled"><a href="">&raquo;</a></li>
             {% endif %}
@@ -105,9 +92,15 @@
         {% for d_set in data_chosen %}
             <div class="col-6 col-sm-6 col-lg-4">
                 <h2>{{d_set}} </h2>
+                {% if d_set.image_rep_path == "/" %}
+                    {%comment%}
+                        This checks if the image file exists
+                    {%endcomment%}
+                {% else %}
                 <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}/more" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                 </a>
+                {%endif%}
                 <p>
                     Created on: {{ d_set.created_on }}
                 </p>

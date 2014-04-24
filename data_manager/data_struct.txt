@@ -12,6 +12,8 @@
 []
 ..\..\..\data\deskinner\team_i
 []
+..\..\..\data\percius
+[]
 ..\..\..\data\wfox
 []
 ..\..\..\data\wfox\libra
@@ -31,7 +33,7 @@
 ..\..\..\data\wfox\team_i\October
 []
 ..\..\..\data\wfox\team_i\September
-[T - Copy - Copy (2).dm3,T - Copy - Copy (3).dm3,T - Copy - Copy (4).dm3,T - Copy - Copy (5).dm3,T - Copy - Copy (6).dm3,T - Copy - Copy.dm3,T - Copy.dm3,T.dm3,]
+[T - Copy (2).dm3,T - Copy - Copy (2) - Copy.dm3,T - Copy - Copy (2).dm3,T - Copy - Copy (3) - Copy.dm3,T - Copy - Copy (3).dm3,T - Copy - Copy (4) - Copy.dm3,T - Copy - Copy (4).dm3,T - Copy - Copy (5) - Copy.dm3,T - Copy - Copy (5).dm3,T - Copy - Copy (6) - Copy.dm3,T - Copy - Copy (6).dm3,T - Copy - Copy (7).dm3,T - Copy - Copy - Copy.dm3,T - Copy - Copy.dm3,T - Copy.dm3,T.dm3,]
 ..\..\..\data\wfox\team_i\September\New folder
 [T.dm3,]
 ..\..\..\data\wfox\team_i\September\New folder\New folder more

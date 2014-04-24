@@ -410,10 +410,21 @@ def directories_instrument(request,instrument_slug):
         path=request.GET['path']
     except:
         path=''
+    path_current=path
     try: 
         directory=request.GET['directory']
     except:
         directory=''
+    directory_current=directory
+    try:
+        year_passed=int(request.GET['year'])
+    except:
+        year_passed=''
+    try:
+        month_passed=int(request.GET['month'])
+    except:
+        month_passed=''
+    
     if path == '':
         if directory=='':
             data_path=data_path
@@ -434,14 +445,56 @@ def directories_instrument(request,instrument_slug):
             #data_files.append(DataSet.objects.filter(Q(name=dir_file)|Q(data_original_path=data_path)))
         else:
             directories.append(dir_file)
+    class Years():
+        year=2000
+        month_name={
+            1:'JAN',
+            2:'FEB',
+            3:'MAR',
+            4:'APR',
+            5:'MAY',
+            6:'JUN',
+            7:'JUL',
+            8:'AUG',
+            9:'SEP',
+            10:'OCT',
+            11:'NOV',
+            12:'DEC',
+        }
+        def __unicode__(self):
+            self.year
+        def __init__(self):
+            self.months = []
+    year_list=[]
+    years_list=[]
+    for i in data_files:
+        if not i.created_on.year in year_list:
+            year_now=Years()
+            year_now.year=i.created_on.year
+            years_list.append(year_now)
+            year_list.append(i.created_on.year)
+        for n in years_list:
+            if i.created_on.year==n.year:
+                if not i.created_on.month in n.months:
+                    n.months.append(i.created_on.month)
+    print data_files
+    if not year_passed=='':
+        for d_file in reversed(data_files):
+            print d_file
+            if not d_file.created_on.year==year_passed:
+                data_files.remove(d_file)
+    if not month_passed=='':
+        for d_file in reversed(data_files):
+            if not d_file.created_on.month==month_passed:
+                data_files.remove(d_file)
     paginator = Paginator(data_files,PER_PAGE)
     page= request.GET.get('page')
     try:
-        datas = paginator.page(page)
+        data_files = paginator.page(page)
     except PageNotAnInteger:
-        datas= paginator.page(1)
+        data_files= paginator.page(1)
     except EmptyPage:
-        datas = paginator.page(paginator.num_pages)
+        data_files = paginator.page(paginator.num_pages)
     class bread_crumbs():
         path = ''
         dir_name = ''
@@ -467,9 +520,16 @@ def directories_instrument(request,instrument_slug):
             new_crumb.dir_name=path[n:i]
             bread_crumb_list.append(new_crumb)
             n=i+1
+
+    year_list=[]
+
+    if directories==[]:
+        directories=''
     return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
-        data_chosen=data_files,directories=directories, instrument=DataRecorder.objects.get(slug=instrument_slug),#paginator=paginator,
-        media_url=MEDIA_URL,bread_crumbs=bread_crumb_list,directory=directory,media_root=MEDIA_ROOT, data_page=" class=active", path=path))           
+        data_chosen=data_files,directories=directories, instrument=DataRecorder.objects.get(slug=instrument_slug),
+        media_url=MEDIA_URL,paginator=paginator,bread_crumbs=bread_crumb_list,directory=directory,
+        media_root=MEDIA_ROOT, data_page=" class=active", path=path,years=years_list,
+        path_current=path_current,directory_current=directory_current))           
 """
 Displays:
 #profile with the given user id
