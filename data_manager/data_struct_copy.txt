@@ -1,47 +1,127 @@
-..\..\..\data
+../../../data
 []
-..\..\..\data\cophus
+../../../data/wfox
 []
-..\..\..\data\cophus\libra
+../../../data/wfox/team_i
 []
-..\..\..\data\cophus\team_0.5
+../../../data/wfox/team_0p5
 []
-..\..\..\data\cophus\team_i
+../../../data/wfox/libra
+[01.dm3,02.dm3,03.dm3,04.dm3,05.dm3,06.dm3,08.dm3,09.dm3,13.dm3,14.dm3,15.dm3,]
+../../../data/wfox/oam
 []
-..\..\..\data\deskinner
+../../../data/wfox/spleem
 []
-..\..\..\data\deskinner\team_i
+../../../data/wfox/3010_in_situ
 []
-..\..\..\data\percius
+../../../data/wfox/cm_200_feg
 []
-..\..\..\data\wfox
+../../../data/wfox/fei_strata_235_dual_beam_fib
 []
-..\..\..\data\wfox\libra
+../../../data/wfox/tecnai
 []
-..\..\..\data\wfox\team_i
-[1 - Copy.txt,1.txt,T - Copy.dm3,T.dm3,]
-..\..\..\data\wfox\team_i\August
+../../../data/percius
 []
-..\..\..\data\wfox\team_i\December
+../../../data/percius/team_i
 []
-..\..\..\data\wfox\team_i\February
+../../../data/percius/team_i/20101206 - PdAu core-shell
+[01.dm3,02.dm3,03.dm3,04.dm3,05.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle1
+[01.dm3,01_FocalSeriesImages_Def_-1nm.dm3,02.dm3,Start.dm3,Stop.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle2
+[01_FocalSeriesImages_Def_-1nm.dm3,02_FocalSeriesImages_Def_-1nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle2/01-images
+[01_images_-2nm_Layer_004.dm3,01_images_-2nm_Layer_005.dm3,01_images_-2nm_Layer_006.dm3,01_images_-2nm_Layer_007.dm3,01_images_-2nm_Layer_008.dm3,01_images_-2nm_Layer_009.dm3,01_images_-2nm_Layer_010.dm3,01_images_-2nm_Layer_011.dm3,01_images_-2nm_Layer_012.dm3,01_images_-2nm_Layer_013.dm3,01_images_-2nm_Layer_014.dm3,01_images_-2nm_Layer_015.dm3,01_images_-2nm_Layer_016.dm3,01_images_-2nm_Layer_017.dm3,01_images_-2nm_Layer_018.dm3,01_images_-2nm_Layer_019.dm3,01_images_-2nm_Layer_020.dm3,01_images_-2nm_Layer_021.dm3,01_images_-2nm_Layer_022.dm3,01_images_-2nm_Layer_023.dm3,01_images_-2nm_Layer_024.dm3,01_images_-2nm_Layer_025.dm3,01_images_-2nm_Layer_026.dm3,01_images_-2nm_Layer_027.dm3,01_images_-2nm_Layer_028.dm3,01_images_-2nm_Layer_029.dm3,01_images_-2nm_Layer_030.dm3,01_images_-2nm_Layer_031.dm3,01_images_-2nm_Layer_032.dm3,01_images_-2nm_Layer_033.dm3,01_images_-2nm_Layer_034.dm3,01_images_-2nm_Layer_035.dm3,01_images_-2nm_Layer_036.dm3,01_images_-2nm_Layer_037.dm3,01_images_-2nm_Layer_038.dm3,01_images_-2nm_Layer_039.dm3,01_images_-2nm_Layer_040.dm3,01_images_-2nm_Layer_041.dm3,01_images_-2nm_Start_image.dm3,01_images_-2nm_Stop_image.dm3,01_images_-2nm_Layer_001.dm3,01_images_-2nm_Layer_002.dm3,01_images_-2nm_Layer_003.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle2/02-images
+[02_images_-2nm_Layer_001.dm3,02_images_-2nm_Layer_002.dm3,02_images_-2nm_Layer_003.dm3,02_images_-2nm_Layer_005.dm3,02_images_-2nm_Layer_007.dm3,02_images_-2nm_Layer_010.dm3,02_images_-2nm_Layer_011.dm3,02_images_-2nm_Layer_012.dm3,02_images_-2nm_Layer_013.dm3,02_images_-2nm_Layer_014.dm3,02_images_-2nm_Layer_015.dm3,02_images_-2nm_Layer_016.dm3,02_images_-2nm_Layer_017.dm3,02_images_-2nm_Layer_018.dm3,02_images_-2nm_Layer_019.dm3,02_images_-2nm_Layer_020.dm3,02_images_-2nm_Layer_021.dm3,02_images_-2nm_Layer_022.dm3,02_images_-2nm_Layer_023.dm3,02_images_-2nm_Layer_024.dm3,02_images_-2nm_Layer_025.dm3,02_images_-2nm_Layer_026.dm3,02_images_-2nm_Layer_027.dm3,02_images_-2nm_Layer_028.dm3,02_images_-2nm_Layer_029.dm3,02_images_-2nm_Layer_031.dm3,02_images_-2nm_Layer_032.dm3,02_images_-2nm_Layer_033.dm3,02_images_-2nm_Layer_034.dm3,02_images_-2nm_Layer_035.dm3,02_images_-2nm_Layer_036.dm3,02_images_-2nm_Layer_037.dm3,02_images_-2nm_Layer_038.dm3,02_images_-2nm_Layer_039.dm3,02_images_-2nm_Layer_040.dm3,02_images_-2nm_Layer_041.dm3,02_images_-2nm_Start_image.dm3,02_images_-2nm_Stop_image.dm3,02_images_-2nm_Layer_004.dm3,02_images_-2nm_Layer_006.dm3,02_images_-2nm_Layer_008.dm3,02_images_-2nm_Layer_009.dm3,02_images_-2nm_Layer_030.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle3
+[01_FocalSeriesImages_Def_-1nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle4
+[01_FocalSeriesImages_Def_-1nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle5
+[01_FocalSeriesImages_Def_-1nm.dm3,02_FocalSeriesImages_Def_-1nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle5/01-images
+[01_images_-2nm_Layer_001.dm3,01_images_-2nm_Layer_002.dm3,01_images_-2nm_Layer_003.dm3,01_images_-2nm_Layer_004.dm3,01_images_-2nm_Layer_006.dm3,01_images_-2nm_Layer_007.dm3,01_images_-2nm_Layer_008.dm3,01_images_-2nm_Layer_009.dm3,01_images_-2nm_Layer_010.dm3,01_images_-2nm_Layer_011.dm3,01_images_-2nm_Layer_012.dm3,01_images_-2nm_Layer_013.dm3,01_images_-2nm_Layer_014.dm3,01_images_-2nm_Layer_015.dm3,01_images_-2nm_Layer_016.dm3,01_images_-2nm_Layer_017.dm3,01_images_-2nm_Layer_018.dm3,01_images_-2nm_Layer_019.dm3,01_images_-2nm_Layer_020.dm3,01_images_-2nm_Layer_021.dm3,01_images_-2nm_Layer_022.dm3,01_images_-2nm_Layer_023.dm3,01_images_-2nm_Layer_025.dm3,01_images_-2nm_Layer_026.dm3,01_images_-2nm_Layer_027.dm3,01_images_-2nm_Layer_028.dm3,01_images_-2nm_Layer_029.dm3,01_images_-2nm_Layer_030.dm3,01_images_-2nm_Layer_031.dm3,01_images_-2nm_Layer_032.dm3,01_images_-2nm_Layer_033.dm3,01_images_-2nm_Layer_034.dm3,01_images_-2nm_Layer_035.dm3,01_images_-2nm_Layer_036.dm3,01_images_-2nm_Layer_037.dm3,01_images_-2nm_Layer_038.dm3,01_images_-2nm_Layer_039.dm3,01_images_-2nm_Layer_040.dm3,01_images_-2nm_Layer_041.dm3,01_images_-2nm_Start_image.dm3,01_images_-2nm_Stop_image.dm3,01_images_-2nm_Layer_005.dm3,01_images_-2nm_Layer_024.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle6
+[01_FocalSeriesImages_Def_-1nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Particle7
+[01_FocalSeriesImages_Def_-1nm.dm3,02.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series1
+[01_FocalSeriesImages_Def_0nm.dm3,02_FocalSeriesImages_Def_-2nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series2
+[01_FocalSeriesImages_Def_0nm.dm3,02_FocalSeriesImages_Def_-2nm.dm3,03_lowMag_-500nmDF.dm3,04_lowMag_+500nmDF.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series3
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_0nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series4
+[01_FocalSeriesImages_Def_0nm.dm3,02_FocalSeriesImages_Def_-2nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series5
+[01_FocalSeriesImages_Def_-2nm.dm3,01_LowMag.dm3,02_FocalSeriesImages_Def_0nm.dm3,02_LowMag.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series6
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_0nm.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series6/01_images_-2nm
+[01_images_-2nm_Layer_002.dm3,01_images_-2nm_Layer_003.dm3,01_images_-2nm_Layer_004.dm3,01_images_-2nm_Layer_005.dm3,01_images_-2nm_Layer_006.dm3,01_images_-2nm_Layer_007.dm3,01_images_-2nm_Layer_008.dm3,01_images_-2nm_Layer_009.dm3,01_images_-2nm_Layer_010.dm3,01_images_-2nm_Layer_011.dm3,01_images_-2nm_Layer_012.dm3,01_images_-2nm_Layer_013.dm3,01_images_-2nm_Layer_014.dm3,01_images_-2nm_Layer_015.dm3,01_images_-2nm_Layer_016.dm3,01_images_-2nm_Layer_017.dm3,01_images_-2nm_Layer_018.dm3,01_images_-2nm_Layer_019.dm3,01_images_-2nm_Layer_020.dm3,01_images_-2nm_Layer_021.dm3,01_images_-2nm_Layer_023.dm3,01_images_-2nm_Layer_024.dm3,01_images_-2nm_Layer_025.dm3,01_images_-2nm_Layer_026.dm3,01_images_-2nm_Layer_027.dm3,01_images_-2nm_Layer_028.dm3,01_images_-2nm_Layer_029.dm3,01_images_-2nm_Layer_030.dm3,01_images_-2nm_Layer_031.dm3,01_images_-2nm_Layer_032.dm3,01_images_-2nm_Layer_033.dm3,01_images_-2nm_Layer_034.dm3,01_images_-2nm_Layer_035.dm3,01_images_-2nm_Layer_036.dm3,01_images_-2nm_Layer_037.dm3,01_images_-2nm_Layer_038.dm3,01_images_-2nm_Layer_039.dm3,01_images_-2nm_Layer_040.dm3,01_images_-2nm_Layer_041.dm3,01_images_-2nm_Start_image.dm3,01_images_-2nm_Layer_001.dm3,01_images_-2nm_Layer_022.dm3,01_images_-2nm_Stop_image.dm3,]
+../../../data/percius/team_i/20101206 - PdAu core-shell/Series7
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_0nm.dm3,03_FocalSeriesImages_Def_-2nm_10xLess.dm3,04_FocalSeriesImages_Def_0nm_10xLess.dm3,05_FocalSeriesImages_Def_-2nm_77xLess.dm3,06_FocalSeriesImages_Def_0nm_77xLess.dm3,07_FocalSeriesImages_Def_-2nm_100xLess.dm3,08_FocalSeriesImages_Def_0nm_100xLess.dm3,]
+../../../data/percius/team_i/20101207 - PdAu core-shell
 []
-..\..\..\data\wfox\team_i\January
+../../../data/percius/team_i/20101207 - PdAu core-shell/Series1
+[01_100e-.dm3,02_500counts.dm3,03_100counts.dm3,04_27counts.dm3,]
+../../../data/percius/team_i/20101207 - PdAu core-shell/Series3
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_-2nm_13counts.dm3,03_FocalSeriesImages_Def_-2nm.dm3,03_goodImage.dm3,04_FocalSeriesImages_Def_-2nm.dm3,04_goodImage.dm3,]
+../../../data/percius/team_i/20101207 - PdAu core-shell/Series3/03-images
+[03_images_-2nm_Layer_015.dm3,03_images_-2nm_Layer_016.dat,03_images_-2nm_Layer_016.dm3,03_images_-2nm_Layer_017.dat,03_images_-2nm_Layer_017.dm3,03_images_-2nm_Layer_018.dat,03_images_-2nm_Layer_018.dm3,03_images_-2nm_Layer_019.dat,03_images_-2nm_Layer_019.dm3,03_images_-2nm_Layer_020.dat,03_images_-2nm_Layer_020.dm3,03_images_-2nm_Layer_021.dat,03_images_-2nm_Layer_021.dm3,03_images_-2nm_Layer_022.dat,03_images_-2nm_Layer_022.dm3,03_images_-2nm_Layer_023.dat,03_images_-2nm_Layer_023.dm3,03_images_-2nm_Layer_024.dat,03_images_-2nm_Layer_024.dm3,03_images_-2nm_Layer_025.dat,03_images_-2nm_Layer_025.dm3,03_images_-2nm_Layer_026.dat,03_images_-2nm_Layer_026.dm3,03_images_-2nm_Layer_027.dat,03_images_-2nm_Layer_027.dm3,03_images_-2nm_Layer_028.dat,03_images_-2nm_Layer_028.dm3,03_images_-2nm_Layer_029.dat,03_images_-2nm_Layer_029.dm3,03_images_-2nm_Layer_030.dat,03_images_-2nm_Layer_030.dm3,03_images_-2nm_Layer_031.dat,03_images_-2nm_Layer_031.dm3,03_images_-2nm_Layer_032.dat,03_images_-2nm_Layer_032.dm3,03_images_-2nm_Layer_033.dat,03_images_-2nm_Layer_033.dm3,03_images_-2nm_Layer_034.dat,03_images_-2nm_Layer_034.dm3,03_images_-2nm_Layer_035.dat,03_images_-2nm_Layer_035.dm3,03_images_-2nm_Layer_036.dat,03_images_-2nm_Layer_036.dm3,03_images_-2nm_Layer_037.dm3,03_images_-2nm_Layer_038.dat,03_images_-2nm_Layer_038.dm3,03_images_-2nm_Layer_039.dat,03_images_-2nm_Layer_039.dm3,03_images_-2nm_Layer_040.dat,03_images_-2nm_Layer_040.dm3,03_images_-2nm_Layer_041.dat,03_images_-2nm_Layer_041.dm3,03_images_-2nm_Start_image.dm3,03_images_-2nm_Stop_image.dm3,03_images_-2nm_Layer_001.dat,03_images_-2nm_Layer_001.dm3,03_images_-2nm_Layer_002.dat,03_images_-2nm_Layer_002.dm3,03_images_-2nm_Layer_003.dat,03_images_-2nm_Layer_003.dm3,03_images_-2nm_Layer_004.dat,03_images_-2nm_Layer_004.dm3,03_images_-2nm_Layer_005.dat,03_images_-2nm_Layer_005.dm3,03_images_-2nm_Layer_006.dat,03_images_-2nm_Layer_006.dm3,03_images_-2nm_Layer_007.dat,03_images_-2nm_Layer_007.dm3,03_images_-2nm_Layer_008.dat,03_images_-2nm_Layer_008.dm3,03_images_-2nm_Layer_009.dat,03_images_-2nm_Layer_009.dm3,03_images_-2nm_Layer_010.dat,03_images_-2nm_Layer_010.dm3,03_images_-2nm_Layer_011.dat,03_images_-2nm_Layer_011.dm3,03_images_-2nm_Layer_012.dat,03_images_-2nm_Layer_012.dm3,03_images_-2nm_Layer_013.dat,03_images_-2nm_Layer_013.dm3,03_images_-2nm_Layer_014.dat,03_images_-2nm_Layer_014.dm3,03_images_-2nm_Layer_015.dat,03_images_-2nm_Layer_037.dat,]
+../../../data/percius/team_i/20101207 - PdAu core-shell/Series3/04-images
+[04_images_-2nm_Layer_001.dm3,04_images_-2nm_Layer_002.dm3,04_images_-2nm_Layer_003.dm3,04_images_-2nm_Layer_004.dm3,04_images_-2nm_Layer_005.dm3,04_images_-2nm_Layer_006.dm3,04_images_-2nm_Layer_007.dm3,04_images_-2nm_Layer_008.dm3,04_images_-2nm_Layer_009.dm3,04_images_-2nm_Layer_010.dm3,04_images_-2nm_Layer_012.dm3,04_images_-2nm_Layer_014.dm3,04_images_-2nm_Layer_015.dm3,04_images_-2nm_Layer_016.dm3,04_images_-2nm_Layer_017.dm3,04_images_-2nm_Layer_018.dm3,04_images_-2nm_Layer_019.dm3,04_images_-2nm_Layer_020.dm3,04_images_-2nm_Layer_021.dm3,04_images_-2nm_Layer_022.dm3,04_images_-2nm_Layer_023.dm3,04_images_-2nm_Layer_024.dm3,04_images_-2nm_Layer_025.dm3,04_images_-2nm_Layer_026.dm3,04_images_-2nm_Layer_027.dm3,04_images_-2nm_Layer_028.dm3,04_images_-2nm_Layer_029.dm3,04_images_-2nm_Layer_030.dm3,04_images_-2nm_Layer_031.dm3,04_images_-2nm_Layer_032.dm3,04_images_-2nm_Layer_011.dm3,04_images_-2nm_Layer_033.dm3,04_images_-2nm_Layer_013.dm3,04_images_-2nm_Layer_034.dm3,04_images_-2nm_Layer_035.dm3,04_images_-2nm_Layer_038.dm3,04_images_-2nm_Layer_036.dm3,04_images_-2nm_Layer_040.dm3,04_images_-2nm_Layer_037.dm3,04_images_-2nm_Layer_041.dm3,04_images_-2nm_Layer_039.dm3,04_images_-2nm_Start_image.dm3,04_images_-2nm_Stop_image.dm3,]
+../../../data/percius/team_i/20101207 - PdAu core-shell/beam shower
+[01_start.dm3,02_5min.dm3,03_18min.dm3,04_34min.dm3,05_35min_largeDose.dm3,06_35min_largeDose_Focused.dm3,]
+../../../data/percius/team_i/20101208 - PdAu core-shell
+[01-STEM.emi,01-STEM_1.ser,02-STEM.emi,02-STEM_1.ser,STEM_0000.emi,STEM_0000_1.ser,STEM_0001.emi,STEM_0001_1.ser,STEM_0002.emi,STEM_0002_1.ser,STEM_0003.emi,STEM_0003_1.ser,STEM_0004.emi,STEM_0004_1.ser,STEM_0005.emi,STEM_0005_1.ser,STEM_0006.emi,STEM_0006_1.ser,STEM_0007.emi,STEM_0007_1.ser,STEM_0008.emi,STEM_0008_1.ser,STEM_0009.emi,STEM_0009_1.ser,STEM_0010.emi,STEM_0010_1.ser,STEM_0011.emi,STEM_0011_1.ser,STEM_0012.emi,STEM_0012_1.ser,STEM_0013.emi,STEM_0013_1.ser,STEM_0014.emi,STEM_0014_1.ser,STEM_0015.emi,STEM_0015_1.ser,STEM_0016.emi,STEM_0016_1.ser,STEM_0017.emi,STEM_0017_1.ser,STEM_0018.emi,STEM_0018_1.ser,STEM_0019.emi,STEM_0019_1.ser,STEM_0020.emi,STEM_0020_1.ser,STEM_0021.emi,STEM_0021_1.ser,STEM_0022.emi,STEM_0022_1.ser,STEM_0023.emi,STEM_0023_1.ser,STEM_0024.emi,STEM_0024_1.ser,STEM_0025.emi,STEM_0025_1.ser,STEM_0026.emi,STEM_0026_1.ser,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particle1
+[01_FocalSeriesImages_Def_-2nm_1000cnts.dm3,Spectrum-image [240,350]eV.dm3,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particle1/01-images
+[01_images_-2nm_Layer_001.dm3,01_images_-2nm_Layer_002.dm3,01_images_-2nm_Layer_003.dm3,01_images_-2nm_Layer_005.dm3,01_images_-2nm_Layer_006.dm3,01_images_-2nm_Layer_007.dm3,01_images_-2nm_Layer_008.dm3,01_images_-2nm_Layer_009.dm3,01_images_-2nm_Layer_010.dm3,01_images_-2nm_Layer_012.dm3,01_images_-2nm_Layer_013.dm3,01_images_-2nm_Layer_014.dm3,01_images_-2nm_Layer_016.dm3,01_images_-2nm_Layer_017.dm3,01_images_-2nm_Layer_018.dm3,01_images_-2nm_Layer_019.dm3,01_images_-2nm_Layer_020.dm3,01_images_-2nm_Layer_021.dm3,01_images_-2nm_Layer_022.dm3,01_images_-2nm_Layer_024.dm3,01_images_-2nm_Layer_025.dm3,01_images_-2nm_Layer_026.dm3,01_images_-2nm_Layer_027.dm3,01_images_-2nm_Layer_029.dm3,01_images_-2nm_Layer_031.dm3,01_images_-2nm_Layer_032.dm3,01_images_-2nm_Layer_033.dm3,01_images_-2nm_Layer_004.dm3,01_images_-2nm_Layer_011.dm3,01_images_-2nm_Layer_015.dm3,01_images_-2nm_Layer_023.dm3,01_images_-2nm_Layer_028.dm3,01_images_-2nm_Layer_030.dm3,01_images_-2nm_Layer_034.dm3,01_images_-2nm_Layer_035.dm3,01_images_-2nm_Layer_036.dm3,01_images_-2nm_Layer_037.dm3,01_images_-2nm_Layer_038.dm3,01_images_-2nm_Layer_039.dm3,01_images_-2nm_Layer_040.dm3,01_images_-2nm_Layer_041.dm3,01_images_-2nm_Start_image.dm3,01_images_-2nm_Stop_image.dm3,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particle3
+[01_FocalSeriesImages_Def_-2nm.dm3,01_STEM.emi,01_STEM_1.ser,02_STEM.emi,02_STEM_1.ser,overview.dm3,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particle4
+[02_STEM.emi,02_STEM_1.ser,03_overview.emi,03_overview_1.ser,01_STEM.emi,01_STEM_1.ser,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particles2
+[01_FocalSeries_-2nm_1000counts.dm3,02_FocalSeriesImages_Def_-2nm_2000counts.dm3,03_overview-STEM.emi,03_overview-STEM_1.ser,04_particles1-STEM.emi,04_particles1-STEM_1.ser,05_particles2-STEM.emi,05_particles2-STEM_1.ser,06_overview_Contamination.emi,06_overview_Contamination_1.ser,07_overview_Contamination.emi,07_overview_Contamination_1.ser,overview.dm3,]
+../../../data/percius/team_i/20101208 - PdAu core-shell/Particles2/01-images
+[01_images_-2nm_Layer_010.dm3,01_images_-2nm_Layer_016.dm3,01_images_-2nm_Layer_017.dm3,01_images_-2nm_Layer_018.dm3,01_images_-2nm_Layer_019.dm3,01_images_-2nm_Layer_020.dm3,01_images_-2nm_Layer_021.dm3,01_images_-2nm_Layer_022.dm3,01_images_-2nm_Layer_023.dm3,01_images_-2nm_Layer_024.dm3,01_images_-2nm_Layer_025.dm3,01_images_-2nm_Layer_026.dm3,01_images_-2nm_Layer_027.dm3,01_images_-2nm_Layer_028.dm3,01_images_-2nm_Layer_030.dm3,01_images_-2nm_Layer_031.dm3,01_images_-2nm_Layer_032.dm3,01_images_-2nm_Layer_033.dm3,01_images_-2nm_Layer_034.dm3,01_images_-2nm_Layer_036.dm3,01_images_-2nm_Layer_001.dm3,01_images_-2nm_Layer_037.dm3,01_images_-2nm_Layer_002.dm3,01_images_-2nm_Layer_038.dm3,01_images_-2nm_Layer_003.dm3,01_images_-2nm_Layer_039.dm3,01_images_-2nm_Layer_004.dm3,01_images_-2nm_Layer_005.dm3,01_images_-2nm_Layer_040.dm3,01_images_-2nm_Layer_006.dm3,01_images_-2nm_Layer_041.dm3,01_images_-2nm_Layer_007.dm3,01_images_-2nm_Start_image.dm3,01_images_-2nm_Layer_008.dm3,01_images_-2nm_Stop_image.dm3,01_images_-2nm_Layer_009.dm3,01_images_-2nm_Layer_011.dm3,01_images_-2nm_Layer_012.dm3,01_images_-2nm_Layer_013.dm3,01_images_-2nm_Layer_014.dm3,01_images_-2nm_Layer_015.dm3,01_images_-2nm_Layer_029.dm3,01_images_-2nm_Layer_035.dm3,]
+../../../data/percius/team_i/20101214 - Pt clusters NaBh4 reduced
+[01.emi,01_1.ser,02.emi,02_1.ser,04.emi,04_1.ser,05.emi,05_1.ser,06.emi,06_1.ser,07.emi,07_1.ser,08.emi,08_1.ser,09.emi,09_1.ser,10_overview.emi,10_overview_1.ser,11.dm3,12.dm3,13.dm3,31_STEM_0001.emi,14.dm3,15.dm3,31_STEM_0001_1.ser,16.dm3,31_STEM_0002.emi,31_STEM_0002_1.ser,17.dm3,31_STEM_0003.emi,18.dm3,31_STEM_0003_1.ser,19.dm3,31_STEM_0004.emi,20.dm3,31_STEM_0004_1.ser,21.dm3,31_STEM_0005.emi,31_STEM_0005_1.ser,22.dm3,31_STEM_0006_1.ser,23.dm3,31_STEM_0007.emi,24.dm3,31_STEM_0007_1.ser,25-2.dm3,25.dm3,26_FocalSeriesImages_Def_0nm.dm3,27.dm3,28.dm3,29.dm3,30.dm3,31_STEM_0000.emi,31_STEM_0000_1.ser,31_STEM_0006.emi,]
+../../../data/percius/libra
 []
-..\..\..\data\wfox\team_i\November
+../../../data/percius/libra/august
 []
-..\..\..\data\wfox\team_i\October
+../../../data/percius/libra/august/trial_1
 []
-..\..\..\data\wfox\team_i\September
-[T - Copy (2).dm3,T - Copy - Copy (2) - Copy.dm3,T - Copy - Copy (2).dm3,T - Copy - Copy (3) - Copy.dm3,T - Copy - Copy (3).dm3,T - Copy - Copy (4) - Copy.dm3,T - Copy - Copy (4).dm3,T - Copy - Copy (5) - Copy.dm3,T - Copy - Copy (5).dm3,T - Copy - Copy (6) - Copy.dm3,T - Copy - Copy (6).dm3,T - Copy - Copy (7).dm3,T - Copy - Copy - Copy.dm3,T - Copy - Copy.dm3,T - Copy.dm3,T.dm3,]
-..\..\..\data\wfox\team_i\September\New folder
-[T.dm3,]
-..\..\..\data\wfox\team_i\September\New folder\New folder more
-[T.dm3,]
-..\..\..\data\wsfox
+../../../data/percius/libra/august/trial_1/20101213 - Pt cluster on graphene C3
+[01.dm3,02.dm3,03.dm3,04.dm3,05.dm3,06.dm3,07_FocalSeriesImages_Def_-2nm.dm3,08.dm3,09.dm3,10_FocalSeriesImages_Def_-2nm.dm3,11_FocalSeriesImages_Def_0nm.dm3,12_FocalSeriesImages_Def_0nm.dm3,13.dm3,14.dm3,15.dm3,16.dm3,16_FocalSeriesImages_Def_0nm.dm3,17_FocalSeriesImages_Def_-2nm.dm3,18.dm3,19.dm3,20.dm3,21.dm3,22_FocalSeriesImages_Def_0nm.dm3,23_FocalSeriesImages_Def_-2nm.dm3,24_FocalSeriesImages_Def_0nm.dm3,25.dm3,26.dm3,27.dm3,28_FocalSeriesImages_Def_-2nm_lowerDose.dm3,29_FocalSeriesImages_Def_-2nm.dm3,29_FocalSeriesImages_Def_0nm.dm3,30_FocalSeriesImages_Def_-2nm.dm3,31.dm3,32.dm3,33.dm3,34_overview.dm3,35.dm3,36.dm3,]
+../../../data/percius/libra/august/trial_1/20101213 - Pt cluster on graphene C3/07
+[07_PtClusters_Layer_009.dm3,07_PtClusters_Layer_010.dm3,07_PtClusters_Layer_011.dm3,07_PtClusters_Layer_012.dm3,07_PtClusters_Layer_013.dm3,07_PtClusters_Layer_014.dm3,07_PtClusters_Layer_015.dm3,07_PtClusters_Layer_016.dm3,07_PtClusters_Layer_017.dm3,07_PtClusters_Layer_018.dm3,07_PtClusters_Layer_019.dm3,07_PtClusters_Layer_020.dm3,07_PtClusters_Layer_021.dm3,07_PtClusters_Layer_022.dm3,07_PtClusters_Layer_023.dm3,07_PtClusters_Layer_024.dm3,07_PtClusters_Layer_025.dm3,07_PtClusters_Layer_026.dm3,07_PtClusters_Layer_027.dm3,07_PtClusters_Layer_028.dm3,07_PtClusters_Layer_029.dm3,07_PtClusters_Layer_030.dm3,07_PtClusters_Layer_031.dm3,07_PtClusters_Layer_032.dm3,07_PtClusters_Layer_033.dm3,07_PtClusters_Layer_034.dm3,07_PtClusters_Layer_035.dm3,07_PtClusters_Layer_036.dm3,07_PtClusters_Layer_037.dm3,07_PtClusters_Layer_038.dm3,07_PtClusters_Layer_039.dm3,07_PtClusters_Layer_040.dm3,07_PtClusters_Layer_041.dm3,07_PtClusters_Start_image.dm3,07_PtClusters_Stop_image.dm3,07_PtClusters_Layer_001.dm3,07_PtClusters_Layer_002.dm3,07_PtClusters_Layer_003.dm3,07_PtClusters_Layer_004.dm3,07_PtClusters_Layer_005.dm3,07_PtClusters_Layer_006.dm3,07_PtClusters_Layer_007.dm3,07_PtClusters_Layer_008.dm3,]
+../../../data/percius/libra/august/trial_1/20101213 - Pt cluster on graphene C3/30
+[30_PtClusters_Layer_001.dm3,30_PtClusters_Layer_002.dm3,30_PtClusters_Layer_003.dm3,30_PtClusters_Layer_004.dm3,30_PtClusters_Layer_005.dm3,30_PtClusters_Layer_006.dm3,30_PtClusters_Layer_007.dm3,30_PtClusters_Layer_008.dm3,30_PtClusters_Layer_009.dm3,30_PtClusters_Layer_011.dm3,30_PtClusters_Layer_013.dm3,30_PtClusters_Layer_015.dm3,30_PtClusters_Layer_016.dm3,30_PtClusters_Layer_017.dm3,30_PtClusters_Layer_018.dm3,30_PtClusters_Layer_019.dm3,30_PtClusters_Layer_020.dm3,30_PtClusters_Layer_021.dm3,30_PtClusters_Layer_022.dm3,30_PtClusters_Layer_023.dm3,30_PtClusters_Layer_024.dm3,30_PtClusters_Layer_025.dm3,30_PtClusters_Layer_026.dm3,30_PtClusters_Layer_027.dm3,30_PtClusters_Layer_028.dm3,30_PtClusters_Layer_029.dm3,30_PtClusters_Layer_030.dm3,30_PtClusters_Layer_031.dm3,30_PtClusters_Layer_033.dm3,30_PtClusters_Layer_034.dm3,30_PtClusters_Layer_035.dm3,30_PtClusters_Layer_036.dm3,30_PtClusters_Layer_037.dm3,30_PtClusters_Layer_038.dm3,30_PtClusters_Layer_039.dm3,30_PtClusters_Layer_040.dm3,30_PtClusters_Layer_041.dm3,30_PtClusters_Start_image.dm3,30_PtClusters_Stop_image.dm3,30_PtClusters_Layer_010.dm3,30_PtClusters_Layer_012.dm3,30_PtClusters_Layer_014.dm3,30_PtClusters_Layer_032.dm3,]
+../../../data/percius/libra/august/trial_1/20101213 - Pt cluster on graphene C3/STEM
+[01.emi,01_1.ser,02.emi,02_1.ser,03.emi,03_1.ser,04.emi,04_1.ser,05.emi,05_1.ser,06.emi,06_1.ser,07_1.ser,08_100images_.emi,08_100images__1.ser,08_100images__2.ser,09.emi,09_1.ser,10_100images.emi,10_100images_1.ser,10_100images_2.ser,11_beamTails.emi,11_beamTails_1.ser,12.emi,12_1.ser,13.emi,13_1.ser,07.emi,]
+../../../data/percius/libra/august/trial_2
 []
-..\..\..\data\wsfox\team_0.5
+../../../data/percius/libra/august/trial_2/20101213 - Pt clusters UV reduced B4
+[01.dm3,02.dm3,03.dm3,]
+../../../data/percius/libra/august/trial_2/20101215 - AlPb nanomill side milled
+[01_110.emi,01_110_1.ser,02_110.emi,02_110_1.ser,03_110_tip.emi,03_110_tip_1.ser,04_110_Pb.emi,04_110_Pb_1.ser,05_110_tip2.emi,05_110_tip2_1.ser,06_110_cbed.emi,07_110_CBED.emi,08_axis2_cbed.emi,09_axis2.emi,09_axis2_1.ser,10_axis2.emi,10_axis2_1.ser,11_110_diffPattern.emi,26_1-1-1_1.ser,12_110_cbed.emi,13_110_overview.emi,27_1-1-1_Pb2.emi,13_110_overview_1.ser,27_1-1-1_Pb2_1.ser,14_010_CBED.emi,15_010_side.emi,28_1-1-1_Pb2.emi,28_1-1-1_Pb2_1.ser,15_010_side_1.ser,29_1-1-1_Pb2.emi,16_010_tip.emi,29_1-1-1_Pb2_1.ser,16_010_tip_1.ser,30_1-1-1_Pb2_overview.emi,17_010_lattice.emi,30_1-1-1_Pb2_overview_1.ser,17_010_lattice_1.ser,31_1-1-1_overview.emi,18_010_lattice.emi,32_1-1-1_Pb3.emi,18_010_lattice_1.ser,32_1-1-1_Pb3_1.ser,19_010_diffPattern.emi,33_110_multi.emi,20101215-AlPb-temp.nav,20101215-AlPb.nav,33_110_multi_1.ser,20_2-1-1_lattice.emi,20_2-1-1_lattice_1.ser,21_2-1-1_cbed.emi,22_2-1-1_diff.emi,23_2-1-1_cbed.emi,33_110_multi_2.ser,24_1-1-1_CBED.emi,Position.pos,25_1-1-1.emi,STEM_0000.emi,25_1-1-1_1.ser,STEM_0001.emi,26_1-1-1.emi,STEM_0001_1.ser,31_1-1-1_overview_1.ser,STEM_0002.emi,STEM_0000_1.ser,STEM_0002_1.ser,STEM_0003.emi,STEM_0003_1.ser,STEM_0004_1.ser,STEM_0004.emi,STEM_0006.emi,STEM_0005.emi,STEM_110_1.ser,STEM_0005_1.ser,X-Y sliders.tif,STEM_0006_110possibly.emi,STEM_110.emi,TEAMStage.ini,]
+../../../data/percius/libra/august/trial_3
 []
-..\..\..\data\wsfox\team_i
+../../../data/percius/libra/august/trial_3/20101217 - PdRh particles
 []
+../../../data/percius/libra/august/trial_3/20101217 - PdRh particles/Particle1
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_-2nm.dm3,15.16.24 Scanning Acquire_1.ser,15.26.01 Scanning Acquire.emi,15.26.01 Scanning Acquire_1.ser,03_FocalSeriesImages_Def_-2nm.dm3,04_FocalSeriesImages_Def_-2nm.dm3,15.16.24 Scanning Acquire.emi,]
+../../../data/percius/libra/august/trial_3/20101222 - PdRh particles 300keV
+[01_FocalSeriesImages_Def_-2nm.dm3,02_FocalSeriesImages_Def_-2nm.dm3,03_FocalSeriesImages_Def_-2nm.dm3,04_FocalSeriesImages_Def_-2nm.dm3,05_FocalSeriesImages_Def_-2nm.dm3,06_FocalSeriesImages_Def_-2nm.dm3,07_FocalSeriesImages_Def_-2nm.dm3,]
+../../../data/percius/libra/august/trial_3/20101222 - PdRh particles 300keV/03-images
+[03-images_Layer_035.dm3,03-images_Layer_036.dm3,03-images_Layer_037.dm3,03-images_Layer_038.dm3,03-images_Layer_039.dm3,03-images_Layer_040.dm3,03-images_Layer_041.dm3,03-images_Start_image.dm3,03-images_Stop_image.dm3,03-images_Layer_001.dm3,03-images_Layer_002.dm3,03-images_Layer_003.dm3,03-images_Layer_004.dm3,03-images_Layer_005.dm3,03-images_Layer_006.dm3,03-images_Layer_007.dm3,03-images_Layer_008.dm3,03-images_Layer_009.dm3,03-images_Layer_010.dm3,03-images_Layer_011.dm3,03-images_Layer_012.dm3,03-images_Layer_013.dm3,03-images_Layer_014.dm3,03-images_Layer_015.dm3,03-images_Layer_016.dm3,03-images_Layer_017.dm3,03-images_Layer_018.dm3,03-images_Layer_019.dm3,03-images_Layer_020.dm3,03-images_Layer_021.dm3,03-images_Layer_022.dm3,03-images_Layer_023.dm3,03-images_Layer_024.dm3,03-images_Layer_025.dm3,03-images_Layer_026.dm3,03-images_Layer_027.dm3,03-images_Layer_028.dm3,03-images_Layer_029.dm3,03-images_Layer_030.dm3,03-images_Layer_031.dm3,03-images_Layer_032.dm3,03-images_Layer_033.dm3,03-images_Layer_034.dm3,]
+../../../data/percius/libra/august/trial_3/20101222 - PdRh particles 300keV/04-images
+[04-images_Layer_001.dm3,04-images_Layer_002.dm3,04-images_Layer_003.dm3,04-images_Layer_004.dm3,04-images_Layer_005.dm3,04-images_Layer_006.dm3,04-images_Layer_007.dm3,04-images_Layer_008.dm3,04-images_Layer_009.dm3,04-images_Layer_010.dm3,04-images_Layer_011.dm3,04-images_Layer_012.dm3,04-images_Layer_013.dm3,04-images_Layer_014.dm3,04-images_Layer_015.dm3,04-images_Layer_016.dm3,04-images_Layer_018.dm3,04-images_Layer_019.dm3,04-images_Layer_020.dm3,04-images_Layer_021.dm3,04-images_Layer_022.dm3,04-images_Layer_023.dm3,04-images_Layer_024.dm3,04-images_Layer_025.dm3,04-images_Layer_026.dm3,04-images_Layer_027.dm3,04-images_Layer_028.dm3,04-images_Layer_029.dm3,04-images_Layer_030.dm3,04-images_Layer_031.dm3,04-images_Layer_032.dm3,04-images_Layer_033.dm3,04-images_Layer_034.dm3,04-images_Layer_035.dm3,04-images_Layer_036.dm3,04-images_Layer_037.dm3,04-images_Layer_038.dm3,04-images_Layer_039.dm3,04-images_Layer_040.dm3,04-images_Layer_041.dm3,04-images_Start_image.dm3,04-images_Stop_image.dm3,04-images_Layer_017.dm3,]
+../../../data/percius/libra/august/trial_3/20101222 - PdRh particles 300keV/05-images
+[05-images_Layer_001.dm3,05-images_Layer_002.dm3,05-images_Layer_003.dm3,05-images_Layer_004.dm3,05-images_Layer_005.dm3,05-images_Layer_006.dm3,05-images_Layer_008.dm3,05-images_Layer_009.dm3,05-images_Layer_010.dm3,05-images_Layer_011.dm3,05-images_Layer_012.dm3,05-images_Layer_013.dm3,05-images_Layer_014.dm3,05-images_Layer_015.dm3,05-images_Layer_016.dm3,05-images_Layer_017.dm3,05-images_Layer_018.dm3,05-images_Layer_019.dm3,05-images_Layer_020.dm3,05-images_Layer_021.dm3,05-images_Layer_022.dm3,05-images_Layer_023.dm3,05-images_Layer_024.dm3,05-images_Layer_025.dm3,05-images_Layer_026.dm3,05-images_Layer_028.dm3,05-images_Layer_029.dm3,05-images_Layer_030.dm3,05-images_Layer_031.dm3,05-images_Layer_032.dm3,05-images_Layer_033.dm3,05-images_Layer_034.dm3,05-images_Layer_035.dm3,05-images_Layer_036.dm3,05-images_Layer_037.dm3,05-images_Layer_038.dm3,05-images_Layer_039.dm3,05-images_Layer_040.dm3,05-images_Layer_041.dm3,05-images_Start_image.dm3,05-images_Stop_image.dm3,05-images_Layer_007.dm3,05-images_Layer_027.dm3,]
 {ENDLINE}

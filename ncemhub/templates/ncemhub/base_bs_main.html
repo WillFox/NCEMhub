@@ -51,7 +51,7 @@
           <ul class="nav navbar-nav">
             <li{{ home }}><a href="/">Home</a></li>
               {% if user.is_authenticated %}  
-                <li{{ profile }}><a href="/profile/{{user.id}}">Profile</a></li>
+                <li{{ profile }}><a href="{{ url_prefix }}/profile/{{user.id}}">Profile</a></li>
                 <li{{data_page}}><a href="/directories">Data</a></li>
               {% endif %}
               {% if user.is_authenticated %}
