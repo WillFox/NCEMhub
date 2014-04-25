@@ -5,7 +5,7 @@
             <h1>Edit: {{data_details.name}}</h1>
             	{%if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
  
-               <form action="{{prefix_url}}{%url 'data_manager.views.user_data' %}" method="post">
+               <form action="{{url_prefix}}{%url 'data_manager.views.user_data' %}" method="post">
 				{% csrf_token %}
 				<li>
 					Name:
@@ -52,9 +52,9 @@
           <div class="list-group">
             {% if user.is_authenticated %}
 
-              <a href="{{prefix_url}}{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
-              <a href="{{prefix_url}}{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
-              <a href="{{prefix_url}}{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
+              <a href="{{url_prefix}}{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
+              <a href="{{url_prefix}}{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
+              <a href="{{url_prefix}}{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
             {% endif %}
           </div>
         </div><!--/span-->

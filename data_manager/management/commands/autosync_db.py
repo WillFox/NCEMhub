@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 import os
 import time
-from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT
+from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT, DATA_PATH
 from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
 from user_authentication.models import Patron
 from django.contrib.auth.models import User
@@ -15,17 +15,20 @@ FileSep = ','
 start_time=time.time()
 #sleepy_time=60
 if os.name=='nt':
-    DATA_PATH = '..\\..\\..\\data'
     MEDIA_ROOT = '\\project\\projectdirs\\ncemhub\\ncemhub\\bin\\ncemhub\\www\\media\\'
     THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails\\'
     FULL_IMAGE_ROOT = MEDIA_ROOT+'full_image\\'
     directory_sep='\\'
 else:
-    DATA_PATH = '../../../data'
     MEDIA_ROOT = '/project/projectdirs/ncemhub/ncemhub/bin/ncemhub/www/media/'
     THUMBNAIL_ROOT = MEDIA_ROOT+'thumbnails/'
     FULL_IMAGE_ROOT = MEDIA_ROOT+'full_image/'
     directory_sep = '/'
+END_FILE='{ENDLINE}'
+data_structure='data_manager/data_struct.txt'
+data_structure_copy='data_manager/data_struct_copy.txt'
+data_structure_additions='data_manager/data_struct_changes.txt'
+LOG_FILES='dataTransferLog/'
 """
 UTILITIES
 """
@@ -170,6 +173,7 @@ def add_dm3_to_db(newF,dirNEW):
 
     filename=dirNEW+directory_sep+newF
     tag_list=Utility_Dev.dm3reader_v072.parseDM3( filename, dump=False )
+    
     if tag_list==0:
         print "Tags not recovered"
     else:
@@ -279,8 +283,8 @@ def add_undefined_file(newF,dirNEW):
         print error_detail
     return 0
 def first_lib_data_run():
-    f=open('data_manager/data_struct.txt','w')
-    f.write('{ENDLINE}')
+    f=open(data_structure,'w')
+    f.write(END_FILE)
     f.close()
     return 0
 
@@ -290,19 +294,15 @@ SUMMARY: Goes over entire directory where data is transferred and
 makes copy to be compared to last synced view
 """
 def walkPath():
-    lib_data_copy = open('data_manager/data_struct_copy.txt', 'w')
+    data_struct_copy = open(data_struct_copy, 'w')
     for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
-        for dirp in dirpath:
-            lib_data_copy.write(dirp)
-        lib_data_copy.write('\n')
-        lib_data_copy.write('[')
+        data_struct_copy.write(dirpath)
+        data_struct_copy.write('\n')
         for filename in filenames:
-            lib_data_copy.write(filename)
-            lib_data_copy.write(FileSep)
-        lib_data_copy.write(']')
-        lib_data_copy.write('\n')
-    lib_data_copy.write('{ENDLINE}')
-    lib_data_copy.close()
+            data_struct_copy.write(filename)
+            data_struct_copy.write('\n')
+    data_struct_copy.write(END_FILE)
+    data_struct_copy.close()
     return True
 
 """
@@ -345,150 +345,64 @@ in the new directory, then a never ending loop will occur
 """
 def correlatePath():
     try: 
-        lib_data = open('data_manager/data_struct.txt','r')
+        data_struct = open(data_structure,'r')
     except:
         first_lib_data_run()
-        lib_data = open('data_manager/data_struct.txt','r')
-    lib_data_copy = open('data_manager/data_struct_copy.txt', 'r')
-    lib_new_data = open('data_manager/data_struct_changes.txt','w')
+        data_struct = open(data_structure,'r')
+    data_struct_copy = open(data_struct_copy, 'r')
+    lib_new_data = open(data_struct_changes,'w')
     working = True
-    dirNEW = lib_data_copy.readline()
+    dirNEW = data_struct_copy.readline()
     dirNEW = dirNEW.rstrip('\n')
-    fileNEW = lib_data_copy.readline()
-    fileNEW = fileNEW.rstrip('\n')
-    dirOLD = lib_data.readline()
+    dirOLD = data_struct.readline()
     dirOLD = dirOLD.rstrip('\n')
-    fileOLD = lib_data.readline()
-    fileOLD = fileOLD.rstrip('\n')
-    if dirOLD == '':
-        lib_data.close()
-        first_lib_data_run()
-        lib_data = open('data_manager/data_struct.txt','r')
-        dirOLD=lib_data.readline()
-        dirOLD = dirOLD.rstrip('\n')
-    newToAdd=''
-    if dirNEW == '{ENDLINE}':
-        if dirOLD == '{ENDLINE}':
-            working = False
     while working:
-        if fileNEW != fileOLD :
-            """
-            Add new data sets
-            """
-            if(dirOLD==dirNEW):
-                """
-                Add the difference of fileOLD and fileNEW
-                """
-                separate_OLD=[]
-                separate_NEW=[]
-                separating=True
-                fileOLDtemp=fileOLD[1:-1]
-                fileNEWtemp=fileNEW[1:-1]
-                n=0
-                """
-                Create set of arrays that have the files' names indexed
-                """
-                for i in range(len(fileOLDtemp)):
-                    if fileOLDtemp[i]==FileSep:
-                        separate_OLD.append(fileOLDtemp[n:i])
-                        n=i+1
-                n=0
-                for i in range(len(fileNEWtemp)):
-                    if fileNEWtemp[i]==FileSep:
-                        separate_NEW.append(fileNEWtemp[n:i])
-                        n=i+1
-                """
-                Removes files that match from each list
-                -(i.e. files that match are already synced with database)
-                """
-                discard=[]
-                skip=False
-                for i in range(len(separate_NEW)):
-                    for n in range(len(separate_OLD)):
-                        if separate_NEW[i] == separate_OLD[n]:
-                            #Discard
-                            discard.append([i,n])
-                for z in range(len(discard)):
-                    i=discard[len(discard)-z-1][0]
-                    n=discard[len(discard)-z-1][1]
-                    del separate_NEW[i]
-                    del separate_OLD[n]
-                """
-                Only worry about new files
-                ---old files that are no longer present can be ignored for now
-                """
-                #separate_NEW is what holds all new files
-                for newF in separate_NEW:
-                    add_data_set(newF,dirNEW)####
-                    lib_new_data.write(dirNEW)
-                    lib_new_data.write('\n')
-                    lib_new_data.write(newF)
-                    lib_new_data.write('\n')
-
-            else:
-                """
-                Add all file from fileNEW
-                """
-                separate_OLD=[]
-                separate_NEW=[]
-                separating=True
-                fileOLDtemp=fileOLD[1:-1]
-                fileNEWtemp=fileNEW[1:-1]
-                n=0
-                for i in range(len(fileNEWtemp)):
-                    if fileNEWtemp[i]==FileSep:
-                        separate_NEW.append(fileNEWtemp[n:i])
-                        n=i+1
-                for newF in separate_NEW:
-                    add_data_set(newF,dirNEW)####
-                    lib_new_data.write(dirNEW)
-                    lib_new_data.write('\n')
-                    lib_new_data.write(newF)
-                    lib_new_data.write('\n')
-            newFiles=True
-
-        if dirNEW==dirOLD:
-            """
-            Increments when directory exists in old and new structures
-            """
-            dirNEW = lib_data_copy.readline()
-            dirNEW = dirNEW.rstrip('\n')
-            fileNEW = lib_data_copy.readline()
+        fileOLD_list=[]
+        fileNEW_list=[]
+        fileOLD=''
+        fileNEW=''
+        #The following creates a list of files 
+        #in the directories old and new
+        adding_files=True
+        while adding_files:
+            fileNEW = data_struct_copy.readline()
             fileNEW = fileNEW.rstrip('\n')
-            dirOLD = lib_data.readline()
-            dirOLD = dirOLD.rstrip('\n')
-            fileOLD = lib_data.readline()
+            if fileNEW[:len(DATA_ROOT)]==DATA_ROOT:
+                adding_files=False
+            else:
+                if fileNEW==END_FILE:
+                    adding_files=False
+                else:
+                    fileNEW_list.append(fileNEW)
+        adding_files=True
+        while adding_files:
+            fileOLD = data_struct.readline()
             fileOLD = fileOLD.rstrip('\n')
-        else:
-            directoryDELETED=True
-            #find out if directory was deleted
-            #If directory cannot be matched, then directory was deleted
-            for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
-                if dirpath == dirOLD:
-                    directoryDELETED=False
-            if dirOLD == '{ENDLINE}':
-                directoryDELETED=False
-            if directoryDELETED:
-                """
-                Incremeents when directory only exists in old structure
-                """
-                dirOLD = lib_data.readline()
-                dirOLD = dirOLD.rstrip('\n')
-                fileOLD = lib_data.readline()
-                fileOLD = fileOLD.rstrip('\n')
-            else:    
-                """
-                Increments when directory only exists in new structure
-                """
-                dirNEW = lib_data_copy.readline()
-                dirNEW = dirNEW.rstrip('\n')
-                fileNEW = lib_data_copy.readline()
-                fileNEW = fileNEW.rstrip('\n')
-        if dirNEW == '{ENDLINE}':
-            if dirOLD == '{ENDLINE}':
+            if fileOLD[:len(DATA_ROOT)]==DATA_ROOT:
+                adding_files=False
+            else:
+                if fileOLD==END_FILE:
+                    adding_files=False
+                else:
+                    fileOLD_list.append(fileNEW)
+        if dirNEW == dirOLD:
+
+
+
+
+
+
+                    add_data_set(newF,dirNEW)####
+                    lib_new_data.write(dirNEW)
+                    lib_new_data.write('\n')
+                    lib_new_data.write(newF)
+                    lib_new_data.write('\n')
+
+        if dirNEW == END_FILE:
+            if dirOLD == END_FILE:
                 working = False
-    lib_data.close()
-    lib_data_copy.close()
+    data_struct.close()
+    data_struct_copy.close()
     lib_new_data.close()
     return True
 """
@@ -497,22 +411,22 @@ as the new original system mirror, in order to be used for error tracking.
 
 """
 def LOG_copy_NEW_to_OLD():
-    logFileName= 'dataTransferLog/LOG-' + str(time.time()) + ".txt"
+    logFileName= LOG_FILES+'LOG-' + str(time.time()) + ".txt"
 
     lib_data_log = open(logFileName, 'w')
-    lib_data = open('data_manager/data_struct.txt','r')
+    data_struct = open(data_structure,'r')
     line = ''
-    while line != '{ENDLINE}':
-        line = lib_data.readline()
-        lib_data_log.write(line)
-    lib_data.close()
+    while line != END_FILE:
+        line = data_struct.readline()
+        data_struct_log.write(line)
+    data_struct.close()
     lib_data_log.close()
-    lib_data = open('data_manager/data_struct.txt','w')
-    lib_data_copy = open('data_manager/data_struct_copy.txt', 'r')
+    data_struct = open(data_structure,'w')
+    data_struct_copy = open(data_structure_copy, 'r')
     line = ''
-    while line != '{ENDLINE}':
-        line = lib_data_copy.readline()
-        lib_data.write(line)
+    while line != END_FILE:
+        line = data_struct_copy.readline()
+        data_struct.write(line)
 
     return True
 """

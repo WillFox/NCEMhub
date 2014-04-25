@@ -52,14 +52,14 @@
             <li{{ home }}><a href="/">Home</a></li>
               {% if user.is_authenticated %}  
                 <li{{ profile }}><a href="{{ url_prefix }}/profile/{{user.id}}">Profile</a></li>
-                <li{{data_page}}><a href="{{prefix_url}}/directories">Data</a></li>
+                <li{{data_page}}><a href="{{url_prefix}}/directories">Data</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-                <li{{ log_out }}><a href="{{prefix_url}}/user/logout">Log out</a></li>
+                <li{{ log_out }}><a href="{{url_prefix}}/user/logout">Log out</a></li>
               {% else %}
-                <li{{sign_in}}><a href="{{prefix_url}}/user/login">Sign in</a></li>
+                <li{{sign_in}}><a href="{{url_prefix}}/user/login">Sign in</a></li>
               {% endif %}
-            <li><a href="{{prefix_url}}/contact">Contact</a></li>
+            <li><a href="{{url_prefix}}/contact">Contact</a></li>
             <li><form>
               
               <input type="text" name="query">
@@ -67,7 +67,7 @@
                 <span class="glyphicon glyphicon-search"></span>
               </button>
             </form></li>
-            <li><a href="{{prefix_url}}/search/advanced">Advanced Search</a></li>
+            <li><a href="{{url_prefix}}/search/advanced">Advanced Search</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -93,7 +93,7 @@ If nothing should be emphasized, simple put the section label in the root html w
             {% ifequal home  " class=active" %}
               <div class="jumbotron">
                 <h1>Welcome to NCEMhub</h1>
-                <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="{{prefix_url}}/about"> more...</a></p>
+                <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="{{url_prefix}}/about"> more...</a></p>
               </div>
             {% endifequal %}
           

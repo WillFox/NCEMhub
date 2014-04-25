@@ -21,28 +21,28 @@
         <p>INSTRUMENTS</p>
         {% for instrument in instruments %}
             <li>
-                <a href="{{prefix_url}}{% url 'data_manager.views.main' %}?{{public}}cat=inst&id={{ instrument.id }}">{{instrument}}</a>
+                <a href="{{url_prefix}}{% url 'data_manager.views.main' %}?{{public}}cat=inst&id={{ instrument.id }}">{{instrument}}</a>
             </li>
         {% endfor %}
                 
         <p>COLLECTIONS</p>
         {% for collection in collections %}
             <li>
-                <a href="{{prefix_url}}{% url 'data_manager.views.main' %}?{{public}}cat=coll&id={{ collection.id }}">{{collection}}</a>
+                <a href="{{url_prefix}}{% url 'data_manager.views.main' %}?{{public}}cat=coll&id={{ collection.id }}">{{collection}}</a>
             </li>
         {% endfor %}        
         
         <p>REPOSITORIES</p>
         {% for rep in repositories %}
             <li>
-                <a href="{{prefix_url}}{% url 'data_manager.views.main' %}?{{public}}cat=repo&id={{ rep.id }}">{{ rep }}</a>
+                <a href="{{url_prefix}}{% url 'data_manager.views.main' %}?{{public}}cat=repo&id={{ rep.id }}">{{ rep }}</a>
             </li>
         {% endfor %}
 
         <p>DATA SETS</p>
         {% for d_set in data_sets %}
             <li>
-                <a href="{{prefix_url}}{% url 'data_manager.views.main' %}?{{public}}cat=data&id={{ d_set.id }}">{{ d_set }}</a>
+                <a href="{{url_prefix}}{% url 'data_manager.views.main' %}?{{public}}cat=data&id={{ d_set.id }}">{{ d_set }}</a>
             </li>
         {% endfor %}
 
@@ -56,28 +56,28 @@
         {% if cat == "inst" %}
             {% for file in files  %}
                 <li>
-                    <a href="{{prefix_url}}{% url 'data_manager.views.main' %}{{ public }}">{{ file }}</a>
+                    <a href="{{url_prefix}}{% url 'data_manager.views.main' %}{{ public }}">{{ file }}</a>
                 </li>
             {% endfor %}
             <img src="{{ MEDIA_URL }}{{image}}" alt="">
         {% elif cat == coll %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{{prefix_url}}{% url 'data_manager.views.main' %}{{ public }}">{{ data }}</a>
+                    <a href="{{url_prefix}}{% url 'data_manager.views.main' %}{{ public }}">{{ data }}</a>
                 </li>
             {% endfor %}
             {{ var }}
         {% elif cat == repo %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{{prefix_url}}{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
+                    <a href="{{url_prefix}}{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
                 </li>
             {% endfor %}
             {{ var }}
         {% elif cat == data %}
             {% for data in chosen_data  %}
                 <li>
-                    <a href="{{prefix_url}}{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
+                    <a href="{{url_prefix}}{% url 'data_manager.views.main' %}{{public}}">{{ data }}</a>
                 </li>
             {% endfor %}
             {{ var }}
@@ -88,10 +88,10 @@
         {% if cat == "inst" %}
             {% for directory in directories %}
             <li>
-                <a href="{{prefix_url}}{% url 'data_manager.views.main' %}">{{directory}}</a>
+                <a href="{{url_prefix}}{% url 'data_manager.views.main' %}">{{directory}}</a>
             </li>
             {% endfor %}
-            <img src="{{prefix_url}}{{ MEDIA_URL }}{{image}}" alt="">
+            <img src="{{url_prefix}}{{ MEDIA_URL }}{{image}}" alt="">
         {% elif cat == coll %}
             {{ var }}
         {% elif cat == repo %}
@@ -101,7 +101,7 @@
         {% endif %}
         <p>{{ NavigationPanel }}</p>
         <p><sub>
-            <a href="{{prefix_url}}{% url 'data_manager.views.edit' %}?cat={{cat_open}}&id={{ content.id }}">EDIT: {{ content }}</a>
+            <a href="{{url_prefix}}{% url 'data_manager.views.edit' %}?cat={{cat_open}}&id={{ content.id }}">EDIT: {{ content }}</a>
         </sub></p>
     </div>
 </div>
