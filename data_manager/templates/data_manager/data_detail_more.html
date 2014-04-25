@@ -22,7 +22,7 @@
                 {{ owner }}
             {%endfor%}</p>
             {% if user.is_authenticated %}
-              <p><a class="btn btn-default" href="/download/{{data_details.id}}"role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
+              <p><a class="btn btn-default" href="{{prefix_url}}/download/{{data_details.id}}"role="button">Download &raquo;</a><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
             {% endif %}
           </div>
 
@@ -32,9 +32,9 @@
           <div class="list-group">
             {% if user.is_authenticated %}
 
-              <a href="{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
-              <a href="{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
-              <a href="{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
+              <a href="{{prefix_url}}{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
+              <a href="{{prefix_url}}{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
+              <a href="{{prefix_url}}{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
             {% endif %}
 {#            <a href="#" class="list-group-item">Link</a>#}
 {#            <a href="#" class="list-group-item">Link</a>#}
@@ -63,7 +63,7 @@
                 {% for charac in data_details.value_set.all %}
                 <tr>
                   <td>#</td>  
-                  <td><a href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more/{{charac.id}}">{{charac.characteristic}}</a></td>
+                  <td><a href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more/{{charac.id}}">{{charac.characteristic}}</a></td>
                   <td>
                   {% ifequal charac.float_value None %}  
                     {{EmptyVariable}}

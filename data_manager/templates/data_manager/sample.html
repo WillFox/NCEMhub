@@ -8,7 +8,7 @@
           </p>
           <div class="jumbotron">
             <h1>Welcome to NCEMhub</h1>
-            <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="/about"> more...</a></p>
+            <p>The National Center for Electron Microscopy (NCEM) is one of the world’s foremost centers for electron microscopy and microcharacterization. It is an Office of Science User Facility operated for the U.S. Department of Energy by Lawrence Berkeley National Laboratory. This is a site designed to be a portal for users at NCEM in order to view and download their data.  <a href="{{prefix_url}}/about"> more...</a></p>
           </div>
     <div class="row">
         {% for d_set in data_sets %}
@@ -23,7 +23,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>
@@ -40,7 +40,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.collection_detail' %}/{{collection.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.collection_detail' %}/{{collection.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>

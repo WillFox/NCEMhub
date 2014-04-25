@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.forms import ModelForm
-from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT
+from ncemhub.settings import MEDIA_URL, DATA_ROOT, MEDIA_ROOT, URL_PREFIX
 from data_manager.models import DataCharacteristic, Tag, DataRecorder, Repository, Collection, DataSet, Value
 from django.template import RequestContext
 from user_authentication.models import Patron
@@ -66,7 +66,7 @@ def main(request):
         datas = paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
-    return render_to_response("data_manager/main.html", dict(user=request.user,
+    return render_to_response("data_manager/main.html", dict(url_prefix=URL_PREFIX,user=request.user,
         media_url=MEDIA_URL, data_chosen=datas,paginator=paginator,collections=collection_chosen, home=" class=active"))
 
 
@@ -91,7 +91,7 @@ def user_data(request):
         datas= paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
-    return render_to_response("data_manager/user_data.html", dict(user=request.user,
+    return render_to_response("data_manager/user_data.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=datas,media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))  
 """
 Displays:
@@ -120,7 +120,7 @@ def data_detail(request,data_set_id):
         datas= paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
-    return render_to_response("data_manager/data_detail.html", dict(user=request.user,
+    return render_to_response("data_manager/data_detail.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=datas,data_restriction=data_restriction, data_details=data_details, 
         media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))     
 """
@@ -139,7 +139,7 @@ def data_detail_more(request,data_set_id):
         data_chosen=DataSet.objects.filter(public=True).distinct()
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
-    return render_to_response("data_manager/data_detail_more.html", dict(user=request.user, 
+    return render_to_response("data_manager/data_detail_more.html", dict(url_prefix=URL_PREFIX,user=request.user, 
         data_details=data_details, media_url=MEDIA_URL, data_page=" class=active"))     
 """
 Displays:
@@ -294,7 +294,7 @@ def data_edit(request,data_set_id):
             
         data_set.save()
         return HttpResponseRedirect("/data/"+str(data_set.id)+"/more")
-    return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
+    return render_to_response("data_manager/data_set_edit.html", dict(url_prefix=URL_PREFIX,user=user, 
         media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
         context_instance=RequestContext(request))     
 """
@@ -353,7 +353,7 @@ def data_detail_edit(request,data_set_id):
         data_set.name = form['name']
         data_set.save()
         return HttpResponseRedirect("/")
-    return render_to_response("data_manager/data_set_edit.html", dict(user=user, 
+    return render_to_response("data_manager/data_set_edit.html", dict(url_prefix=URL_PREFIX,user=user, 
         media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
         context_instance=RequestContext(request))
 """
@@ -363,7 +363,7 @@ Displays:
 def collections(request):
     user=request.user
     data_chosen=Collection.objects.filter(owners=user).distinct()
-    return render_to_response("data_manager/collections.html", dict(user=request.user,
+    return render_to_response("data_manager/collections.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))  
 """
 Displays:
@@ -372,7 +372,7 @@ Displays:
 def collection_detail(request,collection_id):
     user=request.user
     collection_chosen=Collection.objects.get(id=collection_id)
-    return render_to_response("data_manager/collections.html", dict(user=request.user,
+    return render_to_response("data_manager/collections.html", dict(url_prefix=URL_PREFIX,user=request.user,
         collection_chosen=collection_chosen,media_url=MEDIA_URL, data_page=" class=active"))      
 """
 Displays:
@@ -388,7 +388,7 @@ Displays:
 def directories(request):
     user=request.user
     data_chosen=DataRecorder.objects.filter(users=user).distinct()
-    return render_to_response("data_manager/directories.html", dict(user=request.user,
+    return render_to_response("data_manager/directories.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))     
 
 """
@@ -525,10 +525,10 @@ def directories_instrument(request,instrument_slug):
 
     if directories==[]:
         directories=''
-    return render_to_response("data_manager/directories_instruments.html", dict(user=request.user,
+    return render_to_response("data_manager/directories_instruments.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=data_files,directories=directories, instrument=DataRecorder.objects.get(slug=instrument_slug),
         media_url=MEDIA_URL,paginator=paginator,bread_crumbs=bread_crumb_list,directory=directory,
-        media_root=MEDIA_ROOT, data_page=" class=active", path=path,years=years_list,
+        data_page=" class=active", path=path,years=years_list,
         path_current=path_current,directory_current=directory_current))           
 """
 Displays:
@@ -550,7 +550,7 @@ def user_profile(request,user_id):
         datas= paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
-    return render_to_response("data_manager/user_profile.html", dict(user=request.user,
+    return render_to_response("data_manager/user_profile.html", dict(url_prefix=URL_PREFIX,user=request.user,
         pro_view_user=pro_user, #pub_data=pub_data_chosen, 
         data_chosen=datas, paginator=paginator,
         patron=patron_info, media_url=MEDIA_URL, profile =" class=active"))
@@ -675,7 +675,7 @@ def home(request):
         chosen = chosen[0]
     except:
         chosen=chosen
-    return render_to_response("data_manager/main.html", dict(user=request.user,
+    return render_to_response("data_manager/main.html", dict(url_prefix=URL_PREFIX,user=request.user,
         media_url=MEDIA_URL,instruments=instruments,collections=collections, cat=cat,
         repositories=repositories,NavigationPanel=navpanel,directories=directories,files=files,
         content_title=content_title, data_sets=data_sets,chosen_data=chosen_data,chosen=chosen,

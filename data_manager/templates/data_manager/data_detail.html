@@ -8,7 +8,7 @@
                         This checks if the image file exists
                     {%endcomment%}
                 {% else %}
-                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more" role="button">
+                    <a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more" role="button">
                     <img src="{{media_url}}full_image/{{data_details.id}}.jpg" alt="{{data_details.name}}" width="256">
                     </a>
                 {% endif %}
@@ -22,9 +22,9 @@
                 {{ owner }}
             {%endfor%}</p>
             {% if user.is_authenticated %}
-                <p><a class="btn btn-default" href="/download/{{data_details.id}}" role="button">Download &raquo;</a><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}/download/{{data_details.id}}" role="button">Download &raquo;</a><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
             {% endif %}
-            <p><a href="{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more">More Details</a></p>
+            <p><a href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/more">More Details</a></p>
           </div>
 
         </div><!--/span-->
@@ -33,9 +33,9 @@
           <div class="list-group">
             {% if user.is_authenticated %}
 
-                <a href="{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
-                <a href="{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
-                <a href="{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
+                <a href="{{prefix_url}}{% url 'data_manager.views.user_data' %}" class="list-group-item active">Data Sets</a>
+                <a href="{{prefix_url}}{% url 'data_manager.views.collections' %}" class="list-group-item">Collections</a>
+                <a href="{{prefix_url}}{% url 'data_manager.views.directories' %}" class="list-group-item">Microscope Directories</a>
             {% endif %}
 {#            <a href="#" class="list-group-item">Link</a>#}
 {#            <a href="#" class="list-group-item">Link</a>#}
@@ -75,7 +75,7 @@
                         This checks if the image file exists
                     {%endcomment%}
                 {% else %}
-                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                    <a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                     </a>
                 {% endif %}
@@ -88,7 +88,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>
@@ -107,7 +107,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>

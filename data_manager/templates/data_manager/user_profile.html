@@ -10,7 +10,7 @@
                 <p>Date Join: {{ patron.date_joined }}</p>
                 <p>Bio: {{ patron.user_bio }}</p>
                 {% ifequal user.id pro_view_user.id %}
-                <p><a href="{% url 'user_authentication.views.EditProfile' %}">Edit Info</a></p>
+                <p><a href="{{prefix_url}}{% url 'user_authentication.views.EditProfile' %}">Edit Info</a></p>
                 {% endifequal %}
                 <p></p>
           </div>
@@ -60,7 +60,7 @@
                         This checks if the image file exists
                     {%endcomment%}
                 {% else %}
-                    <a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
+                    <a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">
                     <img src="{{media_url}}thumbnails/{{d_set.id}}.jpg" alt="{{d_set.name}}" width="128" height="128">
                     </a>
                 {% endif %}
@@ -73,7 +73,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>
@@ -92,7 +92,7 @@
                         {{ recor }}
                     {%endfor%}
                 </p>
-                <p><a class="btn btn-default" href="{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-default" href="{{prefix_url}}{% url 'data_manager.views.user_data' %}/{{d_set.id}}" role="button">View details &raquo;</a></p>
             </div>
         {% endfor %}
     </div>
