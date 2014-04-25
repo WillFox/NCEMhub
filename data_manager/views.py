@@ -75,7 +75,7 @@ Displays:
 #displays a public listing of data and info
 """
 def gallery(request):
-    return HttpResponseRedirect('/')     
+    return HttpResponseRedirect(reverse('data_home'))
 """
 Displays:
 #a list of all data taken by user
@@ -104,7 +104,7 @@ def data_detail(request,data_set_id):
     if not user in data_details.owners.all():
         data_restriction="Access Denied"
         if not data_details.public == True:
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('data_home'))
     if data_details.public == True:
         data_details=DataSet.objects.get(id=data_set_id)
         data_chosen=DataSet.objects.filter(public=True).distinct()
@@ -157,7 +157,7 @@ def data_detail_characteristic(request,data_set_id,detail_id):
         data_chosen=DataSet.objects.filter(public=True).distinct()
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('data_home'))
 """
 Displays:
 #form that allows base options to be edited
@@ -184,13 +184,13 @@ def data_edit(request,data_set_id):
                 error = "You may view this but not edit it"
             else:
                 error = "You cannot view nor edit this data"
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect(reverse('data_home'))
     else:
         if data_set.public == True:
             error = "You may view this but not edit it"
         else:
             error = "You cannot view nor edit this data"
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(reverse('data_home'))
     if request.method == 'POST':
         form = request.POST
         data_set.name = form['name']
@@ -293,7 +293,7 @@ def data_edit(request,data_set_id):
                     error= "fail remove", i
             
         data_set.save()
-        return HttpResponseRedirect("/data/"+str(data_set.id)+"/more")
+        return HttpResponseRedirect(reverse('all_info_data',args=[data_set.id]))
     return render_to_response("data_manager/data_set_edit.html", dict(url_prefix=URL_PREFIX,user=user, 
         media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
         context_instance=RequestContext(request))     
@@ -341,18 +341,18 @@ def data_detail_edit(request,data_set_id):
                 error = "You may view this but not edit it"
             else:
                 error = "You cannot view nor edit this data"
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect(reverse('data_home'))
     else:
         if data_set.public == True:
             error = "You may view this but not edit it"
         else:
             error = "You cannot view nor edit this data"
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(reverse('data_home'))
     if request.method == 'POST':
         form = request.POST
         data_set.name = form['name']
         data_set.save()
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('data_home'))
     return render_to_response("data_manager/data_set_edit.html", dict(url_prefix=URL_PREFIX,user=user, 
         media_url=MEDIA_URL,data_details=data_set ,data_page=" class=active"),
         context_instance=RequestContext(request))
@@ -379,7 +379,7 @@ Displays:
 #form for each field to edit if wanted
 """
 def collection_detail_edit(request,collection_id):
-    return HttpResponseRedirect('/') 
+    return HttpResponseRedirect(reverse('data_home'))
 
 """
 Displays:
@@ -399,7 +399,7 @@ def directories_instrument(request,instrument_slug):
     instrument = DataRecorder.objects.get(slug=instrument_slug)
     user = request.user
     if not user.is_authenticated:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('data_home'))
     if os.name == 'nt':
         path_sep='\\'
     else:
@@ -559,7 +559,7 @@ Displays:
 #form for each field to edit if wanted
 """
 def user_profile_edit(request):
-    return HttpResponseRedirect('/')     
+    return HttpResponseRedirect(reverse('data_home'))   
 """
 ###################################################
 ###################################################
@@ -698,7 +698,7 @@ def download(request,data_set_id):
     if os.path.isfile(filepath):
         return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
     else:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('data_home'))
 
 def search(request):
     query_string = ''

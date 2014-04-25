@@ -12,7 +12,8 @@ from django.views.generic.edit import UpdateView
 from data_manager import views
 def PatronRegistration(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/user/profile')
+		user=request.user
+		return HttpResponseRedirect(reverse('view_profile', args=[user.id]))
 	if request.method == 'POST':
 		form = RegistrationForm(request.POST)
 		if form.is_valid():
@@ -26,7 +27,7 @@ def PatronRegistration(request):
 			#patron.save()
 			patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
 			patron.save()
-			return HttpResponseRedirect('/profile/'+str(user.id))
+			return HttpResponseRedirect(reverse('view_profile', args=[user.id]))
 		else:
 			return render_to_response('user_authentication/register.html',{'form':form}, context_instance=RequestContext(request))
 	
@@ -38,7 +39,7 @@ def PatronRegistration(request):
 #login required
 def Profile(request):
 	if not request.user.is_authenticated():
-		return HttpResponseRedirect('/user/logout/')
+		return HttpResponseRedirect(reverse('PatronLogout'))
 	patron = request.user.get_profile
 	user = request.user
 	context = {'patron': patron, 'user':user}
@@ -48,7 +49,7 @@ def EditProfile(request):
 	if request.authenticated:
 		return render_to_response("data_manager/main.html", dict(user=request.user,))
 	else:
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect(reverse('data_home'))
 	if request.method == 'POST':
 		form = EditForm(request.POST)
 		if form.is_valid():
@@ -62,7 +63,7 @@ def EditProfile(request):
 			#patron.save()
 			patron = Patron(user=user, first_name=form.cleaned_data['first_name'],last_name=form.cleaned_data['last_name'], user_location=form.cleaned_data['user_location'])
 			patron.save()
-			return HttpResponseRedirect('/user/profile')
+			return HttpResponseRedirect(reverse('view_profile', args=[user.id]))
 		else:
 			return render_to_response('user_authentication/register.html',{'form':form}, context_instance=RequestContext(request))
 	
@@ -75,7 +76,7 @@ def EditProfile(request):
 
 def LoginRequest(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/user/profile')
+		return HttpResponseRedirect(reverse('view_profile', args=[user.id]))
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
@@ -84,7 +85,7 @@ def LoginRequest(request):
 			patron = authenticate(username=username, password=password)
 			if patron is not None:
 				login(request,patron)
-				return HttpResponseRedirect('/directories')
+				return HttpResponseRedirect(reverse('directories'))
 			else:
 				return render_to_response('login.html', {'form':form}, context_instance=RquestContext(request))
 		else:
@@ -97,8 +98,8 @@ def LoginRequest(request):
 		
 def LogoutRequest(request):
 	logout(request)
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect(reverse('data_home'))
 def PatronProfile(request):
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect(reverse('data_home'))
 
 

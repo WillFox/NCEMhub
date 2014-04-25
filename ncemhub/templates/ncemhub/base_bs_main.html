@@ -49,17 +49,17 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li{{ home }}><a href="/">Home</a></li>
+            <li{{ home }}><a href="{% url 'ncemhub.views.home' %}">Home</a></li>
               {% if user.is_authenticated %}  
-                <li{{ profile }}><a href="{{ url_prefix }}/profile/{{user.id}}">Profile</a></li>
-                <li{{data_page}}><a href="{{url_prefix}}/directories">Data</a></li>
+                <li{{ profile }}><a href="{% url 'data_manager.views.user_profile' user.id %}">Profile</a></li>
+                <li{{data_page}}><a href="{% url 'data_manager.views.directories' %}">Data</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-                <li{{ log_out }}><a href="{{url_prefix}}/user/logout">Log out</a></li>
+                <li{{ log_out }}><a href="{% url 'data_manager.views.LogoutRequest' %}">Log out</a></li>
               {% else %}
-                <li{{sign_in}}><a href="{{url_prefix}}/user/login">Sign in</a></li>
+                <li{{sign_in}}><a href="{% url 'data_manager.views.LoginRequest' %}">Sign in</a></li>
               {% endif %}
-            <li><a href="{{url_prefix}}/contact">Contact</a></li>
+            <li><a href="{{% url 'ncemhub.views.contact' %}">Contact</a></li>
             <li><form>
               
               <input type="text" name="query">
@@ -67,7 +67,7 @@
                 <span class="glyphicon glyphicon-search"></span>
               </button>
             </form></li>
-            <li><a href="{{url_prefix}}/search/advanced">Advanced Search</a></li>
+            <li><a href="{% url 'ncemhub.views.home' %}">Advanced Search</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->

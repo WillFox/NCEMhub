@@ -9,8 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-URL_PREFIX='/ncemhub'
-#URL_PREFIX=''
+#URL_PREFIX='/ncemhub'
+URL_PREFIX=''
 
 
 DATABASES = {
