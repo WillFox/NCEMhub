@@ -9,6 +9,7 @@ from user_authentication.models import Patron
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
+from django.core.urlresolvers import reverse
 from data_manager import views
 def PatronRegistration(request):
 	if request.user.is_authenticated():

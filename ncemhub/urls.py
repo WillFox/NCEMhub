@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^about/', views.about),
     url(r'^contact/', views.contact),
+    url(r'^home_redirect',views.home),
 	# Uncomment the admin/doc line below to enable admin documentation:
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	

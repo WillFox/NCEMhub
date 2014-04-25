@@ -55,9 +55,9 @@
                 <li{{data_page}}><a href="{% url 'data_manager.views.directories' %}">Data</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-                <li{{ log_out }}><a href="{% url 'data_manager.views.LogoutRequest' %}">Log out</a></li>
+                <li{{ log_out }}><a href="{% url 'user_authentication.views.LogoutRequest' %}">Log out</a></li>
               {% else %}
-                <li{{sign_in}}><a href="{% url 'data_manager.views.LoginRequest' %}">Sign in</a></li>
+                <li{{sign_in}}><a href="{% url 'user_authentication.views.LoginRequest' %}">Sign in</a></li>
               {% endif %}
             <li><a href="{{% url 'ncemhub.views.contact' %}">Contact</a></li>
             <li><form>
