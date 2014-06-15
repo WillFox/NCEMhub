@@ -15,6 +15,7 @@ from django.core.files import File
 from django.views.static import serve
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from data_manager.utils import generic_search as get_query
 """
 https://www.ncemhub.gov/                                            #home
 https://www.ncemhub.gov/gallery                                     #public data sets
@@ -67,7 +68,9 @@ def main(request):
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/main.html", dict(url_prefix=URL_PREFIX,user=request.user,
-        media_url=MEDIA_URL, data_chosen=datas,paginator=paginator,collections=collection_chosen, home=" class=active"))
+        media_url=MEDIA_URL, data_chosen=datas,paginator=paginator,collections=collection_chosen, 
+        home=" class=active"),
+        context_instance=RequestContext(request))
 
 
 """
@@ -92,7 +95,8 @@ def user_data(request):
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/user_data.html", dict(url_prefix=URL_PREFIX,user=request.user,
-        data_chosen=datas,media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))  
+        data_chosen=datas,media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"),
+        context_instance=RequestContext(request))  
 """
 Displays:
 #displays data and its detailed info with download button
@@ -122,7 +126,8 @@ def data_detail(request,data_set_id):
         datas = paginator.page(paginator.num_pages)
     return render_to_response("data_manager/data_detail.html", dict(url_prefix=URL_PREFIX,user=request.user,
         data_chosen=datas,data_restriction=data_restriction, data_details=data_details, 
-        media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"))     
+        media_url=MEDIA_URL, paginator=paginator,data_page=" class=active"),
+        context_instance=RequestContext(request))     
 """
 Displays:
 #all info for a single data set and links to edit data
@@ -140,7 +145,8 @@ def data_detail_more(request,data_set_id):
     else:
         data_chosen=DataSet.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/data_detail_more.html", dict(url_prefix=URL_PREFIX,user=request.user, 
-        data_details=data_details, media_url=MEDIA_URL, data_page=" class=active"))     
+        data_details=data_details, media_url=MEDIA_URL, data_page=" class=active"),
+        context_instance=RequestContext(request))     
 """
 Displays:
 #form that allows a specific characteristic to be edited
@@ -364,7 +370,8 @@ def collections(request):
     user=request.user
     data_chosen=Collection.objects.filter(owners=user).distinct()
     return render_to_response("data_manager/collections.html", dict(url_prefix=URL_PREFIX,user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))  
+        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"),
+        context_instance=RequestContext(request))  
 """
 Displays:
 #lists data sets with some info that are within a collection
@@ -373,7 +380,8 @@ def collection_detail(request,collection_id):
     user=request.user
     collection_chosen=Collection.objects.get(id=collection_id)
     return render_to_response("data_manager/collections.html", dict(url_prefix=URL_PREFIX,user=request.user,
-        collection_chosen=collection_chosen,media_url=MEDIA_URL, data_page=" class=active"))      
+        collection_chosen=collection_chosen,media_url=MEDIA_URL, data_page=" class=active"),
+        context_instance=RequestContext(request))      
 """
 Displays:
 #form for each field to edit if wanted
@@ -389,7 +397,8 @@ def directories(request):
     user=request.user
     data_chosen=DataRecorder.objects.filter(users=user).distinct()
     return render_to_response("data_manager/directories.html", dict(url_prefix=URL_PREFIX,user=request.user,
-        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"))     
+        data_chosen=data_chosen,media_url=MEDIA_URL, data_page=" class=active"),
+        context_instance=RequestContext(request))     
 
 """
 Displays:
@@ -529,7 +538,8 @@ def directories_instrument(request,instrument_slug):
         data_chosen=data_files,directories=directories, instrument=DataRecorder.objects.get(slug=instrument_slug),
         media_url=MEDIA_URL,paginator=paginator,bread_crumbs=bread_crumb_list,directory=directory,
         data_page=" class=active", path=path,years=years_list,
-        path_current=path_current,directory_current=directory_current))           
+        path_current=path_current,directory_current=directory_current),
+        context_instance=RequestContext(request))           
 """
 Displays:
 #profile with the given user id
@@ -553,13 +563,36 @@ def user_profile(request,user_id):
     return render_to_response("data_manager/user_profile.html", dict(url_prefix=URL_PREFIX,user=request.user,
         pro_view_user=pro_user, #pub_data=pub_data_chosen, 
         data_chosen=datas, paginator=paginator,
-        patron=patron_info, media_url=MEDIA_URL, profile =" class=active"))
+        patron=patron_info, media_url=MEDIA_URL, profile =" class=active"),
+        context_instance=RequestContext(request))
 """
 Displays:
 #form for each field to edit if wanted
 """
 def user_profile_edit(request):
     return HttpResponseRedirect(reverse('data_home'))   
+"""
+Defines Search Return
+"""
+def search(request):
+    query_string = ''
+    found_entries = None
+    user = request.user
+    if ('q' in request.GET) and request.GET['q'].strip():
+        form = request.GET
+        query_string = form['q']
+        print query_string
+        entry_query = get_query(request, DataSet, ['name','description',])#'tags','data_recorder','collections',])
+        print entry_query
+        #found_entries = Image.objects.filter(entry_query).order_by('created')
+        found_entries = DataSet.objects.filter(entry_query)
+        print found_entries
+        return HttpResponseRedirect('/')
+    return render_to_response('data_manager/user_profile.html',
+        dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,
+        user=user, numEntries=len(found_entries),attrib=attributes),
+        context_instance=RequestContext(request)) 
+
 """
 ###################################################
 ###################################################
@@ -699,19 +732,4 @@ def download(request,data_set_id):
         return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
     else:
         return HttpResponseRedirect(reverse('data_home'))
-
-def search(request):
-    query_string = ''
-    found_entries = None
-    if ('q' in request.GET) and request.GET['q'].strip():
-        query_string = request.GET['q']
-
-        entry_query = get_query(request, Image, ['title',])
-        found_entries = Image.objects.filter(entry_query).order_by('created')
-        attributes = Image._meta.get_all_field_names()
-        #found_entries = ['NO MATCHES']
-    return render_to_response('gallery/search_results.html',
-                          dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,
-                            numEntries=len(found_entries),attrib=attributes),
-                          context_instance=RequestContext(request))
 

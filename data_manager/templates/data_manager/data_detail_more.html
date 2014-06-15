@@ -22,7 +22,7 @@
                 {{ owner }}
             {%endfor%}</p>
             {% if user.is_authenticated %}
-              <p><a class="btn btn-default" href="{{url_prefix}}/download/{{data_details.id}}"role="button">Download &raquo;</a><a class="btn btn-default" href="{{url_prefix}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
+              <p><a class="btn btn-default" href="{{url_prefix}}{% url 'data_manager.views.download' data_details.id %}"role="button">Download &raquo;</a><a class="btn btn-default" href="{{url_prefix}}{% url 'data_manager.views.user_data' %}/{{data_details.id}}/edit" role="button">Edit Data &raquo;</a></p>
             {% endif %}
           </div>
 

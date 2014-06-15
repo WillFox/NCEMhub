@@ -24,6 +24,7 @@ urlpatterns = patterns('',
 
 	url(r'^directories$',views.directories, name='directories'),
 	url(r'^directories/(?P<instrument_slug>[-\w]+)$',views.directories_instrument, name='instrument_directory'),
+	url(r'^search$', views.search, name='search_results'),
 	#url(r'^{id}/$', views.album, 'name = albumView'),	
 	#(r'^$','')
 	#url(r'^search/$',views.search, name='searchview'),
