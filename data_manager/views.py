@@ -581,16 +581,16 @@ def search(request):
     if ('q' in request.GET) and request.GET['q'].strip():
         form = request.GET
         query_string = form['q']
-        print query_string
         entry_query = get_query(request, DataSet, ['name','description',])#'tags','data_recorder','collections',])
-        print entry_query
-        #found_entries = Image.objects.filter(entry_query).order_by('created')
-        found_entries = DataSet.objects.filter(entry_query)
+        found_entries = DataSet.objects.filter(entry_query).order_by('created_on')
         print found_entries
-        return HttpResponseRedirect('/')
-    return render_to_response('data_manager/user_profile.html',
+        return render_to_response('data_manager/search.html',
+            dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,
+            user=user, numEntries=len(found_entries)),
+            context_instance=RequestContext(request)) 
+    return render_to_response('data_manager/search.html',
         dict( query_string =query_string, found_entries= found_entries,media_url=MEDIA_URL,
-        user=user, numEntries=len(found_entries),attrib=attributes),
+        user=user, numEntries=len(found_entries)),
         context_instance=RequestContext(request)) 
 
 """
